@@ -107,7 +107,7 @@ const MainBottomTab = memo(() => {
             ),
           }}
         />
-        <BottomTab.Screen
+        {/* <BottomTab.Screen
           name="Find"
           component={FindScreen}
           options={{
@@ -119,8 +119,8 @@ const MainBottomTab = memo(() => {
               />
             ),
           }}
-        />
-        <BottomTab.Screen
+        /> */}
+        {/* <BottomTab.Screen
           name="Messages"
           component={MessagesScreen}
           options={{
@@ -132,8 +132,8 @@ const MainBottomTab = memo(() => {
               />
             ),
           }}
-        />
-        <BottomTab.Screen
+        /> */}
+        {/* <BottomTab.Screen
           name="Requests"
           component={RequestsBottomNavigator}
           options={{
@@ -145,25 +145,25 @@ const MainBottomTab = memo(() => {
               />
             ),
           }}
-        />
+        /> */}
         <BottomTab.Screen
           name="More"
           component={MoreNavigator}
           options={{
             tabBarIcon: ({focused}) => (
-              <ButtonTab focused={focused} icon="more" numberNotification={3} />
+              <ButtonTab focused={focused} icon="more" />
             ),
           }}
         />
       </BottomTab.Navigator>
       {/* Modal request job notification*/}
-      <ModalRequest
+      {/* <ModalRequest
         name={'Marian Ramsey'}
         ref={modalRef}
         avatar={Images.avatar3}
         isOnl={true}
         onDetails={hide}
-      />
+      /> */}
     </View>
   );
 });
@@ -180,7 +180,7 @@ const themedStyles = StyleService.create({
     paddingTop: 12,
   },
   styleLabel: {
-    fontFamily: 'GothamPro-Medium',
+    color: 'color-primary-100',
     fontSize: 11,
     lineHeight: 24,
   },

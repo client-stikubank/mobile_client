@@ -1,18 +1,21 @@
-import {createStackNavigator} from '@react-navigation/stack';
-import React, {memo} from 'react';
-import HomeSrc from 'src/home/HomeSrc';
-import MyFavorites from 'src/home/MyFavorites';
-import {HomeStackParamList} from './types';
+import { createStackNavigator } from '@react-navigation/stack'
+import React, { memo } from 'react'
+import HomeSrc from 'src/home/HomeSrc'
+import MyFavorites from 'src/home/MyFavorites'
+import CampDetail from 'src/home/CampDetail'
+import { HomeStackParamList } from './types'
 
-const Stack = createStackNavigator<HomeStackParamList>();
+const Stack = createStackNavigator<HomeStackParamList>()
 const HomeStackNavigator = memo(() => {
   return (
     <Stack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName="HomeSrc">
-      <Stack.Screen name="HomeSrc" component={HomeSrc} />
-      <Stack.Screen name="MyFavorites" component={MyFavorites} />
+      screenOptions={{ headerShown: false }}
+      initialRouteName='HomeSrc'
+    >
+      <Stack.Screen name='HomeSrc' component={HomeSrc} />
+      <Stack.Screen name='MyFavorites' component={MyFavorites} />
+      <Stack.Screen name='CampDetail' component={CampDetail} />
     </Stack.Navigator>
-  );
-});
-export default HomeStackNavigator;
+  )
+})
+export default HomeStackNavigator

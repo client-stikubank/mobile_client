@@ -1,28 +1,33 @@
 module.exports = function (api) {
-  api.cache(true);
+  api.cache(true)
   return {
-    presets: ["babel-preset-expo"],
+    presets: ['babel-preset-expo'],
     plugins: [
       [
-        "module-resolver",
+        'module-resolver',
         {
-          root: ["."],
+          root: ['.'],
           alias: {
-            utils: "./utils",
-            src: "./src",
-            navigation: "./navigation",
-            hooks: "./hooks",
-            components: "./components",
-            assets: "./assets",
-            constants: "./constants",
-            configs: "./configs",
-            styles: "./styles",
-            i18n: "./i18n",
-          },
-        },
+            api: './api',
+            utils: './utils',
+            src: './src',
+            lib: './lib',
+            navigation: './navigation',
+            hooks: './hooks',
+            components: './components',
+            assets: './assets',
+            constants: './constants',
+            config: './config',
+            sagas: './sagas',
+            store: './store',
+            styles: './styles',
+            i18n: './i18n'
+          }
+        }
       ],
-      ["react-native-reanimated/plugin"],
-      ["@babel/plugin-proposal-decorators", { legacy: true }],
-    ],
-  };
-};
+      ['react-native-reanimated/plugin'],
+      ['@babel/plugin-proposal-decorators', { legacy: true }],
+      ['inline-dotenv']
+    ]
+  }
+}

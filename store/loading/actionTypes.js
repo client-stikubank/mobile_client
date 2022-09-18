@@ -1,0 +1,1 @@
+export const LOADING_SCREEN = 'LOADING_SCREEN'

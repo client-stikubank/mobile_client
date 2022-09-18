@@ -100,4 +100,7 @@ export const Icons = {
   cash: require('./ic_cash.png'),
   security: require('./ic_security.png'),
   edit_profile: require('./ic_edit_profile.png'),
-};
+  parent: require('./ic_parent.png'),
+  student: require('./ic_student.png'),
+  teacher: require('./ic_teacher.png')
+}

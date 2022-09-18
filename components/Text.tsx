@@ -1,10 +1,10 @@
-import React, {memo} from 'react';
-import {StyleProp, TextStyle} from 'react-native';
-import {Text, TextProps} from '@ui-kitten/components';
-import {EvaStatus} from '@ui-kitten/components/devsupport';
+import React, { memo } from 'react'
+import { StyleProp, TextStyle } from 'react-native'
+import { Text, TextProps } from '@ui-kitten/components'
+import { EvaStatus } from '@ui-kitten/components/devsupport'
 
 export interface MyTextProps extends TextProps {
-  style?: StyleProp<TextStyle>;
+  style?: StyleProp<TextStyle>
   category?:
     | 'h1'
     | 'h2'
@@ -21,29 +21,30 @@ export interface MyTextProps extends TextProps {
     | 'h10'
     | 'h10-s'
     | 'para-s'
-    | 'para-m';
-  status?: EvaStatus | 'primary';
-  children?: any;
-  ml?: number;
-  mr?: number;
-  mt?: number;
-  mb?: number;
-  mv?: number;
-  mh?: number;
-  opacity?: number;
-  maxWidth?: number;
-  fontSize?: number;
-  lineHeight?: number;
-  uppercase?: boolean;
-  lowercase?: boolean;
-  capitalize?: boolean;
-  none?: boolean;
-  left?: boolean;
-  right?: boolean;
-  center?: boolean;
-  underline?: boolean;
-  bold?: boolean;
-  italic?: boolean;
+    | 'para-m'
+    | string
+  status?: EvaStatus | 'primary'
+  children?: any
+  ml?: number
+  mr?: number
+  mt?: number
+  mb?: number
+  mv?: number
+  mh?: number
+  opacity?: number
+  maxWidth?: number
+  fontSize?: number
+  lineHeight?: number
+  uppercase?: boolean
+  lowercase?: boolean
+  capitalize?: boolean
+  none?: boolean
+  left?: boolean
+  right?: boolean
+  center?: boolean
+  underline?: boolean
+  bold?: boolean
+  italic?: boolean
 }
 const getLineHeight = (
   category:
@@ -62,39 +63,39 @@ const getLineHeight = (
     | 'h10'
     | 'h10-s'
     | 'para-s'
-    | 'para-m',
+    | 'para-m'
 ): number => {
   switch (category) {
     case 'h1':
-      return 48;
+      return 48
     case 'h2':
-      return 36;
+      return 36
     case 'h3':
-      return 30;
+      return 30
     case 'h5':
-      return 24;
+      return 24
     case 'h6':
-      return 24;
+      return 24
     case 'h7':
-      return 22;
+      return 22
     case 'h7-s':
-      return 24;
+      return 24
     case 'h8':
-      return 18;
+      return 18
     case 'h8-s':
-      return 16;
+      return 16
     case 'h9':
-      return 14;
+      return 12
     case 'h9-s':
-      return 14;
+      return 12
     case 'para-s':
-      return 22;
+      return 22
     case 'para-m':
-      return 24;
+      return 24
     default:
-      return 24;
+      return 24
   }
-};
+}
 export default memo(
   ({
     ml,
@@ -122,7 +123,7 @@ export default memo(
     style,
     ...rest
   }: MyTextProps) => {
-    let textAlign: 'left' | 'center' | 'right' | 'auto' | 'justify' | 'left';
+    let textAlign: 'left' | 'center' | 'right' | 'auto' | 'justify' | 'left'
 
     left
       ? (textAlign = 'left')
@@ -130,9 +131,9 @@ export default memo(
       ? (textAlign = 'right')
       : center
       ? (textAlign = 'center')
-      : (textAlign = 'left');
+      : (textAlign = 'left')
 
-    let textTransform: 'uppercase' | 'lowercase' | 'capitalize' | 'none';
+    let textTransform: 'uppercase' | 'lowercase' | 'capitalize' | 'none'
 
     uppercase
       ? (textTransform = 'uppercase')
@@ -142,19 +143,19 @@ export default memo(
       ? (textTransform = 'capitalize')
       : none
       ? (textTransform = 'none')
-      : (textTransform = 'none');
+      : (textTransform = 'none')
 
     let textDecorationLine:
       | 'none'
       | 'underline'
       | 'line-through'
-      | 'underline line-through';
+      | 'underline line-through'
     underline
       ? (textDecorationLine = 'underline')
-      : (textDecorationLine = 'none');
+      : (textDecorationLine = 'none')
 
-    let fontStyle: 'normal' | 'italic';
-    italic ? (fontStyle = 'italic') : (fontStyle = 'normal');
+    let fontStyle: 'normal' | 'italic'
+    italic ? (fontStyle = 'italic') : (fontStyle = 'normal')
 
     return (
       <Text
@@ -175,13 +176,14 @@ export default memo(
             textTransform: textTransform,
             textDecorationLine: textDecorationLine,
             fontStyle: fontStyle,
-            fontWeight: bold ? 'bold' : '400',
+            fontWeight: bold ? 'bold' : '400'
           },
-          style,
+          style
         ]}
-        {...rest}>
+        {...rest}
+      >
         {children}
       </Text>
-    );
-  },
-);
+    )
+  }
+)

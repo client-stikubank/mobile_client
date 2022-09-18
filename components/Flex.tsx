@@ -1,26 +1,27 @@
-import {useTheme} from '@ui-kitten/components';
-import React, {memo} from 'react';
-import {TouchableOpacity, ViewProps} from 'react-native';
+import { useTheme } from '@ui-kitten/components'
+import React, { memo } from 'react'
+import { TouchableOpacity, ViewProps } from 'react-native'
 
 export interface FlexProps extends ViewProps {
-  vertical?: boolean;
-  padder?: boolean;
-  mt?: number;
-  mb?: number;
-  mh?: number;
-  mv?: number;
-  ml?: number;
-  mr?: number;
-  ph?: number;
-  pv?: number;
-  pb?: number;
-  border?: number;
-  margin?: number;
-  center?: boolean;
-  itemsCenter?: boolean;
-  wrap?: boolean;
-  onPress?(): void;
-  level?: '1' | '2' | '3' | '4' | '5' | '6';
+  vertical?: boolean
+  padder?: boolean
+  mt?: number
+  mb?: number
+  mh?: number
+  mv?: number
+  ml?: number
+  mr?: number
+  ph?: number
+  pv?: number
+  pb?: number
+  border?: number
+  margin?: number
+  center?: boolean
+  itemsCenter?: boolean
+  alignItems?: string
+  wrap?: boolean
+  onPress?(): void
+  level?: '1' | '2' | '3' | '4' | '5' | '6'
   justify?:
     | 'center'
     | 'space-between'
@@ -28,7 +29,7 @@ export interface FlexProps extends ViewProps {
     | 'flex-end'
     | 'space-around'
     | 'space-evenly'
-    | undefined;
+    | undefined
 }
 
 const Flex: React.FC<FlexProps> = memo(
@@ -47,6 +48,7 @@ const Flex: React.FC<FlexProps> = memo(
     pb,
     margin,
     itemsCenter,
+    alignItems = undefined,
     wrap,
     center,
     vertical,
@@ -56,7 +58,7 @@ const Flex: React.FC<FlexProps> = memo(
     border,
     ...props
   }) => {
-    const theme = useTheme();
+    const theme = useTheme()
     return (
       <>
         <TouchableOpacity
@@ -66,7 +68,7 @@ const Flex: React.FC<FlexProps> = memo(
           style={[
             {
               borderRadius: border,
-              alignItems: itemsCenter ? 'center' : undefined,
+              alignItems: itemsCenter ? 'center' : alignItems,
               paddingHorizontal: padder ? 24 : 0,
               paddingBottom: pb,
               flexDirection: vertical ? 'column' : 'row',
@@ -83,16 +85,17 @@ const Flex: React.FC<FlexProps> = memo(
               paddingVertical: pv,
               backgroundColor: level
                 ? theme[`background-basic-color-${level}`]
-                : 'transparent',
+                : 'transparent'
             },
-            style,
+            style
           ]}
-          {...props}>
+          {...props}
+        >
           {children}
         </TouchableOpacity>
       </>
-    );
-  },
-);
+    )
+  }
+)
 
-export default Flex;
+export default Flex

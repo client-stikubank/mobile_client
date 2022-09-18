@@ -1,0 +1,47 @@
+import axios from 'axios'
+
+const axiosApi = axios.create({
+  baseURL: process.env.BACKEND_API_URL,
+  headers: {
+    uid: process.env.BACKEND_API_CLIENT,
+    secret: process.env.BACKEND_API_SECRET
+  }
+})
+
+axiosApi.interceptors.response.use(
+  response => response,
+  error => {
+    // if (error.response.status === 401) {
+    //   // window.location.replace('/logout')
+    //   // localStorage.setItem('is-kicked', 'true')
+    // }
+    return Promise.reject(error)
+  }
+)
+
+export async function get(url, config = {}) {
+  return await axiosApi.get(url, { ...config }).then(response => response.data)
+}
+
+export async function post(url, data, config = {}) {
+  return axiosApi
+    .post(url, { ...data }, { ...config })
+    .then(response => response.data)
+}
+
+export async function postFormData(url, data, headers = {}) {
+  const config = { method: 'POST', url, data, headers }
+  return await axiosApi(config)
+}
+
+export async function put(url, data, config = {}) {
+  return axiosApi
+    .put(url, { ...data }, { ...config })
+    .then(response => response.data)
+}
+
+export async function del(url, config = {}) {
+  return await axiosApi
+    .delete(url, { ...config })
+    .then(response => response.data)
+}

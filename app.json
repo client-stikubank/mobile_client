@@ -1,21 +1,19 @@
 {
   "expo": {
-    "name": "expo_caren_family",
-    "slug": "expo_caren_family",
+    "name": "youthcamp_mobile_client",
+    "slug": "youthcamp_mobile_client",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/images//splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/images/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#FC0C5C"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -23,10 +21,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.youthcamp.mobile_client",
+      "softwareKeyboardLayoutMode": "pan"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#000000"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6f46ae9e-a6ac-4363-b2cb-037345f7a181"
+      }
     }
   }
 }

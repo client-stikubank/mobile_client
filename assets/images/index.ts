@@ -42,4 +42,20 @@ export const Images = {
   createPost: require('./img_create_post.png'),
   noCard: require('./img_no_card.png'),
   loading: require('./loading.json'),
-};
+  loading2: require('./loading_2.json'),
+  headerBg: require('./header-bg.webp'),
+  buttonQr: require('./button_qr.webp'),
+  buttonRanking: require('./button_ranking.webp'),
+  buttonProfile: require('./button_profile.webp'),
+  buttonInvite: require('./button_invite.webp'),
+  tokenMamo: require('./token_mamo.webp'),
+  tokenAle: require('./token_ale.webp'),
+  tokenBeryl: require('./token_beryl.webp'),
+  tokenJenny: require('./token_jenny.webp'),
+  carnivalTemplate: require('./carnival_template.webp'),
+  iconStage: require('./icon_stage.png'),
+  iconActiveStage: require('./icon_active_stage.png'),
+  mascotGroupOne: require('./mascot_group_1.png'),
+  inviteAndWin: require('./invite_and_win.png'),
+  cardHeader: require('./card-header.png')
+}

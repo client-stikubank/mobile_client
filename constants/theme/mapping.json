@@ -2233,9 +2233,9 @@
             "labelFontSize": "text-heading-8-font-size",
             "labelFontWeight": "text-heading-8-font-weight",
             "labelFontFamily": "text-heading-8-font-family",
-            "captionFontSize": "text-heading-8-font-size",
-            "captionFontWeight": "text-caption-8-font-weight",
-            "captionFontFamily": "text-caption-8-font-family"
+            "captionFontSize": "text-heading-9-font-size",
+            "captionFontWeight": "bold",
+            "captionFontFamily": "text-heading-9-font-family"
           },
           "variantGroups": {
             "status": {
@@ -2433,8 +2433,8 @@
                 "borderBottomWidth": 2,
                 "borderWidth": 0,
                 "paddingVertical": 7,
-                "textFontSize": "text-heading-8-font-size",
-                "textFontWeight": "400"
+                "textFontSize": "text-heading-7-font-size",
+                "textFontWeight": "700"
               },
               "large": {
                 "minHeight": "size-large",
@@ -2683,7 +2683,7 @@
             "paddingHorizontal": 0,
             "textMarginHorizontal": 0,
             "textFontFamily": "text-font-family-medium",
-            "textFontWeight":"bold",
+            "textFontWeight": "bold",
             "iconWidth": 24,
             "iconHeight": 24,
             "iconMarginHorizontal": 16,

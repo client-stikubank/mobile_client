@@ -1,8 +1,13 @@
-import React from 'react';
-import {Image, ImageProps, ImageSourcePropType, StyleSheet} from 'react-native';
-import {IconPack, IconProvider} from '@ui-kitten/components';
-import {SvgProps} from 'react-native-svg';
-import {Icons} from './icons';
+import React from 'react'
+import {
+  Image,
+  ImageProps,
+  ImageSourcePropType,
+  StyleSheet
+} from 'react-native'
+import { IconPack, IconProvider } from '@ui-kitten/components'
+import { SvgProps } from 'react-native-svg'
+import { Icons } from './icons'
 
 const createIcon = (source: ImageSourcePropType): IconProvider<ImageProps> => {
   return {
@@ -11,18 +16,18 @@ const createIcon = (source: ImageSourcePropType): IconProvider<ImageProps> => {
         style={styles.icon}
         {...props}
         source={source}
-        resizeMode="cover"
+        resizeMode='cover'
       />
-    ),
-  };
-};
+    )
+  }
+}
 
 const styles = StyleSheet.create({
   icon: {
     width: 24,
-    height: 24,
-  },
-});
+    height: 24
+  }
+})
 
 const AssetIconsPack: IconPack<ImageProps | SvgProps> = {
   name: 'assets',
@@ -128,6 +133,9 @@ const AssetIconsPack: IconPack<ImageProps | SvgProps> = {
     cash: createIcon(Icons.cash),
     security: createIcon(Icons.security),
     edit_profile: createIcon(Icons.edit_profile),
-  },
-};
-export default AssetIconsPack;
+    teacher: createIcon(Icons.teacher),
+    parent: createIcon(Icons.parent),
+    student: createIcon(Icons.student)
+  }
+}
+export default AssetIconsPack

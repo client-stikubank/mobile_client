@@ -1,70 +1,76 @@
-import React, {memo} from 'react';
-import {View} from 'react-native';
-import {StyleService, useStyleSheet} from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
+import React, { memo, useCallback } from 'react'
+import { View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import {
+  NavigationProp,
+  useNavigation,
+  CommonActions
+} from '@react-navigation/native'
+import { StyleService, useStyleSheet } from '@ui-kitten/components'
 
-import Text from 'components/Text';
-import Content from 'components/Content';
-import Container from 'components/Container';
-import {Images} from 'assets/images';
-import ButtonOptional, {ButtonOptionalProps} from './Components/ButtonOptional';
-import useToggle from 'hooks/useToggle';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from 'navigation/types';
-import HeaderMoreOption from './Components/HeaderMoreOption';
+import { Images } from 'assets/images'
+import Text from 'components/Text'
+import Content from 'components/Content'
+import Container from 'components/Container'
+import { RootStackParamList } from 'navigation/types'
+import { logoutUser } from 'store/actions'
+
+import ButtonOptional, {
+  ButtonOptionalProps
+} from './Components/ButtonOptional'
+import HeaderMoreOption from './Components/HeaderMoreOption'
 
 const MoreSrc = memo(() => {
-  const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['more', 'payment', 'common']);
+  const styles = useStyleSheet(themedStyles)
+  const { navigate, dispatch } =
+    useNavigation<NavigationProp<RootStackParamList>>()
+  const { t } = useTranslation(['more', 'payment', 'common'])
+  const reduxDispatch = useDispatch()
 
-  const [darkMode, setDarkMode] = useToggle(false);
+  const { auth } = useSelector((state: any) => ({
+    auth: state.Login.auth
+  }))
+
   const DATA_DETAILS: ButtonOptionalProps[] = [
     {
       title: t('more:my-post'),
       icon: 'myPost',
       status: 'facebook',
-      navigateSrc: 'MyPost',
+      navigateSrc: 'MyPost'
     },
     {
       title: t('more:my-children'),
       icon: 'stats',
       status: 'warning',
-      navigateSrc: 'MyChildren',
+      navigateSrc: 'MyChildren'
     },
     {
       title: t('payment:payment-method'),
       icon: 'payment',
       status: 'success',
-      navigateSrc: 'PaymentMethod',
-    },
-  ];
-  const DATA_APPLICATION: ButtonOptionalProps[] = [
-    {
-      title: t('more:settings'),
-      icon: 'setting',
-      status: 'twitter-3',
-      navigateSrc: 'ReferFriend',
-    },
-    {
-      title: t('more:about-caren'),
-      icon: 'stats',
-      status: 'basic',
-      navigateSrc: 'ReferFriend',
-    },
-    {
-      title: t('more:help-&-faq'),
-      icon: 'helpWhite',
-      status: 'placeholder',
-      navigateSrc: 'ReferFriend',
-    },
-    {
-      title: t('more:privacy-of-policy'),
-      icon: 'term',
-      status: 'green',
-      navigateSrc: 'ReferFriend',
-    },
-  ];
-  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
+      navigateSrc: 'PaymentMethod'
+    }
+  ]
+
+  const nextScreen = useCallback((screenName: string) => {
+    const resetAction = CommonActions.reset({
+      index: 1,
+      routes: [
+        {
+          name: screenName
+        }
+      ]
+    })
+    dispatch(resetAction)
+  }, [])
+
+  const onLogout = () => {
+    AsyncStorage.removeItem('credential')
+    reduxDispatch(logoutUser(auth, () => nextScreen('AuthStack')))
+  }
+
   return (
     <Container style={styles.container}>
       <Content padder contentContainerStyle={styles.content}>
@@ -74,7 +80,7 @@ const MoreSrc = memo(() => {
           email={'lehieuds@gmail.com'}
         />
         <View style={styles.details}>
-          <Text category="h6" bold>
+          <Text category='h6' bold>
             {t('more:myDetails')}
           </Text>
           {DATA_DETAILS.map((item, i) => {
@@ -86,67 +92,39 @@ const MoreSrc = memo(() => {
                 key={i}
                 navigateSrc={item.navigateSrc}
               />
-            );
+            )
           })}
-          <ButtonOptional
-            title={t('more:change-the-care-type')}
-            icon={'changeJob'}
-            status={'neutral'}
-            navigateSrc={'ReferFriend'}
-            onPress={() => {
-              navigate('ChangeJobType');
-            }}
-          />
         </View>
         <View style={styles.application}>
-          <Text category="h6" bold>
+          <Text category='h6' bold>
             {t('more:application')}
           </Text>
-          {DATA_APPLICATION.map((item, i) => {
-            return (
-              <ButtonOptional
-                icon={item.icon}
-                title={item.title}
-                status={item.status}
-                key={i}
-                navigateSrc={item.navigateSrc}
-              />
-            );
-          })}
           <ButtonOptional
-            withToggle
-            icon="darkMode"
-            title={t('more:switch-dark-mode')}
+            title={t('more:logout')}
+            icon={'changeJob'}
             status={'danger'}
-            checked={darkMode}
-            onPress={setDarkMode}
+            onPress={onLogout}
             navigateSrc={undefined}
-          />
-          <ButtonOptional
-            title={t('more:refer-friend-&-family')}
-            icon={'share'}
-            status={'twitter'}
-            navigateSrc={'ReferFriend'}
           />
         </View>
       </Content>
     </Container>
-  );
-});
+  )
+})
 
-export default MoreSrc;
+export default MoreSrc
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   content: {
     paddingTop: 24,
-    paddingBottom: 80,
+    paddingBottom: 80
   },
 
   details: {
-    marginBottom: 48,
+    marginBottom: 48
   },
-  application: {},
-});
+  application: {}
+})

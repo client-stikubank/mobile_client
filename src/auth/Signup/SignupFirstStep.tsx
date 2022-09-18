@@ -1,59 +1,76 @@
-import React, {memo} from 'react';
-import {ImageBackground, TouchableOpacity, View} from 'react-native';
-import {useTranslation} from 'react-i18next';
-import Text from 'components/Text';
-import NavigationAction from 'components/NavigationAction';
+import React, { memo, useCallback, useState } from 'react'
+import { ImageBackground, TouchableOpacity, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   TopNavigation,
   StyleService,
   useTheme,
   useStyleSheet,
-  Icon,
-} from '@ui-kitten/components';
-import Container from 'components/Container';
-import Content from 'components/Content';
-import useLayout from 'hooks/useLayout';
-import {globalStyle} from 'styles/globalStyle';
-import {Images} from 'assets/images';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {AuthStackParamList} from 'navigation/types';
+  Icon
+} from '@ui-kitten/components'
+
+import { Images } from 'assets/images'
+import Container from 'components/Container'
+import Content from 'components/Content'
+import NavigationAction from 'components/NavigationAction'
+import Text from 'components/Text'
+import useLayout from 'hooks/useLayout'
+import { AuthStackParamList } from 'navigation/types'
+import { collectRegister } from 'store/actions'
+import { globalStyle } from 'styles/globalStyle'
 
 const SignupFirstStep = memo(() => {
-  const {navigate} = useNavigation<NavigationProp<AuthStackParamList>>();
-  const {t} = useTranslation(['auth', 'common']);
-  const {width} = useLayout();
-  const theme = useTheme();
-  const styles = useStyleSheet(themedStyles);
-  const DATA = [
-    {id: 0, title: t('auth:child_care'), icon: 'infant'},
-    {id: 1, title: t('auth:pet_care'), icon: 'petCare'},
-    {id: 2, title: t('auth:housekeeping'), icon: 'housekeeping'},
-    {id: 3, title: t('auth:special_needs'), icon: 'specialNeeds'},
-    {id: 4, title: t('auth:tutoring'), icon: 'tutoring'},
-    {id: 5, title: t('auth:senior_care'), icon: 'seniorCare'},
-  ];
-  const [isChoose, setChoose] = React.useState<number>();
-  const sizeBG = 120 * (width / 375);
-  const onChoose = React.useCallback(
-    i => () => {
-      setChoose(i);
+  const { navigate } = useNavigation<NavigationProp<AuthStackParamList>>()
+  const { t } = useTranslation(['auth', 'common'])
+  const { width } = useLayout()
+  const theme = useTheme()
+  const styles = useStyleSheet(themedStyles)
+  const reduxDispatch = useDispatch()
+  const ROLES = [
+    { name: 'student', title: t('auth:student'), icon: 'student' },
+    { name: 'guardian', title: t('auth:parent'), icon: 'parent' },
+    { name: 'teacher', title: t('auth:teacher'), icon: 'teacher' }
+  ]
+  const sizeBG = 120 * (width / 375)
+  const [isChoose, setChoose] = useState({ name: '' })
+  const [isDisabled, setIsDisabled] = useState(false)
+
+  const { form } = useSelector((state: any) => ({
+    form: state.Register.form
+  }))
+
+  console.tron.log(form)
+
+  const onChoose = useCallback(
+    item => () => {
+      setChoose(item)
+      setIsDisabled(true)
+      reduxDispatch(collectRegister({ ...form, 'role_types[]': item.name }))
       setTimeout(() => {
-        navigate('SignupSecondStep');
-      }, 1000);
-      clearTimeout;
+        navigate('SignupSecondStep')
+      }, 500)
+      setTimeout(() => {
+        setIsDisabled(false)
+      }, 550)
+      clearTimeout
     },
-    [],
-  );
+    []
+  )
   return (
     <Container>
-      <TopNavigation accessoryLeft={<NavigationAction />} />
+      <TopNavigation
+        title={t('auth:sign_up')}
+        accessoryLeft={<NavigationAction />}
+      />
       <Content padder>
         <Text mt={16}>{t('auth:heading_signup_1')}</Text>
-        <Text mt={8} mb={40} category="h2">
+        <Text mt={8} mb={40} category='h2'>
           {t('auth:title_signup_1')}
         </Text>
         <View style={styles.content}>
-          {DATA.map((item, i) => {
+          {ROLES.map((item, i) => {
             return (
               <TouchableOpacity
                 key={i}
@@ -61,60 +78,73 @@ const SignupFirstStep = memo(() => {
                   width: sizeBG + 28,
                   marginLeft: (i + 1) % 2 === 0 ? 24 : 0,
                   marginBottom: 24,
-                  alignItems: 'center',
+                  alignItems: 'center'
                 }}
-                onPress={onChoose(i)}
-                activeOpacity={0.54}>
+                disabled={isDisabled}
+                onPress={onChoose(item)}
+                activeOpacity={0.4}
+              >
                 <View
-                  style={[isChoose === i ? globalStyle.shadowBtn : undefined]}>
+                  style={[
+                    isChoose?.name === item.name
+                      ? globalStyle.shadowBtn
+                      : undefined
+                  ]}
+                >
                   <ImageBackground
-                    source={isChoose === i ? Images.fillActive : Images.fill}
+                    source={
+                      isChoose?.name === item.name
+                        ? Images.fillActive
+                        : Images.fill
+                    }
                     style={{
                       width: sizeBG,
                       height: sizeBG,
-                      ...globalStyle.center,
+                      ...globalStyle.center
                     }}
-                    imageStyle={{width: sizeBG, height: sizeBG}}>
+                    imageStyle={{ width: sizeBG, height: sizeBG }}
+                  >
                     <Icon
-                      pack="assets"
+                      pack='assets'
                       name={item.icon}
                       style={{
-                        width: 48,
-                        height: 48,
+                        width: 52,
+                        height: 52,
                         tintColor:
-                          isChoose === i
+                          isChoose?.name === item.name
                             ? theme['text-primary-color']
                             : theme['text-placeholder-color'],
                         zIndex: 10,
-                        alignSelf: 'center',
+                        alignSelf: 'center'
                       }}
                     />
                   </ImageBackground>
                 </View>
                 <Text
                   center
-                  category="h8"
+                  category='h8'
                   mt={16}
-                  status={isChoose === i ? 'link' : 'placeholder'}>
+                  status={isChoose?.name === item.name ? 'link' : 'placeholder'}
+                >
                   {item.title}
                 </Text>
               </TouchableOpacity>
-            );
+            )
           })}
         </View>
       </Content>
     </Container>
-  );
-});
-export default SignupFirstStep;
+  )
+})
+export default SignupFirstStep
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   content: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-});
+    justifyContent: 'space-between'
+  }
+})

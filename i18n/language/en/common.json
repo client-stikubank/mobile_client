@@ -45,7 +45,7 @@
   "decline": "Decline",
   "accept": "Accept",
   "completed": "Completed",
-  "cancel": "Cancel",
+  "cancel": "Batal",
   "reviews": "reviews",
   "reply": "Reply",
   "report": "Report",
@@ -62,5 +62,6 @@
   "seeAll": "See All",
   "booking": "Booking",
   "accept-again": "Accept Again",
-  "profiles":"Profiles"
+  "profiles": "Profiles",
+  "join": "Gabung"
 }
