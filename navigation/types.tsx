@@ -15,6 +15,8 @@ export type RootStackParamList = {
   FavoritesMap: undefined
   Notification: undefined
   InviteAndWin: undefined
+  AdditionalProfile: undefined
+  EditProfile: undefined
   CampList: undefined
   CampSchedule: undefined
   CampDetail: undefined

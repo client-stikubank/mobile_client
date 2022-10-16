@@ -1,15 +1,19 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LogBox } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import LoadingScreen from 'components/LoadingScreen'
+import { responseError, logoutUser } from 'store/actions'
 
 import Onboarding from 'src/onboarding'
 import SuccessScr from 'src/SuccessScr'
 
 import InviteAndWin from 'src/home/InviteAndWin'
+import AdditionalProfile from 'src/home/AdditionalProfile'
+import EditProfile from 'src/home/EditProfile'
 import FavoritesFilter from 'src/home/MyFavorites/FavoritesFilter'
 import SelectLanguage from 'src/home/MyFavorites/SelectLanguage'
 import FavoritesMap from 'src/home/MyFavorites/FavoritesMap'
@@ -33,6 +37,8 @@ import MessagesNavigator from './MessagesNavigator'
 import MoreNavigator from './MoreNavigator'
 import RequestsStackNavigator from './RequestStackNavigator'
 import { RootStackParamList } from './types'
+import { navigationRef } from './RootNavigation'
+import * as RootNavigation from './RootNavigation.js'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -41,12 +47,30 @@ LogBox.ignoreLogs([
 ])
 
 const AppContainer = () => {
-  const { screen } = useSelector((state: any) => ({
-    screen: state.Loading.screen
+  const reduxDispatch = useDispatch()
+  const { auth, screen, error } = useSelector((state: any) => ({
+    auth: state.Login.auth,
+    screen: state.Loading.screen,
+    error: state.Error.error
   }))
 
+  useEffect(() => {
+    if (error) {
+      if (error.status === 401) {
+        AsyncStorage.removeItem('credential')
+        reduxDispatch(
+          logoutUser(auth, () =>
+            RootNavigation.navigate('AuthStack', { error: 'Authorize' })
+          )
+        )
+
+        reduxDispatch(responseError(false))
+      }
+    }
+  }, [error])
+
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <LoadingScreen show={screen} />
       <Stack.Navigator
         screenOptions={{
@@ -62,6 +86,8 @@ const AppContainer = () => {
         <Stack.Screen name='FavoritesMap' component={FavoritesMap} />
         <Stack.Screen name='Notification' component={Notification} />
         <Stack.Screen name='InviteAndWin' component={InviteAndWin} />
+        <Stack.Screen name='AdditionalProfile' component={AdditionalProfile} />
+        <Stack.Screen name='EditProfile' component={EditProfile} />
         <Stack.Screen name='CampList' component={CampList} />
         <Stack.Screen name='CampSchedule' component={CampSchedule} />
         <Stack.Screen name='ViewOnMap' component={ViewOnMap} />

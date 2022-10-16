@@ -11,10 +11,6 @@ const axiosApi = axios.create({
 axiosApi.interceptors.response.use(
   response => response,
   error => {
-    // if (error.response.status === 401) {
-    //   // window.location.replace('/logout')
-    //   // localStorage.setItem('is-kicked', 'true')
-    // }
     return Promise.reject(error)
   }
 )

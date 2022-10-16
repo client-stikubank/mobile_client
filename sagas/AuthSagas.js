@@ -11,7 +11,6 @@ import AuthActions from 'store/AuthRedux'
 export async function* postAuthAttempt(api, action) {
   const { onNextStep } = action
   const state = yield select()
-  console.tron.log(state)
   const form = {
     ...state.auth.form
     // device_id:

@@ -1,85 +1,98 @@
-import React, {memo} from 'react';
-import {View} from 'react-native';
+import React, { memo, useEffect, useState } from 'react'
+import { View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   useTheme,
   useStyleSheet,
   Icon,
-  StyleService,
-} from '@ui-kitten/components';
-import {MainBottomTabStackParamList} from './types';
-import Text from 'components/Text';
-import {globalStyle} from 'styles/globalStyle';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import useLayout from 'hooks/useLayout';
-import ModalRequest from 'components/ModalRequest';
-import useModal from 'hooks/useModal';
-import {Images} from 'assets/images';
-import HomeSrc from 'src/home/HomeSrc';
-import HomeStackNavigator from './HomeStackNavigator';
-import FindScreen from 'src/find/FindScreen';
-import MessagesScreen from 'src/messages/MessagesScreen';
-import RequestsBottomNavigator from './RequestsBottomNavigator';
-import MoreNavigator from './MoreNavigator';
+  StyleService
+} from '@ui-kitten/components'
+
+import Text from 'components/Text'
+import useLayout from 'hooks/useLayout'
+import useModal from 'hooks/useModal'
+import { authSessionCheck } from 'lib/Session'
+import { globalStyle } from 'styles/globalStyle'
+import { getUserProfile } from 'store/actions'
+
+import { MainBottomTabStackParamList } from './types'
+import MoreNavigator from './MoreNavigator'
+import HomeStackNavigator from './HomeStackNavigator'
+
+import ModalRequest from 'components/ModalRequest'
+import { Images } from 'assets/images'
+import HomeSrc from 'src/home/HomeSrc'
+import FindScreen from 'src/find/FindScreen'
+import MessagesScreen from 'src/messages/MessagesScreen'
+import RequestsBottomNavigator from './RequestsBottomNavigator'
 
 interface ButtonTabProps {
-  focused: boolean;
-  icon: string;
-  numberNotification?: number;
-  onPress?: void;
+  focused: boolean
+  icon: string
+  numberNotification?: number
+  onPress?: void
 }
 
-const BottomTab = createBottomTabNavigator<MainBottomTabStackParamList>();
+const BottomTab = createBottomTabNavigator<MainBottomTabStackParamList>()
 
 const MainBottomTab = memo(() => {
-  const theme = useTheme();
-  const {height, bottom} = useLayout();
-  const styles = useStyleSheet(themedStyles);
-  const {modalRef, show, hide} = useModal();
+  // const reduxDispatch = useDispatch()
+  const theme = useTheme()
+  const { height, bottom } = useLayout()
+  const { modalRef, show, hide } = useModal()
+  const styles = useStyleSheet(themedStyles)
+
+  const { auth } = useSelector((state: any) => ({
+    auth: state.Login.auth
+  }))
 
   const ButtonTab = React.useCallback(
-    ({focused, icon, numberNotification}: ButtonTabProps) => {
+    ({ focused, icon, numberNotification }: ButtonTabProps) => {
       React.useEffect(() => {
         if (focused && icon == 'bookmark') {
           setTimeout(() => {
-            modalRef.current?.show();
-          }, 1200);
-          clearTimeout;
+            modalRef.current?.show()
+          }, 1200)
+          clearTimeout
         } else {
-          modalRef.current?.hide();
+          modalRef.current?.hide()
         }
-      }, [focused]);
+      }, [focused])
       return (
         <View
           style={{
             width: 40,
             height: 40,
-            ...globalStyle.center,
-          }}>
+            ...globalStyle.center
+          }}
+        >
           {numberNotification ? (
             focused ? null : (
               <View style={styles.notification}>
-                <Text center category="h9" status="primary" mt={1.5}>
+                <Text center category='h9' status='primary' mt={1.5}>
                   {numberNotification}
                 </Text>
               </View>
             )
           ) : null}
           <Icon
-            pack="assets"
+            pack='assets'
             name={!focused ? icon : `${icon}Active`}
             style={{
               width: 24,
               height: 24,
               tintColor: focused
                 ? theme['button-basic-color']
-                : theme['text-placeholder-color'],
+                : theme['text-placeholder-color']
             }}
           />
         </View>
-      );
+      )
     },
-    [modalRef],
-  );
+    [modalRef]
+  )
 
   return (
     <View style={styles.container}>
@@ -90,21 +103,22 @@ const MainBottomTab = memo(() => {
           tabBarStyle: [
             styles.tabBarStyle,
             {
-              height: (54 + bottom) * (height / 812),
-            },
-          ],
-        }}>
+              height: (54 + bottom) * (height / 812)
+            }
+          ]
+        }}
+      >
         <BottomTab.Screen
-          name="Home"
+          name='Home'
           component={HomeStackNavigator}
           options={{
-            tabBarIcon: ({focused}) => (
+            tabBarIcon: ({ focused }) => (
               <ButtonTab
                 focused={focused}
-                icon="home"
+                icon='home'
                 numberNotification={undefined}
               />
-            ),
+            )
           }}
         />
         {/* <BottomTab.Screen
@@ -147,12 +161,12 @@ const MainBottomTab = memo(() => {
           }}
         /> */}
         <BottomTab.Screen
-          name="More"
+          name='More'
           component={MoreNavigator}
           options={{
-            tabBarIcon: ({focused}) => (
-              <ButtonTab focused={focused} icon="more" />
-            ),
+            tabBarIcon: ({ focused }) => (
+              <ButtonTab focused={focused} icon='more' />
+            )
           }}
         />
       </BottomTab.Navigator>
@@ -165,29 +179,29 @@ const MainBottomTab = memo(() => {
         onDetails={hide}
       /> */}
     </View>
-  );
-});
-export default MainBottomTab;
+  )
+})
+export default MainBottomTab
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   tabBarStyle: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     marginTop: -44,
-    paddingTop: 12,
+    paddingTop: 12
   },
   styleLabel: {
     color: 'color-primary-100',
     fontSize: 11,
-    lineHeight: 24,
+    lineHeight: 24
   },
   buttonTab: {
     borderRadius: 12,
     height: 40,
-    width: 40,
+    width: 40
   },
   notification: {
     position: 'absolute',
@@ -197,6 +211,6 @@ const themedStyles = StyleService.create({
     height: 16,
     zIndex: 10,
     top: 2,
-    right: 1,
-  },
-});
+    right: 1
+  }
+})

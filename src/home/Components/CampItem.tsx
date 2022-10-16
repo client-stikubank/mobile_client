@@ -1,34 +1,46 @@
 import React, { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
-import { View, TouchableOpacity, ImageBackground } from 'react-native'
+import { View, ImageBackground, StyleProp, ImageStyle } from 'react-native'
+import { useDispatch } from 'react-redux'
 import {
   StyleService,
   useStyleSheet,
   Layout,
-  Icon
+  Icon,
+  Avatar
 } from '@ui-kitten/components'
+import { isEmpty } from 'lodash'
 
+import { Images } from 'assets/images'
+import ReadMore from 'components/ReadMore'
 import Text from 'components/Text'
 import MonstaText from 'components/MonstaText'
-import { useTranslation } from 'react-i18next'
-// import { ApplicationItemProps } from 'src/requests/Applications/ApplicationItem'
-import { globalStyle } from 'styles/globalStyle'
 import Flex from 'components/Flex'
 import { RootStackParamList } from 'navigation/types'
-import { Images } from 'assets/images'
+import { getStageCamp } from 'store/actions'
+import { globalStyle } from 'styles/globalStyle'
 
 interface CampItemProps {
   calendar?: any
-  detail?: boolean
+  stageCamp?: any
+  activeCamp?: any
 }
 
-const CampItem = memo(({ calendar, detail }: CampItemProps) => {
+const CampItem = memo(({ calendar, stageCamp, activeCamp }: CampItemProps) => {
+  const reduxDispatch = useDispatch()
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
 
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['more', 'common'])
 
-  const _onJoin = () => navigate('CampSchedule')
+  const { camp } = stageCamp
+  const { speaker } = camp
+
+  const _onJoin = () => {
+    reduxDispatch(getStageCamp(stageCamp))
+    navigate('CampSchedule')
+  }
 
   return (
     <View>
@@ -42,29 +54,66 @@ const CampItem = memo(({ calendar, detail }: CampItemProps) => {
           resizeMode='cover'
         >
           <Text category='h2' bold style={styles.cardTitle}>
-            YouthCamp Level 1
+            {camp?.title}
           </Text>
         </ImageBackground>
         {calendar ? (
           <View style={styles.calendarView}>{calendar}</View>
         ) : (
           <React.Fragment>
-            <Flex justify='flex-start' itemsCenter mb={8} mh={16} mt={16}>
-              <Icon pack='assets' name='baby' style={styles.icon} />
-              <Text category='h7' ml={8} bold>
-                H. Ahmad Sahroni, S.E., M.I. Kom.
-              </Text>
+            <Flex justify='flex-start' itemsCenter mb={16} mh={16} mt={16}>
+              {speaker?.user_profile.image && (
+                <Avatar
+                  style={styles.avatar as StyleProp<ImageStyle>}
+                  source={{ uri: speaker?.user_profile.image }}
+                  size='small'
+                  shape='round'
+                />
+              )}
+              <Flex vertical>
+                <Text category='h7' bold>
+                  {speaker?.user_profile.full_name}
+                </Text>
+              </Flex>
+            </Flex>
+            <Flex mb={8} mh={16}>
+              {camp?.description.length > 250 ? (
+                <ReadMore text={camp?.description} maxCount={250} />
+              ) : (
+                <Text category='h8-s'>{camp?.description}</Text>
+              )}
             </Flex>
             <Flex justify='flex-start' itemsCenter mb={8} mh={16}>
-              <Icon pack='assets' name='location16' style={styles.icon} />
-              <Text category='h7-s' ml={8}>
-                Bandung
-              </Text>
+              <MonstaText
+                amount={camp?.reward_amount?.join('')}
+                category='h8'
+                radius={11}
+              />
             </Flex>
-            <Flex justify='flex-start' itemsCenter mb={8} mh={16}>
-              <MonstaText amount='1126' category='h8' radius={11} />
+            <Flex
+              justify='space-between'
+              alignItems='flex-end'
+              style={styles.cardFooter}
+            >
+              {isEmpty(activeCamp) && (
+                <Flex
+                  style={styles.button}
+                  itemsCenter
+                  center
+                  onPress={() => _onJoin()}
+                >
+                  <Text category='h7' style={{ color: '#FFF' }}>
+                    Join
+                  </Text>
+                </Flex>
+              )}
+              {activeCamp?.stage_camp?.id === stageCamp?.id && (
+                <Text category='h8' status='success'>
+                  Sedang Diikuti
+                </Text>
+              )}
             </Flex>
-            {detail ? (
+            {/* {detail ? (
               <React.Fragment>
                 <Flex justify='flex-start' itemsCenter mb={8} mh={16} mt={8}>
                   <Icon pack='assets' name='calendar' style={styles.icon} />
@@ -96,7 +145,7 @@ const CampItem = memo(({ calendar, detail }: CampItemProps) => {
                   </Text>
                 </Flex>
               </Flex>
-            )}
+            )} */}
           </React.Fragment>
         )}
       </Layout>
@@ -138,6 +187,10 @@ const themedStyles = StyleService.create({
     height: 14,
     tintColor: 'text-placeholder-color',
     marginTop: 2
+  },
+  avatar: {
+    backgroundColor: 'color-mamo',
+    marginRight: 8
   },
   button: {
     backgroundColor: 'color-primary-100',

@@ -1,16 +1,39 @@
 import { combineReducers } from 'redux'
 
-// Loading
+// Toggle
 import Loading from './loading/reducer'
+import Display from './display/reducer'
+import Modal from './modal/reducer'
+
+// Error
+import Error from './error/reducer'
 
 // Authentication
 import Login from './auth/login/reducer'
 import Register from './auth/register/reducer'
 
+import UserProfile from './user_profile/reducer'
+import Carnival from './carnival/reducer'
+import Stage from './stage/reducer'
+import StageCamp from './stage_camp/reducer'
+import UserStageSchedule from './user_stage_schedule/reducer'
+import Province from './province/reducer'
+import City from './city/reducer'
+
 const rootReducer = combineReducers({
   Loading,
+  Display,
+  Modal,
+  Error,
   Login,
-  Register
+  Register,
+  UserProfile,
+  Carnival,
+  Stage,
+  StageCamp,
+  UserStageSchedule,
+  Province,
+  City
 })
 
 export default rootReducer

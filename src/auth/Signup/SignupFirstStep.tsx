@@ -41,8 +41,6 @@ const SignupFirstStep = memo(() => {
     form: state.Register.form
   }))
 
-  console.tron.log(form)
-
   const onChoose = useCallback(
     item => () => {
       setChoose(item)
@@ -58,6 +56,7 @@ const SignupFirstStep = memo(() => {
     },
     []
   )
+
   return (
     <Container>
       <TopNavigation

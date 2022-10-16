@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 import { Platform, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Controller, useForm } from 'react-hook-form'
@@ -10,8 +10,6 @@ import {
   StyleService,
   useStyleSheet,
   Input,
-  Datepicker,
-  NativeDateService,
   Layout,
   Button
 } from '@ui-kitten/components'
@@ -19,84 +17,71 @@ import {
 import Text from 'components/Text'
 import Content from 'components/Content'
 import Container from 'components/Container'
+import DatepickerField from 'components/DatepickerField'
 import NavigationAction from 'components/NavigationAction'
+import SelectPicker from 'components/SelectPicker'
+import { submitDate, toDate } from 'helpers/date'
 import { RootStackParamList } from 'navigation/types'
-import { collectRegister, register } from 'store/actions'
+import {
+  collectRegister,
+  register,
+  getProvinces,
+  getCities
+} from 'store/actions'
 import { RuleRequired } from 'utils/rules'
 
 const SignupThirdStep = memo(() => {
+  const reduxDispatch = useDispatch()
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['auth', 'success', 'common'])
-  const reduxDispatch = useDispatch()
 
-  const i18n: any = {
-    dayNames: {
-      short: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-      long: ['Mingug', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
-    },
-    monthNames: {
-      short: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'Mei',
-        'Jun',
-        'Jul',
-        'Agu',
-        'Sep',
-        'Okt',
-        'Nov',
-        'Des'
-      ],
-      long: [
-        'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Agustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember'
-      ]
-    }
-  }
-
-  const localeDateService = new NativeDateService('id', {
-    i18n,
-    format: 'DD MMMM YYYY'
-  })
-
-  const { form } = useSelector((state: any) => ({
-    form: state.Register.form
+  const { form, provinces, cities } = useSelector((state: any) => ({
+    form: state.Register.form,
+    provinces: state.Province.provinces,
+    cities: state.City.cities
   }))
 
   const {
     control,
     handleSubmit,
+    watch,
     formState: { errors }
   } = useForm({
     defaultValues: {
       first_name: form?.user_profile ? form.user_profile.first_name : null,
       last_name: form?.user_profile ? form.user_profile.last_name : null,
       phone_number: form?.user_profile ? form.user_profile.phone_number : null,
-      birth_date: form?.user_profile ? form.user_profile.birth_date : null,
+      birth_date: toDate(form.user_profile?.birth_date),
+      province_id: form?.user_profile ? form.user_profile.province_id : null,
+      city_id: form?.user_profile ? form.user_profile.city_id : null,
       reffering_code: form.reffering_code
     }
   })
 
+  useEffect(() => {
+    reduxDispatch(getProvinces({}))
+  }, [])
+
+  useEffect(() => {
+    if (watch('province_id')) {
+      reduxDispatch(
+        getCities({
+          query: {
+            province_id_eq: watch('province_id')
+          }
+        })
+      )
+    }
+  }, [watch('province_id')])
+
   const handleSignup = useCallback(data => {
-    console.tron.log(data)
     const userProfile = {
       first_name: data.first_name,
       last_name: data.last_name,
       phone_number: data.phone_number,
-      birth_date: data.birth_date
+      birth_date: submitDate(data.birth_date),
+      city_id: data.city_id
     }
     const sendData = {
       ...form,
@@ -207,24 +192,45 @@ const SignupThirdStep = memo(() => {
               name='birth_date'
               rules={RuleRequired}
               render={({ field: { onChange, onBlur, value } }) => (
-                <Datepicker
+                <DatepickerField
                   label={t('auth:birth_date')}
-                  status={errors.birth_date ? 'warning' : 'basic'}
+                  errors={!!errors.birth_date}
+                  errorMessage={errors.birth_date?.message}
+                  onChange={onChange}
+                  value={value}
                   style={styles.datepicker}
-                  textStyle={{
-                    fontSize: 40
-                  }}
-                  /* @ts-ignore */
-                  placeholder={null}
-                  min={new Date(1900, 0, 0)}
-                  max={new Date()}
-                  onSelect={nextDate => {
-                    onChange(nextDate)
-                  }}
-                  date={value}
-                  filter={() => true}
-                  dateService={localeDateService}
-                  caption={errors.birth_date?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name='province_id'
+              rules={RuleRequired}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <SelectPicker
+                  label='Provinsi'
+                  items={provinces}
+                  onChange={onChange}
+                  value={value || null}
+                  errors={!!errors.province_id}
+                  errorMessage={errors.province_id?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name='city_id'
+              rules={RuleRequired}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <SelectPicker
+                  label='Asal Kota'
+                  items={cities}
+                  onChange={onChange}
+                  value={value || null}
+                  errors={!!errors.city_id}
+                  errorMessage={errors.city_id?.message}
                 />
               )}
             />

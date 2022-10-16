@@ -21,7 +21,7 @@ const CampDetail = memo(() => {
   return (
     <Container style={styles.container}>
       <Content>
-        <HeaderHome
+        {/* <HeaderHome
           name={'Edith Johnson'}
           avatar={Images.avatar2}
           email={'lehieuds@gmail.com'}
@@ -29,7 +29,7 @@ const CampDetail = memo(() => {
         />
         <Layout style={styles.content} level='1'>
           <CampItem detail={true} />
-        </Layout>
+        </Layout> */}
       </Content>
     </Container>
   )

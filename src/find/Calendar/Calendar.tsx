@@ -1,31 +1,44 @@
 import React, { memo } from 'react'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
-import {
-  useTheme,
-  StyleService,
-  useStyleSheet,
-  Layout
-} from '@ui-kitten/components'
+import { RefreshControl } from 'react-native'
+import { StyleService, useStyleSheet, Layout } from '@ui-kitten/components'
+import { useDispatch, useSelector } from 'react-redux'
+import { isEmpty } from 'lodash'
 
+import { getStageCamp } from 'store/actions'
 import Content from 'components/Content'
 import AvailableItem from './AvailableItem'
 
-const Calendar = memo(() => {
+interface CalendarProps {
+  schedules?: any
+}
+
+const Calendar = memo(({ schedules }: CalendarProps) => {
+  const reduxDispatch = useDispatch()
   const styles = useStyleSheet(themedStyles)
 
+  const { stageCamp, refresh } = useSelector((state: any) => ({
+    stageCamp: state.StageCamp.stageCamp,
+    refresh: state.Loading.refresh
+  }))
+
+  const onRefresh = () => {
+    if (!isEmpty(stageCamp)) {
+      reduxDispatch(getStageCamp(stageCamp))
+    }
+  }
+
   return (
-    <Content>
+    <Content
+      refreshControl={
+        <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+      }
+    >
       <Layout level='2' style={styles.container}>
-        {DATA_AVAILABLE.map((item, i) => {
-          return (
-            <AvailableItem
-              data={item.data}
-              startTime={item.startTime}
-              endTime={item.endTime}
-              key={i}
-            />
-          )
-        })}
+        {schedules?.length > 0
+          ? schedules.map((schedule: any) => (
+              <AvailableItem data={schedule} key={schedule.date} />
+            ))
+          : null}
       </Layout>
     </Content>
   )
@@ -40,64 +53,3 @@ const themedStyles = StyleService.create({
     borderRadius: 16
   }
 })
-
-const DATA_AVAILABLE = [
-  {
-    startTime: new Date('2021-11-05'),
-    endTime: new Date('2021-11-11'),
-    data: [
-      {
-        id: '1',
-        availableTime: {
-          morning: true,
-          afternoon: true
-        },
-        date: new Date(1649135103000)
-      }
-    ]
-  },
-  {
-    startTime: new Date('2021-11-12'),
-    endTime: new Date('2021-11-18'),
-    data: [
-      {
-        id: '1',
-        availableTime: {
-          morning: true,
-          afternoon: true
-        },
-        date: new Date('2021-11-12')
-      },
-      {
-        id: '2',
-        availableTime: {
-          morning: true,
-          afternoon: false
-        },
-        date: new Date('2021-11-13')
-      }
-    ]
-  },
-  {
-    startTime: new Date('2021-11-19'),
-    endTime: new Date('2021-11-25'),
-    data: [
-      {
-        id: '1',
-        availableTime: {
-          morning: true,
-          afternoon: true
-        },
-        date: new Date('2021-11-19')
-      },
-      {
-        id: '2',
-        availableTime: {
-          morning: true,
-          afternoon: false
-        },
-        date: new Date('2021-11-20')
-      }
-    ]
-  }
-]

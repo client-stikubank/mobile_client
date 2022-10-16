@@ -19,5 +19,6 @@
   "color-warning-default": "$color-warning-100",
   "text-success-color-100": "color-success-100",
   "text-completed-color": "color-success-200",
-  "text-twitter-color":"color-primary-300"
+  "text-twitter-color": "color-primary-300",
+  "text-hint-color-custom": "$color-primary-100"
 }

@@ -1,7 +1,8 @@
-import { LOADING_SCREEN } from './actionTypes'
+import { LOADING_REFRESH, LOADING_SCREEN } from './actionTypes'
 
 const initialState = {
-  screen: false
+  screen: false,
+  refresh: false
 }
 
 const loading = (state = initialState, action) => {
@@ -11,7 +12,11 @@ const loading = (state = initialState, action) => {
         ...state,
         screen: action.payload
       }
-      break
+    case LOADING_REFRESH:
+      return {
+        ...state,
+        refresh: action.payload
+      }
     default:
       state = { ...state }
       break

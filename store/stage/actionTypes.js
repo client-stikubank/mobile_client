@@ -1,0 +1,3 @@
+export const GET_STAGE = 'GET_STAGE'
+export const GET_STAGE_SUCCESS = 'GET_STAGE_SUCCESS'
+export const GET_STAGE_FAIL = 'GET_STAGE_FAIL'

@@ -4034,10 +4034,10 @@
         "variantGroups": {
           "status": {
             "basic": {
-              "default": true
+              "default": false
             },
             "primary": {
-              "default": false
+              "default": true
             },
             "success": {
               "default": false
@@ -4129,15 +4129,15 @@
                 "iconTintColor": "text-hint-color",
                 "state": {
                   "focused": {
-                    "borderColor": "background-basic-color-3",
+                    "borderColor": "button-outline-border",
                     "backgroundColor": "background-basic-color-1"
                   },
                   "hover": {
-                    "borderColor": "background-basic-color-3",
+                    "borderColor": "button-outline-border",
                     "backgroundColor": "background-basic-color-3"
                   },
                   "active": {
-                    "borderColor": "background-basic-color-3",
+                    "borderColor": "button-outline-border",
                     "backgroundColor": "background-basic-color-1"
                   },
                   "disabled": {

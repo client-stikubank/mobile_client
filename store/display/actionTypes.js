@@ -1,0 +1,1 @@
+export const HOME_DISPLAY = 'HOME_DISPLAY'

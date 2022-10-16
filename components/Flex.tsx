@@ -66,6 +66,7 @@ const Flex: React.FC<FlexProps> = memo(
           activeOpacity={!onPress ? 1 : 0.54}
           onPress={onPress}
           style={[
+            /* @ts-ignore */
             {
               borderRadius: border,
               alignItems: itemsCenter ? 'center' : alignItems,

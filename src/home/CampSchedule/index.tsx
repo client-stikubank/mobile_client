@@ -1,32 +1,49 @@
 import React, { memo } from 'react'
 import { View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
   Layout
 } from '@ui-kitten/components'
-import { useTranslation } from 'react-i18next'
 
-import Content from 'components/Content'
 import Container from 'components/Container'
-import Calendar from '../../find/Calendar/Calendar'
 import NavigationAction from 'components/NavigationAction'
+import Text from 'components/Text'
+
 import CampItem from '../Components/CampItem'
+import Calendar from '../../find/Calendar/Calendar'
 
 const CampList = memo(() => {
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['home', 'common'])
 
+  const { stageCamp, stage } = useSelector((state: any) => ({
+    stageCamp: state.StageCamp.stageCamp,
+    stage: state.Stage.stage
+  }))
+
+  console.tron.log('STAGECAMP', stageCamp)
+
   return (
     <Container style={styles.container}>
       <TopNavigation
         title={t('home:camp_schedule').toString()}
+        subtitle={`${stage?.name} - Level ${stage?.level}`}
         accessoryLeft={<NavigationAction />}
       />
       <View style={styles.calendarView}>
         <Layout style={styles.content} level='1'>
-          <CampItem calendar={<Calendar />} />
+          {stageCamp.stage_camp_schedules?.length > 0 ? (
+            <CampItem
+              calendar={<Calendar schedules={stageCamp.stage_camp_schedules} />}
+              stageCamp={stageCamp}
+            />
+          ) : (
+            <Text>Tidak ada jadwal saat ini</Text>
+          )}
         </Layout>
       </View>
     </Container>

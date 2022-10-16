@@ -1,5 +1,5 @@
-import Toast from 'react-native-toast-message'
 import { call, put, takeEvery } from 'redux-saga/effects'
+import Toast from 'react-native-toast-message'
 import _ from 'lodash'
 
 import { postRegister } from 'api/register'

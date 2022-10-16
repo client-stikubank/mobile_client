@@ -1,45 +1,59 @@
-import React, { memo } from 'react'
-import { ImageBackground, View } from 'react-native'
+import React, { memo, useCallback, useEffect, useState } from 'react'
+import { RefreshControl, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { StyleService, useStyleSheet } from '@ui-kitten/components'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 
+import { Images } from 'assets/images'
 import Content from 'components/Content'
 import Container from 'components/Container'
 import Text from 'components/Text'
-import HeaderHome from './Components/HeaderHome'
-import Carnival from './Components/Carnival'
-import { Images } from 'assets/images'
-import { useTranslation } from 'react-i18next'
+import TitleField from 'components/TitleField'
+import IRecommended from 'components/IRecommended'
+import Flex from 'components/Flex'
+import { MY_FAVORITES, MY_RECOMMENDED } from 'constants/Data'
 import {
   HomeStackParamList,
   MainBottomTabStackParamList,
   RootStackParamList
 } from 'navigation/types'
+import { getCarnival } from 'store/actions'
+
 import CreateJobPost from './Components/CreateJobPost'
-import NextPlan from './Components/NextPlan'
+import ActiveCamp from './Components/ActiveCamp'
 import IFavorites from './Components/IFavorites'
-import { MY_FAVORITES, MY_RECOMMENDED } from 'constants/Data'
 import MyRecommend from './Components/MyRecommend'
-import TitleField from 'components/TitleField'
-import IRecommended from 'components/IRecommended'
-import Flex from 'components/Flex'
+import HeaderHome from './Components/HeaderHome'
+import Carnival from './Components/Carnival'
+import Profile from './Components/Profile'
+import CampDetail from './CampDetail'
 
 const HomeSrc = memo(() => {
+  const reduxDispatch = useDispatch()
   const { navigate } = useNavigation<NavigationProp<HomeStackParamList>>()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['home', 'common'])
-  const [isFirstTime, setFirst] = React.useState(true)
+
+  const [isFirstTime, setFirst] = useState(true)
+
+  const { displayHome } = useSelector((state: any) => ({
+    displayHome: state.Display.home
+  }))
+
+  useEffect(() => {
+    if (displayHome == 'carnival') {
+      reduxDispatch(getCarnival())
+    }
+  }, [displayHome])
 
   return (
     <Container style={styles.container}>
       <Content contentContainerStyle={styles.content}>
-        <HeaderHome
-          name={'Edith Johnson'}
-          avatar={Images.avatar2}
-          email={'lehieuds@gmail.com'}
-          notification={3}
-        />
-        <Carnival currentStage={3} />
+        <HeaderHome />
+        {displayHome == 'carnival' && <Carnival />}
+        {displayHome == 'profile' && <Profile />}
+        {displayHome == 'campDetail' && <CampDetail />}
         {/* <View style={styles.topContent}>
           {isFirstTime ? (
             <>
@@ -47,7 +61,7 @@ const HomeSrc = memo(() => {
             </>
           ) : (
             <>
-              <NextPlan />
+              <ActiveCamp />
             </>
           )}
         </View>
