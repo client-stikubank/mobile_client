@@ -1,17 +1,9 @@
 import React, { memo, useEffect } from 'react'
-import {
-  View,
-  Platform,
-  StyleProp,
-  ImageStyle,
-  TouchableOpacity
-} from 'react-native'
-import Image from 'react-native-scalable-image'
+import { View, StyleProp, ImageStyle, TouchableOpacity } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import {
-  useTheme,
   StyleService,
   useStyleSheet,
   Layout,
@@ -20,11 +12,9 @@ import {
 } from '@ui-kitten/components'
 import { isEmpty } from 'lodash'
 
-import useLayout from 'hooks/useLayout'
 import { Images } from 'assets/images'
 import Text from 'components/Text'
 import Flex from 'components/Flex'
-import NavigationAction from 'components/NavigationAction'
 import { defaultDate } from 'helpers/date'
 import { RootStackParamList } from 'navigation/types'
 import { getUserProfile } from 'store/actions'
@@ -32,8 +22,6 @@ import { globalStyle } from 'styles/globalStyle'
 
 const Profile = memo(() => {
   const reduxDispatch = useDispatch()
-  const theme = useTheme()
-  const { width } = useLayout()
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['home', 'common'])
@@ -60,7 +48,7 @@ const Profile = memo(() => {
         <TouchableOpacity onPress={_onEditProfile} style={styles.editAction}>
           <Icon pack='assets' name='edit' style={styles.icon} />
         </TouchableOpacity>
-        <Flex alignItems='start' justify='flex-start'>
+        <Flex alignItems='flex-start' justify='flex-start'>
           <Avatar
             style={styles.avatar as StyleProp<ImageStyle>}
             source={Images.tokenMamo}

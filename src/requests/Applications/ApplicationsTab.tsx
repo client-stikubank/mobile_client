@@ -26,7 +26,7 @@ const ApplicationsTab = memo(() => {
   }
   return (
     <View style={styles.container}>
-      {false ? (
+      {true ? (
         <EmptyData
           image={Images.emptyFavorites}
           title={t('request:noGift')}
