@@ -76,7 +76,7 @@ const AppContainer = () => {
         screenOptions={{
           headerShown: false
         }}
-        initialRouteName={'Intro'}
+        initialRouteName={'AuthStack'}
       >
         <Stack.Screen name='Intro' component={Onboarding} />
         <Stack.Screen name='AuthStack' component={AuthNavigator} />

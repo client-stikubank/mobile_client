@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import {
   TopNavigation,
   StyleService,
@@ -6,18 +6,21 @@ import {
 } from '@ui-kitten/components'
 import { useTranslation } from 'react-i18next'
 import Image from 'react-native-scalable-image'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { Images } from 'assets/images'
 import Text from 'components/Text'
 import Content from 'components/Content'
 import Container from 'components/Container'
 import NavigationAction from 'components/NavigationAction'
 import Flex from 'components/Flex'
 import MonstaText from 'components/MonstaText'
-import { globalStyle } from 'styles/globalStyle'
 import ButtonFill from 'components/ButtonFill'
-import { Images } from 'assets/images'
+import { getUserProfile } from 'store/actions'
+import { globalStyle } from 'styles/globalStyle'
 
 const InviteAndWin = memo(() => {
+  const reduxDispatch = useDispatch()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['more', 'invite_and_win'])
 
@@ -25,8 +28,13 @@ const InviteAndWin = memo(() => {
   const [copyPromoCode, setCopyPromoCode] = React.useState(false)
   const [copyLink, setCopyLink] = React.useState(false)
 
-  const PROMOTION_CODE = 'YC345928'
-  const REFER_LINK = 'youthcamp.com/refer/u345928'
+  const { userProfile } = useSelector((state: any) => ({
+    userProfile: state.UserProfile.userProfile
+  }))
+
+  useEffect(() => {
+    reduxDispatch(getUserProfile())
+  }, [])
 
   return (
     <Container style={styles.container}>
@@ -57,7 +65,7 @@ const InviteAndWin = memo(() => {
           }}
         >
           <Text category='h7' bold>
-            {PROMOTION_CODE}
+            {userProfile?.refferal_code}
           </Text>
           <Text category='h7' status={copyPromoCode ? 'success' : 'link'} bold>
             {copyPromoCode ? 'Copied' : 'Copy'}
@@ -75,23 +83,22 @@ const InviteAndWin = memo(() => {
           }}
         >
           <Text category='h7' bold>
-            {REFER_LINK}
+            {`youthcamp.com/refer/${userProfile?.refferal_code}`}
           </Text>
           <Text category='h7' status={copyLink ? 'success' : 'link'} bold>
             {copyLink ? 'Copied' : 'Copy'}
           </Text>
         </Flex>
-        <Text center mt={32} mb={20}>
+        {/* <Text center mt={32} mb={20}>
           {t('more:share-via')}
         </Text>
         <Flex mh={48} mb={32}>
           {DATA_SOCIAL.map((item, i) => {
             return (
-              /* @ts-ignore */
               <ButtonFill icon={item.icon} key={i} status={item.status} />
             )
           })}
-        </Flex>
+        </Flex> */}
       </Content>
     </Container>
   )

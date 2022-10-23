@@ -1,40 +1,61 @@
-import React, {memo} from 'react';
-import {View, FlatList} from 'react-native';
+import React, { memo, useEffect } from 'react'
+import { View, FlatList } from 'react-native'
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
   Layout,
-  ViewPager,
-} from '@ui-kitten/components';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {useTranslation} from 'react-i18next';
+  ViewPager
+} from '@ui-kitten/components'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 
-import Container from 'components/Container';
-import {globalStyle} from 'styles/globalStyle';
-import keyExtractor from 'utils/keyExtractor';
-import BasicTabBar from 'components/BasicTabBar';
+import BasicTabBar from 'components/BasicTabBar'
+import Container from 'components/Container'
 import {
   DATA_CURRENT_BOOKING,
   DATA_CURRENT_INTERVIEW,
   DATA_PASS_BOOKING,
-  DATA_PAST_INTERVIEW,
-} from 'constants/Data';
-import {RequestsStackParamList} from 'navigation/types';
-import InterviewTab from './Interview/InterviewTab';
-import BookingsTab from './Bookings/BookingsTab';
-import ApplicationsTab from './Applications/ApplicationsTab';
+  DATA_PAST_INTERVIEW
+} from 'constants/Data'
+import { RequestsStackParamList } from 'navigation/types'
+import { getUserStageSchedules } from 'store/actions'
+import { globalStyle } from 'styles/globalStyle'
+import keyExtractor from 'utils/keyExtractor'
+
+import CampTab from './Camp/CampTab'
+import BookingsTab from './Bookings/BookingsTab'
+import ApplicationsTab from './Applications/ApplicationsTab'
 
 const RequestsSrc = memo(() => {
-  const {navigate} = useNavigation<NavigationProp<RequestsStackParamList>>();
-  const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['request', 'common']);
+  const reduxDispatch = useDispatch()
+  const { navigate } = useNavigation<NavigationProp<RequestsStackParamList>>()
+  const styles = useStyleSheet(themedStyles)
+  const { t } = useTranslation(['request', 'common'])
 
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const shouldLoadComponent = (index: number) => index === activeIndex;
+  const { userStageSchedules, refresh } = useSelector((state: any) => ({
+    userStageSchedules: state.UserStageSchedule.userStageSchedules,
+    refresh: state.Loading.refresh
+  }))
 
-  const [dataCurrent, setCurrent] = React.useState(DATA_CURRENT_INTERVIEW);
-  const [dataPast, setPast] = React.useState(DATA_PAST_INTERVIEW);
+  const [activeIndex, setActiveIndex] = React.useState(0)
+  const shouldLoadComponent = (index: number) => index === activeIndex
+
+  const [dataCurrent, setCurrent] = React.useState(DATA_CURRENT_INTERVIEW)
+  const [dataPast, setPast] = React.useState(DATA_PAST_INTERVIEW)
+
+  useEffect(() => {
+    if (activeIndex === 0) {
+      reduxDispatch(getUserStageSchedules())
+    }
+  }, [activeIndex])
+
+  const onRefresh = () => {
+    if (activeIndex === 0) {
+      reduxDispatch(getUserStageSchedules())
+    }
+  }
 
   const ListFooterComponent = React.useCallback(() => {
     return (
@@ -43,11 +64,13 @@ const RequestsSrc = memo(() => {
           selectedIndex={activeIndex}
           onSelect={setActiveIndex}
           style={[globalStyle.flexOne]}
-          swipeEnabled={false}
-          shouldLoadComponent={shouldLoadComponent}>
-          <InterviewTab
+          swipeEnabled={true}
+          shouldLoadComponent={shouldLoadComponent}
+        >
+          <CampTab
             dataCurrentRequest={dataCurrent}
             dataPassRequest={dataPast}
+            data={userStageSchedules}
           />
           <BookingsTab
             currentData={DATA_CURRENT_BOOKING}
@@ -56,8 +79,9 @@ const RequestsSrc = memo(() => {
           <ApplicationsTab />
         </ViewPager>
       </View>
-    );
-  }, [activeIndex, dataCurrent, dataPast]);
+    )
+  }, [activeIndex, dataCurrent, dataPast])
+
   const ListHeaderComponent = React.useCallback(() => {
     return (
       <Layout>
@@ -66,14 +90,14 @@ const RequestsSrc = memo(() => {
           activeIndex={activeIndex}
           onChange={setActiveIndex}
           tabs={[
-            t('request:interview'),
-            t('request:bookings'),
-            t('request:applications'),
+            t('request:camp'),
+            t('request:treasure_hunt'),
+            t('request:gift')
           ]}
         />
       </Layout>
-    );
-  }, [activeIndex]);
+    )
+  }, [activeIndex])
 
   return (
     <Container style={styles.container}>
@@ -87,24 +111,26 @@ const RequestsSrc = memo(() => {
         ListHeaderComponent={ListHeaderComponent}
         ListFooterComponent={ListFooterComponent}
         showsVerticalScrollIndicator={false}
+        onRefresh={onRefresh}
+        refreshing={refresh}
       />
     </Container>
-  );
-});
+  )
+})
 
-export default RequestsSrc;
+export default RequestsSrc
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   content: {},
   tabBar: {
     marginTop: 12,
-    paddingHorizontal: 12,
+    paddingHorizontal: 12
   },
   footer: {
     marginHorizontal: 24,
-    paddingBottom: 40,
-  },
-});
+    paddingBottom: 40
+  }
+})

@@ -34,22 +34,17 @@ const Carnival = memo(() => {
     refresh: state.Loading.refresh
   }))
 
-  const onRefresh = () => {
-    reduxDispatch(getCarnival())
-  }
-
   const _onCampList = (stage: object) => {
-    reduxDispatch(getStage(stage))
-    navigate('CampList')
+    reduxDispatch(getStage(stage, () => navigate('CampList')))
   }
 
   return isEmpty(carnival) ? null : (
-    <Content
-      refreshControl={
-        <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-      }
-    >
-      {!isEmpty(carnival?.active_camp) && <ActiveCamp />}
+    <Content>
+      {!isEmpty(carnival?.active_camp) && (
+        <View style={styles.activeCamp}>
+          <ActiveCamp />
+        </View>
+      )}
       <View style={styles.carnivalContainer}>
         <Image source={Images.carnivalTemplate} width={width} />
         <Flex onPress={() => {}} style={styles.startMapping}>
@@ -76,7 +71,7 @@ const Carnival = memo(() => {
             <Text category='h9' bold>
               {stage.name}
             </Text>
-            <MonstaText amount='1126' />
+            <MonstaText amount={stage.high_amount || '----'} />
           </Flex>
         ))}
         <Flex onPress={() => {}} style={styles.finishMapping}>
@@ -93,6 +88,11 @@ export default Carnival
 
 const themedStyles = StyleService.create({
   carnivalContainer: {},
+  activeCamp: {
+    marginTop: 16,
+    marginHorizontal: 24,
+    paddingBottom: 30
+  },
   startMapping: {
     width: '20%',
     height: '7.5%',

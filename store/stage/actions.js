@@ -1,8 +1,8 @@
 import { GET_STAGE, GET_STAGE_FAIL, GET_STAGE_SUCCESS } from './actionTypes'
 
-export const getStage = stage => ({
+export const getStage = (stage, transition) => ({
   type: GET_STAGE,
-  payload: stage
+  payload: { stage, transition }
 })
 
 export const getStageSuccess = stage => ({

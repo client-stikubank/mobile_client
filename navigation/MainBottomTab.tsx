@@ -15,7 +15,7 @@ import useLayout from 'hooks/useLayout'
 import useModal from 'hooks/useModal'
 import { authSessionCheck } from 'lib/Session'
 import { globalStyle } from 'styles/globalStyle'
-import { getUserProfile } from 'store/actions'
+import { getRewards, getUserProfile } from 'store/actions'
 
 import { MainBottomTabStackParamList } from './types'
 import MoreNavigator from './MoreNavigator'
@@ -38,15 +38,15 @@ interface ButtonTabProps {
 const BottomTab = createBottomTabNavigator<MainBottomTabStackParamList>()
 
 const MainBottomTab = memo(() => {
-  // const reduxDispatch = useDispatch()
+  const reduxDispatch = useDispatch()
   const theme = useTheme()
   const { height, bottom } = useLayout()
   const { modalRef, show, hide } = useModal()
   const styles = useStyleSheet(themedStyles)
 
-  const { auth } = useSelector((state: any) => ({
-    auth: state.Login.auth
-  }))
+  useEffect(() => {
+    reduxDispatch(getUserProfile())
+  }, [])
 
   const ButtonTab = React.useCallback(
     ({ focused, icon, numberNotification }: ButtonTabProps) => {
@@ -109,7 +109,7 @@ const MainBottomTab = memo(() => {
         }}
       >
         <BottomTab.Screen
-          name='Home'
+          name='Beranda'
           component={HomeStackNavigator}
           options={{
             tabBarIcon: ({ focused }) => (
@@ -134,34 +134,35 @@ const MainBottomTab = memo(() => {
             ),
           }}
         /> */}
-        {/* <BottomTab.Screen
-          name="Messages"
+        <BottomTab.Screen
+          name='Reward'
           component={MessagesScreen}
-          options={{
-            tabBarIcon: ({focused}) => (
-              <ButtonTab
-                focused={focused}
-                icon="comment"
-                numberNotification={1}
-              />
-            ),
+          listeners={{
+            tabPress: e => {
+              reduxDispatch(getRewards())
+            }
           }}
-        /> */}
-        {/* <BottomTab.Screen
-          name="Requests"
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <ButtonTab focused={focused} icon='hourlyRate' />
+            )
+          }}
+        />
+        <BottomTab.Screen
+          name='Aktivitas'
           component={RequestsBottomNavigator}
           options={{
-            tabBarIcon: ({focused}) => (
+            tabBarIcon: ({ focused }) => (
               <ButtonTab
                 focused={focused}
-                icon="bookmark"
+                icon='calendar'
                 numberNotification={undefined}
               />
-            ),
+            )
           }}
-        /> */}
+        />
         <BottomTab.Screen
-          name='More'
+          name='Pengaturan'
           component={MoreNavigator}
           options={{
             tabBarIcon: ({ focused }) => (

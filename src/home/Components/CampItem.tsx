@@ -25,95 +25,110 @@ interface CampItemProps {
   calendar?: any
   stageCamp?: any
   activeCamp?: any
+  currentStage?: number
 }
 
-const CampItem = memo(({ calendar, stageCamp, activeCamp }: CampItemProps) => {
-  const reduxDispatch = useDispatch()
-  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
+const CampItem = memo(
+  ({ calendar, stageCamp, activeCamp, currentStage = 0 }: CampItemProps) => {
+    const reduxDispatch = useDispatch()
+    const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
 
-  const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['more', 'common'])
+    const styles = useStyleSheet(themedStyles)
+    const { t } = useTranslation(['more', 'common'])
 
-  const { camp } = stageCamp
-  const { speaker } = camp
+    const { camp } = stageCamp
+    const { speaker } = camp
 
-  const _onJoin = () => {
-    reduxDispatch(getStageCamp(stageCamp))
-    navigate('CampSchedule')
-  }
+    const _onJoin = () => {
+      reduxDispatch(getStageCamp(stageCamp))
+      navigate('CampSchedule')
+    }
 
-  return (
-    <View>
-      <Layout
-        style={[styles.container, { paddingBottom: calendar ? 24 : 0 }]}
-        level='2'
-      >
-        <ImageBackground
-          source={Images.cardHeader}
-          style={styles.headerImage}
-          resizeMode='cover'
+    return (
+      <View>
+        <Layout
+          style={[styles.container, { paddingBottom: calendar ? 24 : 0 }]}
+          level='2'
         >
-          <Text category='h2' bold style={styles.cardTitle}>
-            {camp?.title}
-          </Text>
-        </ImageBackground>
-        {calendar ? (
-          <View style={styles.calendarView}>{calendar}</View>
-        ) : (
-          <React.Fragment>
-            <Flex justify='flex-start' itemsCenter mb={16} mh={16} mt={16}>
-              {speaker?.user_profile.image && (
-                <Avatar
-                  style={styles.avatar as StyleProp<ImageStyle>}
-                  source={{ uri: speaker?.user_profile.image }}
-                  size='small'
-                  shape='round'
-                />
-              )}
-              <Flex vertical>
-                <Text category='h7' bold>
-                  {speaker?.user_profile.full_name}
-                </Text>
-              </Flex>
-            </Flex>
-            <Flex mb={8} mh={16}>
-              {camp?.description.length > 250 ? (
-                <ReadMore text={camp?.description} maxCount={250} />
-              ) : (
-                <Text category='h8-s'>{camp?.description}</Text>
-              )}
-            </Flex>
-            <Flex justify='flex-start' itemsCenter mb={8} mh={16}>
-              <MonstaText
-                amount={camp?.reward_amount?.join('')}
-                category='h8'
-                radius={11}
-              />
-            </Flex>
-            <Flex
-              justify='space-between'
-              alignItems='flex-end'
-              style={styles.cardFooter}
-            >
-              {isEmpty(activeCamp) && (
-                <Flex
-                  style={styles.button}
-                  itemsCenter
-                  center
-                  onPress={() => _onJoin()}
-                >
-                  <Text category='h7' style={{ color: '#FFF' }}>
-                    Join
+          <ImageBackground
+            source={Images.cardHeader}
+            style={styles.headerImage}
+            resizeMode='cover'
+          >
+            <Text category='h2' bold style={styles.cardTitle}>
+              {camp?.title}
+            </Text>
+          </ImageBackground>
+          {calendar ? (
+            <View style={styles.calendarView}>{calendar}</View>
+          ) : (
+            <React.Fragment>
+              <Flex justify='flex-start' itemsCenter mb={16} mh={16} mt={16}>
+                {speaker?.user_profile.image && (
+                  <Avatar
+                    style={styles.avatar as StyleProp<ImageStyle>}
+                    source={{ uri: speaker?.user_profile.image }}
+                    size='small'
+                    shape='round'
+                  />
+                )}
+                <Flex vertical>
+                  <Text category='h7' bold>
+                    {speaker?.user_profile.full_name}
                   </Text>
                 </Flex>
-              )}
-              {activeCamp?.stage_camp?.id === stageCamp?.id && (
-                <Text category='h8' status='success'>
-                  Sedang Diikuti
-                </Text>
-              )}
-            </Flex>
-            {/* {detail ? (
+              </Flex>
+              <Flex mb={8} mh={16}>
+                {camp?.description.length > 250 ? (
+                  <ReadMore text={camp?.description} maxCount={250} />
+                ) : (
+                  <Text category='h8-s'>{camp?.description}</Text>
+                )}
+              </Flex>
+              <Flex justify='flex-start' itemsCenter mb={8} mh={16}>
+                <MonstaText
+                  amount={camp?.reward_amount?.join('')}
+                  category='h8'
+                  radius={11}
+                />
+              </Flex>
+              <Flex
+                justify='space-between'
+                alignItems='flex-end'
+                style={styles.cardFooter}
+              >
+                {isEmpty(activeCamp) && currentStage === stageCamp.stage.level && (
+                  <Flex
+                    style={styles.button}
+                    itemsCenter
+                    center
+                    onPress={() => _onJoin()}
+                  >
+                    <Text category='h7' style={{ color: '#FFF' }}>
+                      Join
+                    </Text>
+                  </Flex>
+                )}
+                {activeCamp?.stage_camp?.id === stageCamp?.id ? (
+                  <Text category='h8' status='success'>
+                    Sedang Diikuti
+                  </Text>
+                ) : (
+                  activeCamp &&
+                  currentStage === stageCamp.stage.level && (
+                    <Text category='h8' status='warning'>
+                      Sedang mengikuti pelatihan lain!
+                    </Text>
+                  )
+                )}
+                {currentStage !== stageCamp.stage.level && (
+                  <Text category='h8' status='warning'>
+                    Level pelatihan terlalu{' '}
+                    {currentStage < stageCamp.stage.level ? 'tinggi' : 'rendah'}
+                  </Text>
+                )}
+              </Flex>
+              {/* {detail ? (
               <React.Fragment>
                 <Flex justify='flex-start' itemsCenter mb={8} mh={16} mt={8}>
                   <Icon pack='assets' name='calendar' style={styles.icon} />
@@ -146,12 +161,13 @@ const CampItem = memo(({ calendar, stageCamp, activeCamp }: CampItemProps) => {
                 </Flex>
               </Flex>
             )} */}
-          </React.Fragment>
-        )}
-      </Layout>
-    </View>
-  )
-})
+            </React.Fragment>
+          )}
+        </Layout>
+      </View>
+    )
+  }
+)
 
 export default CampItem
 

@@ -18,7 +18,7 @@ import {
   MainBottomTabStackParamList,
   RootStackParamList
 } from 'navigation/types'
-import { getCarnival } from 'store/actions'
+import { getCarnival, getUserProfile } from 'store/actions'
 
 import CreateJobPost from './Components/CreateJobPost'
 import ActiveCamp from './Components/ActiveCamp'
@@ -37,9 +37,15 @@ const HomeSrc = memo(() => {
 
   const [isFirstTime, setFirst] = useState(true)
 
-  const { displayHome } = useSelector((state: any) => ({
-    displayHome: state.Display.home
+  const { displayHome, refresh } = useSelector((state: any) => ({
+    displayHome: state.Display.home,
+    refresh: state.Loading.refresh
   }))
+
+  const onRefresh = () => {
+    reduxDispatch(getUserProfile())
+    reduxDispatch(getCarnival())
+  }
 
   useEffect(() => {
     if (displayHome == 'carnival') {
@@ -49,7 +55,12 @@ const HomeSrc = memo(() => {
 
   return (
     <Container style={styles.container}>
-      <Content contentContainerStyle={styles.content}>
+      <Content
+        contentContainerStyle={styles.content}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
+      >
         <HeaderHome />
         {displayHome == 'carnival' && <Carnival />}
         {displayHome == 'profile' && <Profile />}

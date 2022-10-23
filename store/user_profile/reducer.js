@@ -2,8 +2,8 @@ import { fit } from 'helpers/response'
 import {
   GET_USER_PROFILE_FAIL,
   GET_USER_PROFILE_SUCCESS,
-  UPDATE_USER_PROFILE_SUCCESS,
-  UPDATE_USER_PROFILE_FAIL
+  UPDATE_USER_PROFILE_FAIL,
+  UPDATE_USER_PROFILE_SUCCESS
 } from './actionTypes'
 
 const INIT_STATE = {

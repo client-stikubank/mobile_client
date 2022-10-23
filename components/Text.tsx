@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import { StyleProp, TextStyle } from 'react-native'
 import { Text, TextProps } from '@ui-kitten/components'
 import { EvaStatus } from '@ui-kitten/components/devsupport'
+import { color } from 'react-native-reanimated'
 
 export interface MyTextProps extends TextProps {
   style?: StyleProp<TextStyle>

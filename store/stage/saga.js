@@ -8,14 +8,17 @@ import {
   getStageSuccess,
   getStageFail,
   responseError,
-  toggleRefresh
+  toggleScreen
 } from 'store/actions'
 
-function* fetchStage({ payload: stage }) {
-  yield put(toggleRefresh(true))
+function* fetchStage({ payload: { stage, transition } }) {
+  yield put(toggleScreen(true))
   try {
     const response = yield call(getStage, stage)
     yield put(getStageSuccess(response?.data))
+    if (transition) {
+      yield transition()
+    }
   } catch (error) {
     yield put(getStageFail(error))
     yield put(responseError(error.response))
@@ -28,7 +31,7 @@ function* fetchStage({ payload: stage }) {
       })
     )
   }
-  yield put(toggleRefresh(false))
+  yield put(toggleScreen(false))
 }
 
 function* stagesSaga() {

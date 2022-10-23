@@ -29,8 +29,9 @@ const MoreSrc = memo(() => {
   const { t } = useTranslation(['more', 'payment', 'common'])
   const reduxDispatch = useDispatch()
 
-  const { auth } = useSelector((state: any) => ({
-    auth: state.Login.auth
+  const { auth, userProfile } = useSelector((state: any) => ({
+    auth: state.Login.auth,
+    userProfile: state.UserProfile.userProfile
   }))
 
   const DATA_DETAILS: ButtonOptionalProps[] = [
@@ -75,11 +76,11 @@ const MoreSrc = memo(() => {
     <Container style={styles.container}>
       <Content padder contentContainerStyle={styles.content}>
         <HeaderMoreOption
-          name={'Edith Johnson'}
-          avatar={Images.avatar2}
-          email={'lehieuds@gmail.com'}
+          name={userProfile?.user_profile.full_name}
+          avatar={Images.tokenMamo}
+          email={userProfile.email}
         />
-        <View style={styles.details}>
+        {/* <View style={styles.details}>
           <Text category='h6' bold>
             {t('more:myDetails')}
           </Text>
@@ -94,11 +95,11 @@ const MoreSrc = memo(() => {
               />
             )
           })}
-        </View>
+        </View> */}
         <View style={styles.application}>
-          <Text category='h6' bold>
+          {/* <Text category='h6' bold>
             {t('more:application')}
-          </Text>
+          </Text> */}
           <ButtonOptional
             title={t('more:logout')}
             icon={'changeJob'}

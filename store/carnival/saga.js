@@ -7,13 +7,17 @@ import { GET_CARNIVAL } from './actionTypes'
 import {
   getCarnivalSuccess,
   getCarnivalFail,
-  responseError
+  responseError,
+  toggleScreen
 } from 'store/actions'
 
 function* fetchCarnival({ payload: carnival }) {
   try {
     const response = yield call(getCarnival)
     yield put(getCarnivalSuccess(response?.data))
+    if (response) {
+      yield put(toggleScreen(false))
+    }
   } catch (error) {
     yield put(getCarnivalFail(error))
     yield put(responseError(error.response))

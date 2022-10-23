@@ -19,6 +19,7 @@ import StageCamp from './stage_camp/reducer'
 import UserStageSchedule from './user_stage_schedule/reducer'
 import Province from './province/reducer'
 import City from './city/reducer'
+import Reward from './reward/reducer'
 
 const rootReducer = combineReducers({
   Loading,
@@ -33,7 +34,8 @@ const rootReducer = combineReducers({
   StageCamp,
   UserStageSchedule,
   Province,
-  City
+  City,
+  Reward
 })
 
 export default rootReducer

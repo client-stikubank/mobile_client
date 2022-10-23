@@ -1,7 +1,7 @@
 import {
   GET_CARNIVAL,
-  GET_CARNIVAL_FAIL,
-  GET_CARNIVAL_SUCCESS
+  GET_CARNIVAL_SUCCESS,
+  GET_CARNIVAL_FAIL
 } from './actionTypes'
 
 export const getCarnival = carnival => ({

@@ -13,6 +13,7 @@ import StageCampSaga from './stage_camp/saga'
 import UserStageScheduleSaga from './user_stage_schedule/saga'
 import ProvinceSaga from './province/saga'
 import CitySaga from './city/saga'
+import RewardSaga from './reward/saga'
 
 export default function* rootSaga() {
   yield all([
@@ -28,6 +29,7 @@ export default function* rootSaga() {
     fork(StageCampSaga),
     fork(UserStageScheduleSaga),
     fork(ProvinceSaga),
-    fork(CitySaga)
+    fork(CitySaga),
+    fork(RewardSaga)
   ])
 }

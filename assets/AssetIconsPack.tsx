@@ -107,6 +107,7 @@ const AssetIconsPack: IconPack<ImageProps | SvgProps> = {
     home: createIcon(Icons.home),
     rateFull: createIcon(Icons.rateFull),
     hourlyRate: createIcon(Icons.hourlyRate),
+    hourlyRateActive: createIcon(Icons.hourlyRate),
     carePro: createIcon(Icons.carePro),
     edit: createIcon(Icons.edit),
     searchHistory: createIcon(Icons.searchHistory),

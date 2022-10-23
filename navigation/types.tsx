@@ -49,11 +49,11 @@ export type CreateJobStackParamList = {
   CreatePostDetails: undefined
 }
 export type MainBottomTabStackParamList = {
-  Home: undefined
+  Beranda: undefined
   Find: undefined
-  Messages: undefined
-  Requests: NavigatorScreenParams<RequestsBottomStackParamList>
-  More: NavigatorScreenParams<MoreStackParamList>
+  Reward: undefined
+  Aktivitas: NavigatorScreenParams<RequestsBottomStackParamList>
+  Pengaturan: NavigatorScreenParams<MoreStackParamList>
 }
 export type AuthStackParamList = {
   Login: undefined
@@ -97,11 +97,11 @@ export type HomeStackParamList = {
   HomeSrc: undefined
   MyFavorites: undefined
   CampDetail: undefined
+  EditProfile: undefined
 }
 export type MoreStackParamList = {
   MoreSrc: undefined
   MyPost: undefined
-  EditProfile: undefined
   PaymentMethod: undefined
   MyChildren: undefined
   ProfileSrc: undefined

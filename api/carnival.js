@@ -11,3 +11,31 @@ export const getCarnival = async () => {
     }
   })
 }
+
+export const confirmActiveCamp = async () => {
+  const { credential } = await authSessionCheck()
+
+  return post(
+    url.ACTIVE_CAMP + '/confirm',
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${credential?.access_token}`
+      }
+    }
+  )
+}
+
+export const claimActiveCamp = async () => {
+  const { credential } = await authSessionCheck()
+
+  return post(
+    url.ACTIVE_CAMP + '/claim',
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${credential?.access_token}`
+      }
+    }
+  )
+}

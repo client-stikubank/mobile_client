@@ -1,15 +1,15 @@
 import React from 'react'
 import { ImageBackground, Image, StyleProp, ImageStyle } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { useTheme, StyleService, useStyleSheet } from '@ui-kitten/components'
+import { isEmpty } from 'lodash'
 
 import { homeDisplay } from 'store/actions'
 import { Images } from 'assets/images'
 import Text from 'components/Text'
 import Flex from 'components/Flex'
-import NavigationAction from 'components/NavigationAction'
 import { RootStackParamList } from 'navigation/types'
 import { globalStyle } from 'styles/globalStyle'
 
@@ -19,6 +19,10 @@ const HeaderHome = () => {
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['home', 'common'])
+
+  const { userProfile } = useSelector((state: any) => ({
+    userProfile: state.UserProfile.userProfile
+  }))
 
   const _onInviteAndWin = () => navigate('InviteAndWin')
 
@@ -87,7 +91,7 @@ const HeaderHome = () => {
             </Flex>
             <Flex style={[styles.tokenAmount, styles.tokenMamo]} itemsCenter>
               <Text category='h6' bold style={styles.tokenText}>
-                2
+                {!isEmpty(userProfile) ? userProfile.wallet_balance[0] : '-'}
               </Text>
             </Flex>
           </Flex>
@@ -100,7 +104,7 @@ const HeaderHome = () => {
             </Flex>
             <Flex style={[styles.tokenAmount, styles.tokenJenny]} itemsCenter>
               <Text category='h6' bold style={styles.tokenText}>
-                2
+                {!isEmpty(userProfile) ? userProfile.wallet_balance[1] : '-'}
               </Text>
             </Flex>
           </Flex>
@@ -113,7 +117,7 @@ const HeaderHome = () => {
             </Flex>
             <Flex style={[styles.tokenAmount, styles.tokenAle]} itemsCenter>
               <Text category='h6' bold style={styles.tokenText}>
-                2
+                {!isEmpty(userProfile) ? userProfile.wallet_balance[2] : '-'}
               </Text>
             </Flex>
           </Flex>
@@ -126,7 +130,7 @@ const HeaderHome = () => {
             </Flex>
             <Flex style={[styles.tokenAmount, styles.tokenBeryl]} itemsCenter>
               <Text category='h6' bold style={styles.tokenText}>
-                2
+                {!isEmpty(userProfile) ? userProfile.wallet_balance[3] : '-'}
               </Text>
             </Flex>
           </Flex>

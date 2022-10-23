@@ -1,10 +1,12 @@
 import React, { memo } from 'react'
-import { TouchableOpacity, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { TouchableOpacity, View, Alert } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
+import * as Linking from 'expo-linking'
 import {
   Avatar,
+  Button,
   Icon,
   Layout,
   StyleService,
@@ -13,13 +15,18 @@ import {
 import dayjs from 'dayjs'
 import 'dayjs/locale/id'
 
+import { confirmActiveCamp, claimActiveCamp } from 'api/carnival'
 import { Images } from 'assets/images'
 import Text from 'components/Text'
+import MonstaText from 'components/MonstaText'
 import Flex from 'components/Flex'
 import ButtonFill from 'components/ButtonFill'
 import useLayout from 'hooks/useLayout'
+import { getCarnival, getUserStageSchedules, toggleScreen } from 'store/actions'
+import { globalStyle } from 'styles/globalStyle'
 
-const ActiveCamp = memo(() => {
+const ActiveCamp = memo(({ campItem }: any) => {
+  const reduxDispatch = useDispatch()
   const styles = useStyleSheet(themedStyles)
   const { width } = useLayout()
   const { t } = useTranslation(['home', 'common'])
@@ -28,19 +35,67 @@ const ActiveCamp = memo(() => {
     carnival: state.Carnival.carnival
   }))
 
-  const { active_camp } = carnival
+  const active_camp = campItem ? campItem : carnival?.active_camp
   const { stage_camp, stage_camp_schedule } = active_camp
   const { camp, stage } = stage_camp
 
   const campStatus = () => {
-    switch (active_camp.status) {
-      case 'running':
-        return { class: 'info', text: 'SEDANG BERLANGSUNG' }
-      case 'finish':
-        return { class: 'success', text: 'SUDAH SELESAI' }
+    switch (stage_camp_schedule.status) {
+      case 'claim_time':
+        return {
+          class: 'success',
+          text:
+            active_camp.status === 'confirmed'
+              ? 'KLAIM HADIAH'
+              : 'SUDAH DI KLAIM'
+        }
+      case 'reminded':
+        return {
+          class: 'info',
+          text:
+            active_camp.status === 'pending' ? 'KONFIRMASI KEHADIRAN' : 'HADIR'
+        }
+      case 'completed':
+        return {
+          class: ['absent', 'rejected'].includes(active_camp.status)
+            ? 'danger'
+            : 'success',
+          text:
+            (active_camp.status === 'absent' && 'TIDAK HADIR') ||
+            (active_camp.status === 'rejected' && 'DIBATALKAN') ||
+            (active_camp.status === 'finish' && 'SELESAI')
+        }
       case 'pending':
       default:
-        return { class: 'warning', text: 'TERDAFTAR' }
+        return { class: 'warning', text: 'AKAN DATANG' }
+    }
+  }
+
+  const attendaceConfirmation = async () => {
+    Alert.alert('Konfirmasi Kehadiran', '', [
+      {
+        text: 'Tidak',
+        onPress: () => console.log('Cancel Pressed')
+      },
+      { text: 'Ya', onPress: () => confirm() }
+    ])
+  }
+
+  const confirm = async () => {
+    reduxDispatch(toggleScreen(true))
+    const res = await confirmActiveCamp()
+    if (res) {
+      reduxDispatch(getUserStageSchedules())
+      reduxDispatch(getCarnival())
+    }
+  }
+
+  const claim = async () => {
+    reduxDispatch(toggleScreen(true))
+    const res = await claimActiveCamp()
+    if (res) {
+      reduxDispatch(getUserStageSchedules())
+      reduxDispatch(getCarnival())
     }
   }
 
@@ -48,11 +103,11 @@ const ActiveCamp = memo(() => {
     <View style={styles.container}>
       <View style={styles.card}>
         <TouchableOpacity
-          activeOpacity={0.54}
+          activeOpacity={1}
           // onPress={onPress}
           style={{ width: width - 48 }}
         >
-          <Layout level={'2'} style={styles.content}>
+          <Layout level={'2'} style={[styles.content, globalStyle.shadow]}>
             <View>
               <Text category='h8' bold status={campStatus().class}>
                 {campStatus().text}
@@ -78,6 +133,45 @@ const ActiveCamp = memo(() => {
                     {`${stage_camp_schedule?.time_start} - ${stage_camp_schedule?.time_end}`}
                   </Text>
                 </Flex>
+                <Flex justify='flex-start' mt={8}>
+                  <MonstaText
+                    amount={camp?.reward_amount?.join('')}
+                    category='h8'
+                    radius={11}
+                  />
+                </Flex>
+                {stage_camp_schedule?.status === 'reminded' &&
+                  active_camp.status === 'confirmed' && (
+                    <Button
+                      status='outline'
+                      size='small'
+                      style={styles.buttonAction}
+                      onPress={() => Linking.openURL(stage_camp_schedule?.link)}
+                    >
+                      Link Meeting
+                    </Button>
+                  )}
+                {stage_camp_schedule?.status === 'reminded' &&
+                  active_camp.status === 'pending' && (
+                    <Button
+                      size='small'
+                      style={styles.buttonAction}
+                      onPress={attendaceConfirmation}
+                    >
+                      Konfirmasi Kehadiran
+                    </Button>
+                  )}
+
+                {stage_camp_schedule.status === 'claim_time' &&
+                  active_camp.status === 'confirmed' && (
+                    <Button
+                      size='small'
+                      style={styles.buttonAction}
+                      onPress={claim}
+                    >
+                      Klaim Monsta
+                    </Button>
+                  )}
               </Flex>
             </View>
             <Avatar
@@ -108,13 +202,11 @@ export default ActiveCamp
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1,
-    marginTop: 16
+    flex: 1
   },
   card: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 24
+    justifyContent: 'space-between'
   },
   dot: {
     width: 3,
@@ -127,7 +219,7 @@ const themedStyles = StyleService.create({
     borderRadius: 16,
     padding: 16,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between'
   },
   avatar: {
@@ -135,7 +227,7 @@ const themedStyles = StyleService.create({
   },
   zoomIcon: {
     position: 'absolute',
-    bottom: 16,
+    top: 72,
     right: 8
   },
   icon: {
@@ -143,5 +235,8 @@ const themedStyles = StyleService.create({
     height: 14,
     tintColor: 'color-basic-600',
     marginRight: 3
+  },
+  buttonAction: {
+    marginTop: 16
   }
 })
