@@ -83,52 +83,52 @@ const HeaderHome = () => {
           center
         >
           <Flex style={styles.token} vertical={true}>
-            <Flex style={styles.tokenBeryl}>
+            <Flex style={styles.tokenJenny}>
               <Image
                 source={Images.tokenBeryl}
                 style={styles.tokenImage as StyleProp<ImageStyle>}
               />
             </Flex>
-            <Flex style={[styles.tokenAmount, styles.tokenMamo]} itemsCenter>
+            <Flex style={[styles.tokenAmount, styles.tokenBeryl]} itemsCenter>
               <Text category='h6' bold style={styles.tokenText}>
                 {!isEmpty(userProfile) ? userProfile.wallet_balance[0] : '-'}
               </Text>
             </Flex>
           </Flex>
           <Flex style={styles.token} vertical={true}>
-            <Flex style={styles.tokenAle}>
+            <Flex style={styles.tokenBeryl}>
               <Image
                 source={Images.tokenAle}
                 style={styles.tokenImage as StyleProp<ImageStyle>}
               />
             </Flex>
-            <Flex style={[styles.tokenAmount, styles.tokenJenny]} itemsCenter>
+            <Flex style={[styles.tokenAmount, styles.tokenAle]} itemsCenter>
               <Text category='h6' bold style={styles.tokenText}>
                 {!isEmpty(userProfile) ? userProfile.wallet_balance[1] : '-'}
               </Text>
             </Flex>
           </Flex>
           <Flex style={styles.token} vertical={true}>
-            <Flex style={styles.tokenJenny}>
+            <Flex style={styles.tokenMamo}>
               <Image
                 source={Images.tokenJenny}
                 style={styles.tokenImage as StyleProp<ImageStyle>}
               />
             </Flex>
-            <Flex style={[styles.tokenAmount, styles.tokenAle]} itemsCenter>
+            <Flex style={[styles.tokenAmount, styles.tokenJenny]} itemsCenter>
               <Text category='h6' bold style={styles.tokenText}>
                 {!isEmpty(userProfile) ? userProfile.wallet_balance[2] : '-'}
               </Text>
             </Flex>
           </Flex>
           <Flex style={styles.token} vertical={true}>
-            <Flex style={styles.tokenMamo}>
+            <Flex style={styles.tokenAle}>
               <Image
                 source={Images.tokenMamo}
                 style={styles.tokenImage as StyleProp<ImageStyle>}
               />
             </Flex>
-            <Flex style={[styles.tokenAmount, styles.tokenBeryl]} itemsCenter>
+            <Flex style={[styles.tokenAmount, styles.tokenMamo]} itemsCenter>
               <Text category='h6' bold style={styles.tokenText}>
                 {!isEmpty(userProfile) ? userProfile.wallet_balance[3] : '-'}
               </Text>
@@ -154,9 +154,9 @@ const themedStyles = StyleService.create({
   tokens: {
     borderRadius: 32,
     overflow: 'hidden',
-    borderWidth: 0.5,
+    borderWidth: 6,
     borderStyle: 'solid',
-    borderColor: 'color-basic-600',
+    borderColor: 'color-carnival',
     marginTop: -16,
     top: 32 + 1
   },

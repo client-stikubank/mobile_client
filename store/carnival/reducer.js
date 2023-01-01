@@ -1,4 +1,8 @@
-import { GET_CARNIVAL_FAIL, GET_CARNIVAL_SUCCESS } from './actionTypes'
+import {
+  GET_CARNIVAL_FAIL,
+  GET_CARNIVAL_SUCCESS,
+  ASSIGN_PENDING_ASSESSMENT
+} from './actionTypes'
 import { fit } from 'helpers/response'
 
 const INIT_STATE = {
@@ -18,6 +22,16 @@ const carnivals = (state = INIT_STATE, action) => {
       return {
         ...state,
         error: action.payload
+      }
+
+    case ASSIGN_PENDING_ASSESSMENT:
+      return {
+        ...state,
+        carnival: {
+          ...state.carnival,
+          current_assessment_index: 1,
+          pending_assessment: fit(action.payload)
+        }
       }
 
     default:

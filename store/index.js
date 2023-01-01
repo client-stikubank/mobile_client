@@ -1,4 +1,4 @@
-import configureStore from './CreateStore'
+import configureStore from './createStore'
 import rootReducer from './reducers'
 import rootSaga from './sagas'
 

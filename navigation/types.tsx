@@ -20,6 +20,10 @@ export type RootStackParamList = {
   CampList: undefined
   CampSchedule: undefined
   CampDetail: undefined
+  Assessment: undefined
+  AssessmentAnswer: { isContinue: boolean }
+  AssessmentDetail: { firstTime: boolean; assessment?: any }
+  RedeemGift: { carnivalGift: any }
   ViewOnMap: undefined
   CaregiverProfile: undefined
   ProfileGallery: undefined
@@ -52,7 +56,7 @@ export type MainBottomTabStackParamList = {
   Beranda: undefined
   Find: undefined
   Reward: undefined
-  Aktivitas: NavigatorScreenParams<RequestsBottomStackParamList>
+  Aktivitas: NavigatorScreenParams<ActivitiesBottomNavigatorParamList>
   Pengaturan: NavigatorScreenParams<MoreStackParamList>
 }
 export type AuthStackParamList = {
@@ -77,8 +81,8 @@ export type MessagesStackParamList = {
   Chat: undefined
   VideoCall: undefined
 }
-export type RequestsBottomStackParamList = {
-  RequestsSrc: undefined
+export type ActivitiesBottomNavigatorParamList = {
+  Activities: undefined
   RequestsInPast: { requestType: Request_Type_Enum }
 }
 export type RequestsStackParamList = {
@@ -112,7 +116,7 @@ export type ModalScreenNavigationProp = RouteProp<
   'SuccessScr'
 >
 export type RequestsInPassScreenNavigationProp = RouteProp<
-  RequestsBottomStackParamList,
+  ActivitiesBottomNavigatorParamList,
   'RequestsInPast'
 >
 

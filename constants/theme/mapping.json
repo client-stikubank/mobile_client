@@ -58,7 +58,9 @@
     "size-small": 32,
     "size-medium": 40,
     "size-large": 48,
-    "size-giant": 56
+    "size-giant": 56,
+    "color-basic-800": "#151B54",
+    "color-mamo": "#FFC40C"
   },
   "components": {
     "Avatar": {
@@ -401,6 +403,9 @@
             "danger": {
               "default": false
             },
+            "gift": {
+              "default": false
+            },
             "twitter": {
               "default": false
             },
@@ -504,6 +509,34 @@
                   "hover": {
                     "borderColor": "color-success-hover-border",
                     "backgroundColor": "color-success-hover"
+                  },
+                  "active": {
+                    "borderColor": "button-outline-border",
+                    "backgroundColor": "button-outline-border",
+                    "textColor": "text-control-color"
+                  },
+                  "disabled": {
+                    "borderColor": "color-success-disabled-border",
+                    "backgroundColor": "color-success-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+              },
+              "gift": {
+                "borderColor": "transparent",
+                "backgroundColor": "color-mamo",
+                "textColor": "color-basic-800",
+                "iconTintColor": "button-outline-text",
+                "state": {
+                  "focused": {
+                    "borderColor": "button-outline-border",
+                    "backgroundColor": "color-success-focus"
+                  },
+                  "hover": {
+                    "borderColor": "color-success-hover-border",
+                    "backgroundColor": "color-mamo",
+                    "textColor": "color-basic-800"
                   },
                   "active": {
                     "borderColor": "button-outline-border",
@@ -5406,6 +5439,9 @@
             },
             "completed": {
               "default": false
+            },
+            "white": {
+              "default": false
             }
           }
         },
@@ -5516,6 +5552,9 @@
               },
               "control": {
                 "color": "text-control-color"
+              },
+              "white": {
+                "color": "#FFF"
               }
             }
           }

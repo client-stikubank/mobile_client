@@ -39,8 +39,6 @@ const EditProfile = memo(() => {
 
   const { user_profile } = userProfile
 
-  console.tron.log(user_profile)
-
   const {
     control,
     handleSubmit,

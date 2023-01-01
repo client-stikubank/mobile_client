@@ -17,7 +17,7 @@ import NavigationAction from 'components/NavigationAction'
 import CampItem from '../Components/CampItem'
 import { RefreshControl } from 'react-native'
 
-const CampList = memo(() => {
+const Assessment = memo(() => {
   const reduxDispatch = useDispatch()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['home', 'common'])
@@ -29,9 +29,9 @@ const CampList = memo(() => {
   }))
 
   const onRefresh = () => {
-    if (!isEmpty(stage)) {
-      reduxDispatch(getStage(stage))
-    }
+    // if (!isEmpty(stage)) {
+    //   reduxDispatch(getStage(stage))
+    // }
   }
 
   return (
@@ -65,7 +65,7 @@ const CampList = memo(() => {
   )
 })
 
-export default CampList
+export default Assessment
 
 const themedStyles = StyleService.create({
   container: {

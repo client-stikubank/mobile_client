@@ -27,7 +27,7 @@ const MonstaText = ({ amount, category = 'h9', radius = 8 }: MonstaProps) => {
       ]}
       style={[styles.tokenAmount, { borderRadius: radius }]}
     >
-      <Text category={category} style={styles.tokenAmountText}>
+      <Text category={category} center style={styles.tokenAmountText}>
         {amount} Monsta
       </Text>
     </LinearGradient>

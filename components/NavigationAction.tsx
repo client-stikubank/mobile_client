@@ -1,30 +1,30 @@
-import React, {memo} from 'react';
+import React, { memo } from 'react'
 import {
   ColorValue,
   StyleProp,
   StyleSheet,
   TouchableOpacity,
-  ViewStyle,
-} from 'react-native';
-import {useTheme, Icon, TopNavigationAction} from '@ui-kitten/components';
-import {useNavigation} from '@react-navigation/native';
+  ViewStyle
+} from 'react-native'
+import { useTheme, Icon, TopNavigationAction } from '@ui-kitten/components'
+import { useNavigation } from '@react-navigation/native'
 
-import Text from './Text';
+import Text from './Text'
 
-import {EvaStatus} from '@ui-kitten/components/devsupport';
+import { EvaStatus } from '@ui-kitten/components/devsupport'
 
 interface NavigationActionProps {
-  icon?: string;
-  marginTop?: number;
-  marginBottom?: number;
-  marginLeft?: number;
-  marginRight?: number;
-  marginHorizontal?: number;
-  marginVertical?: number;
-  backgroundColor?: string | ColorValue;
-  onPress?: () => void;
-  title?: string;
-  titleStatus?: EvaStatus | 'body' | 'white';
+  icon?: string
+  marginTop?: number
+  marginBottom?: number
+  marginLeft?: number
+  marginRight?: number
+  marginHorizontal?: number
+  marginVertical?: number
+  backgroundColor?: string | ColorValue
+  onPress?: () => void
+  title?: string
+  titleStatus?: EvaStatus | 'body' | 'white'
   status?:
     | 'basic'
     | 'primary'
@@ -33,10 +33,10 @@ interface NavigationActionProps {
     | 'opacity'
     | 'secondary'
     | 'white'
-    | 'facebook';
-  size?: 'giant' | 'large' | 'medium' | 'small'; // giant-58-icon-24 large-48-icon-24  medium-40-icon-24  small-32-icon-16
-  disabled?: boolean;
-  style?: StyleProp<ViewStyle>;
+    | 'facebook'
+  size?: 'giant' | 'large' | 'medium' | 'small' // giant-58-icon-24 large-48-icon-24  medium-40-icon-24  small-32-icon-16
+  disabled?: boolean
+  style?: StyleProp<ViewStyle>
 }
 
 const NavigationAction = memo(
@@ -55,18 +55,18 @@ const NavigationAction = memo(
     titleStatus,
     disabled,
     backgroundColor,
-    style,
+    style
   }: NavigationActionProps) => {
-    const themes = useTheme();
+    const themes = useTheme()
 
-    const {goBack} = useNavigation();
+    const { goBack } = useNavigation()
     const _onPress = React.useCallback(() => {
       if (onPress) {
-        onPress && onPress();
+        onPress && onPress()
       } else {
-        goBack();
+        goBack()
       }
-    }, [onPress, goBack]);
+    }, [onPress, goBack])
 
     const getIconColor = (
       status:
@@ -77,85 +77,86 @@ const NavigationAction = memo(
         | 'opacity'
         | 'secondary'
         | 'facebook'
-        | 'white',
+        | 'white'
     ): string => {
       switch (status) {
         case 'basic':
-          return themes['icon-basic-color'];
+          return themes['icon-basic-color']
         case 'primary':
-          return themes['color-primary-100'];
+          return themes['color-primary-100']
         case 'snow':
-          return themes['text-snow-color'];
+          return themes['text-snow-color']
         case 'blue':
-          return themes['text-blue-color'];
+          return themes['text-blue-color']
         case 'opacity':
-          return themes['color-basic-200'];
+          return themes['color-basic-200']
         case 'secondary':
-          return themes['color-basic-700'];
+          return themes['color-basic-700']
         case 'facebook':
-          return themes['text-link-color'];
+          return themes['text-link-color']
         case 'white':
-          return themes['text-primary-color'];
+          return themes['text-primary-color']
         default:
-          return themes['color-primary-100'];
+          return themes['color-primary-100']
       }
-    };
+    }
 
     const getSize = (size: 'giant' | 'large' | 'medium' | 'small'): number => {
       switch (size) {
         case 'giant':
-          return 58;
+          return 58
         case 'large':
-          return 48;
+          return 48
         case 'medium':
-          return 40;
+          return 40
         case 'small':
-          return 32;
+          return 32
         default:
-          return 24;
+          return 24
       }
-    };
+    }
 
     const getSizeIcon = (
-      size: 'giant' | 'large' | 'medium' | 'small',
+      size: 'giant' | 'large' | 'medium' | 'small'
     ): number => {
       switch (size) {
         case 'giant':
-          return 24;
+          return 24
         case 'large':
-          return 20;
+          return 20
         case 'medium':
-          return 20;
+          return 20
         case 'small':
-          return 16;
+          return 16
         default:
-          return 24;
+          return 24
       }
-    };
+    }
 
     const getBorderRadius = (
-      size: 'giant' | 'large' | 'medium' | 'small',
+      size: 'giant' | 'large' | 'medium' | 'small'
     ): number => {
       switch (size) {
         case 'giant':
-          return 12;
+          return 12
         case 'large':
-          return 12;
+          return 12
         case 'medium':
-          return 12;
+          return 12
         case 'small':
-          return 8;
+          return 8
         default:
-          return 12;
+          return 12
       }
-    };
+    }
 
     return title ? (
       <TouchableOpacity
         disabled={disabled}
         activeOpacity={0.7}
-        onPress={_onPress}>
-        <Text category="h6" status={titleStatus}>
+        onPress={_onPress}
+      >
+        <Text category='h6' status={titleStatus}>
           {title}
         </Text>
       </TouchableOpacity>
@@ -177,33 +178,33 @@ const NavigationAction = memo(
             height: getSize(size),
             width: getSize(size),
             borderRadius: getBorderRadius(size),
-            backgroundColor: backgroundColor,
-          },
+            backgroundColor: backgroundColor
+          }
         ]}
         icon={props => (
           <Icon
             {...props}
-            pack="assets"
+            pack='assets'
             name={icon || 'back'}
             style={[
               {
                 height: getSizeIcon(size),
-                width: getSizeIcon(size),
+                width: getSizeIcon(size)
               },
-              {tintColor: getIconColor(status)},
+              { tintColor: getIconColor(status) }
             ]}
           />
         )}
       />
-    );
-  },
-);
+    )
+  }
+)
 
-export default NavigationAction;
+export default NavigationAction
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+    alignItems: 'center'
+  }
+})

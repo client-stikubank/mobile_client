@@ -20,6 +20,10 @@ import UserStageSchedule from './user_stage_schedule/reducer'
 import Province from './province/reducer'
 import City from './city/reducer'
 import Reward from './reward/reducer'
+import CarnivalGift from './carnival_gift/reducer'
+import UserCarnivalGift from './user_carnival_gift/reducer'
+import Assessment from './assessment/reducer'
+import AssessmentAnswer from './assessment_answer/reducer'
 
 const rootReducer = combineReducers({
   Loading,
@@ -35,7 +39,11 @@ const rootReducer = combineReducers({
   UserStageSchedule,
   Province,
   City,
-  Reward
+  Reward,
+  CarnivalGift,
+  UserCarnivalGift,
+  Assessment,
+  AssessmentAnswer
 })
 
 export default rootReducer

@@ -1,8 +1,7 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect } from 'react'
 import { View } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   useTheme,
   useStyleSheet,
@@ -12,21 +11,14 @@ import {
 
 import Text from 'components/Text'
 import useLayout from 'hooks/useLayout'
-import useModal from 'hooks/useModal'
-import { authSessionCheck } from 'lib/Session'
 import { globalStyle } from 'styles/globalStyle'
-import { getRewards, getUserProfile } from 'store/actions'
+import { getUserProfile, homeDisplay } from 'store/actions'
+import Activities from 'src/activities'
+import Reward from 'src/reward'
 
 import { MainBottomTabStackParamList } from './types'
 import MoreNavigator from './MoreNavigator'
 import HomeStackNavigator from './HomeStackNavigator'
-
-import ModalRequest from 'components/ModalRequest'
-import { Images } from 'assets/images'
-import HomeSrc from 'src/home/HomeSrc'
-import FindScreen from 'src/find/FindScreen'
-import MessagesScreen from 'src/messages/MessagesScreen'
-import RequestsBottomNavigator from './RequestsBottomNavigator'
 
 interface ButtonTabProps {
   focused: boolean
@@ -41,7 +33,6 @@ const MainBottomTab = memo(() => {
   const reduxDispatch = useDispatch()
   const theme = useTheme()
   const { height, bottom } = useLayout()
-  const { modalRef, show, hide } = useModal()
   const styles = useStyleSheet(themedStyles)
 
   useEffect(() => {
@@ -50,16 +41,6 @@ const MainBottomTab = memo(() => {
 
   const ButtonTab = React.useCallback(
     ({ focused, icon, numberNotification }: ButtonTabProps) => {
-      React.useEffect(() => {
-        if (focused && icon == 'bookmark') {
-          setTimeout(() => {
-            modalRef.current?.show()
-          }, 1200)
-          clearTimeout
-        } else {
-          modalRef.current?.hide()
-        }
-      }, [focused])
       return (
         <View
           style={{
@@ -91,7 +72,7 @@ const MainBottomTab = memo(() => {
         </View>
       )
     },
-    [modalRef]
+    []
   )
 
   return (
@@ -120,28 +101,13 @@ const MainBottomTab = memo(() => {
               />
             )
           }}
-        />
-        {/* <BottomTab.Screen
-          name="Find"
-          component={FindScreen}
-          options={{
-            tabBarIcon: ({focused}) => (
-              <ButtonTab
-                focused={focused}
-                icon="search"
-                numberNotification={undefined}
-              />
-            ),
+          listeners={{
+            tabPress: () => reduxDispatch(homeDisplay('carnival'))
           }}
-        /> */}
+        />
         <BottomTab.Screen
           name='Reward'
-          component={MessagesScreen}
-          listeners={{
-            tabPress: e => {
-              reduxDispatch(getRewards())
-            }
-          }}
+          component={Reward}
           options={{
             tabBarIcon: ({ focused }) => (
               <ButtonTab focused={focused} icon='hourlyRate' />
@@ -150,14 +116,10 @@ const MainBottomTab = memo(() => {
         />
         <BottomTab.Screen
           name='Aktivitas'
-          component={RequestsBottomNavigator}
+          component={Activities}
           options={{
             tabBarIcon: ({ focused }) => (
-              <ButtonTab
-                focused={focused}
-                icon='calendar'
-                numberNotification={undefined}
-              />
+              <ButtonTab focused={focused} icon='calendar' />
             )
           }}
         />
@@ -171,14 +133,6 @@ const MainBottomTab = memo(() => {
           }}
         />
       </BottomTab.Navigator>
-      {/* Modal request job notification*/}
-      {/* <ModalRequest
-        name={'Marian Ramsey'}
-        ref={modalRef}
-        avatar={Images.avatar3}
-        isOnl={true}
-        onDetails={hide}
-      /> */}
     </View>
   )
 })

@@ -47,7 +47,7 @@ export interface MyTextProps extends TextProps {
   bold?: boolean
   italic?: boolean
 }
-const getLineHeight = (
+const getLineHeight: any = (
   category:
     | 'h1'
     | 'h2'

@@ -1,4 +1,4 @@
-import _, { omit, forEach, isArray, isPlainObject, map } from 'lodash'
+import { omit, forEach, isArray, isPlainObject, map } from 'lodash'
 
 export const fit = data => {
   return {
@@ -12,7 +12,13 @@ const mergeAttributes = attributes => {
 
   forEach(attributes, (value, key) => {
     if (key === 'image') {
-      value = value.url ? process.env.BACKEND_API_URL + value.url : null
+      if (value.url) {
+        value = value.url.includes('https://')
+          ? value.url
+          : process.env.BACKEND_API_URL + value.url
+      } else {
+        value = null
+      }
     }
 
     if (key === 'first_name') {
@@ -34,4 +40,14 @@ const mergeAttributes = attributes => {
   })
 
   return result
+}
+
+export const transpose = (firstArray, secondArray) => {
+  let results = []
+
+  forEach(firstArray, (firstArr, index) =>
+    results.push(firstArr - secondArray[index])
+  )
+
+  return results
 }

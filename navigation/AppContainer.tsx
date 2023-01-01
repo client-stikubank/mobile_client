@@ -27,6 +27,10 @@ import ViewOnMap from 'src/find/ViewOnMap'
 import AddMorePayment from 'src/more/AddMorePayment/AddMorePayment'
 import CampList from 'src/home/CampList'
 import CampSchedule from 'src/home/CampSchedule'
+import Assessment from 'src/home/Assessment'
+import AssessmentAnswer from 'src/home/AssessmentAnswer'
+import AssessmentDetail from 'src/home/AssessmentDetail'
+import RedeemGift from 'src/home/RedeemGift'
 import CaregiverPostDetails from 'src/more/CaregiverPostDetails'
 import AddChild from 'src/more/MyChildren/AddChild'
 
@@ -81,7 +85,7 @@ const AppContainer = () => {
         <Stack.Screen name='Intro' component={Onboarding} />
         <Stack.Screen name='AuthStack' component={AuthNavigator} />
 
-        <Stack.Screen name='FavoritesFilter' component={FavoritesFilter} />
+        {/* <Stack.Screen name='FavoritesFilter' component={FavoritesFilter} /> */}
         <Stack.Screen name='SelectLanguage' component={SelectLanguage} />
         <Stack.Screen name='FavoritesMap' component={FavoritesMap} />
         <Stack.Screen name='Notification' component={Notification} />
@@ -90,6 +94,16 @@ const AppContainer = () => {
         <Stack.Screen name='EditProfile' component={EditProfile} />
         <Stack.Screen name='CampList' component={CampList} />
         <Stack.Screen name='CampSchedule' component={CampSchedule} />
+        <Stack.Screen name='Assessment' component={Assessment} />
+        <Stack.Screen
+          name='AssessmentAnswer'
+          component={AssessmentAnswer}
+          options={{
+            headerLeft: () => null
+          }}
+        />
+        <Stack.Screen name='AssessmentDetail' component={AssessmentDetail} />
+        <Stack.Screen name='RedeemGift' component={RedeemGift} />
         <Stack.Screen name='ViewOnMap' component={ViewOnMap} />
         <Stack.Screen name='CaregiverProfile' component={CaregiverProfile} />
         <Stack.Screen name='ProfileGallery' component={ProfileGallery} />

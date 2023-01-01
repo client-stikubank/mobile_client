@@ -3,6 +3,7 @@ import React, { memo } from 'react'
 import HomeSrc from 'src/home/HomeSrc'
 import MyFavorites from 'src/home/MyFavorites'
 import CampDetail from 'src/home/CampDetail'
+import RedeemGift from 'src/home/RedeemGift'
 import { HomeStackParamList } from './types'
 
 const Stack = createStackNavigator<HomeStackParamList>()

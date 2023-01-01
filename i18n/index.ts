@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ms'
 
+import activities from 'i18n/language/en/activities.json'
 import auth from 'i18n/language/en/auth.json'
 import intro from 'i18n/language/en/intro.json'
 import success from 'i18n/language/en/success.json'
@@ -11,7 +12,7 @@ import filter from 'i18n/language/en/filter.json'
 import common from 'i18n/language/en/common.json'
 import notification from 'i18n/language/en/notification.json'
 import invite_and_win from 'i18n/language/en/invite_and_win.json'
-import message from 'i18n/language/en/message.json'
+import reward from 'i18n/language/en/reward.json'
 import request from 'i18n/language/en/request.json'
 import find from 'i18n/language/en/find.json'
 import creat_job from 'i18n/language/en/create_job.json'
@@ -24,6 +25,7 @@ declare module 'react-i18next' {
   interface CustomTypeOptions {
     defaultNS: 'common'
     resources: {
+      activities: typeof activities
       intro: typeof intro
       common: typeof common
       auth: typeof auth
@@ -32,7 +34,7 @@ declare module 'react-i18next' {
       filter: typeof filter
       notification: typeof notification
       invite_and_win: typeof invite_and_win
-      message: typeof message
+      reward: typeof reward
       request: typeof request
       creat_job: typeof creat_job
       find: typeof find
@@ -44,6 +46,7 @@ declare module 'react-i18next' {
 
 export const resources = {
   en: {
+    activities,
     intro,
     common,
     auth,
@@ -52,7 +55,7 @@ export const resources = {
     filter,
     notification,
     invite_and_win,
-    message,
+    reward,
     find,
     creat_job,
     request,

@@ -7,6 +7,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { useTheme, StyleService, useStyleSheet } from '@ui-kitten/components'
 import { isEmpty } from 'lodash'
 
+import { getStage, getAssessments } from 'store/actions'
 import useLayout from 'hooks/useLayout'
 import { Images } from 'assets/images'
 import Text from 'components/Text'
@@ -14,12 +15,11 @@ import Flex from 'components/Flex'
 import Content from 'components/Content'
 
 import MonstaText from 'components/MonstaText'
-import NavigationAction from 'components/NavigationAction'
 import { RootStackParamList } from 'navigation/types'
-import { getStage, getCarnival } from 'store/actions'
 import { globalStyle } from 'styles/globalStyle'
 
 import ActiveCamp from './ActiveCamp'
+import GiftList from './GiftList'
 
 const Carnival = memo(() => {
   const reduxDispatch = useDispatch()
@@ -29,10 +29,13 @@ const Carnival = memo(() => {
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['home', 'common'])
 
-  const { carnival, refresh } = useSelector((state: any) => ({
+  const { carnival, assessments } = useSelector((state: any) => ({
     carnival: state.Carnival.carnival,
-    refresh: state.Loading.refresh
+    assessments: state.Assessment.assessments
   }))
+
+  const _onAssessment = () =>
+    reduxDispatch(getAssessments(() => navigate('Assessment')))
 
   const _onCampList = (stage: object) => {
     reduxDispatch(getStage(stage, () => navigate('CampList')))
@@ -47,7 +50,7 @@ const Carnival = memo(() => {
       )}
       <View style={styles.carnivalContainer}>
         <Image source={Images.carnivalTemplate} width={width} />
-        <Flex onPress={() => {}} style={styles.startMapping}>
+        <Flex onPress={_onAssessment} style={styles.startMapping}>
           <Text category='h5' uppercase bold style={styles.startText}>
             Start
           </Text>
@@ -80,6 +83,7 @@ const Carnival = memo(() => {
           </Text>
         </Flex>
       </View>
+      <GiftList />
     </Content>
   )
 })
