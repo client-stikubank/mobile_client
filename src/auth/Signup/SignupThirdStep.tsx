@@ -13,6 +13,7 @@ import {
   Layout,
   Button
 } from '@ui-kitten/components'
+import { capitalize } from 'lodash'
 
 import Text from 'components/Text'
 import Content from 'components/Content'
@@ -20,7 +21,7 @@ import Container from 'components/Container'
 import DatepickerField from 'components/DatepickerField'
 import NavigationAction from 'components/NavigationAction'
 import SelectPicker from 'components/SelectPicker'
-import { submitDate, toDate } from 'helpers/date'
+import { submitDate } from 'helpers/date'
 import { RootStackParamList } from 'navigation/types'
 import {
   collectRegister,
@@ -34,7 +35,7 @@ const SignupThirdStep = memo(() => {
   const reduxDispatch = useDispatch()
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
   const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['auth', 'success', 'common'])
+  const { t } = useTranslation(['auth', 'success'])
 
   const { form, provinces, cities } = useSelector((state: any) => ({
     form: state.Register.form,
@@ -49,18 +50,18 @@ const SignupThirdStep = memo(() => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      first_name: form?.user_profile ? form.user_profile.first_name : null,
-      last_name: form?.user_profile ? form.user_profile.last_name : null,
-      phone_number: form?.user_profile ? form.user_profile.phone_number : null,
-      birth_date: toDate(form.user_profile?.birth_date),
-      province_id: form?.user_profile ? form.user_profile.province_id : null,
-      city_id: form?.user_profile ? form.user_profile.city_id : null,
-      reffering_code: form.reffering_code
+      first_name: '',
+      last_name: '',
+      phone_number: '',
+      birth_date: '',
+      province_id: '',
+      city_id: '',
+      reffering_code: ''
     }
   })
 
   useEffect(() => {
-    reduxDispatch(getProvinces({}))
+    reduxDispatch(getProvinces())
   }, [])
 
   useEffect(() => {
@@ -94,12 +95,12 @@ const SignupThirdStep = memo(() => {
       register(sendData, () =>
         navigate('SuccessScr', {
           successScr: {
-            title: t('success:title_2'),
+            title: t('success:register'),
             logo: true,
-            description: t('success:description_2'),
-            children: [
+            description: t('success:register_description'),
+            actions: [
               {
-                title: t('success:lets_go'),
+                title: t('success:lets_go_button'),
                 onPress: () => navigate('MainBottomTab'),
                 status: 'basic'
               }
@@ -126,12 +127,9 @@ const SignupThirdStep = memo(() => {
       >
         <View>
           <Content padder>
-            <Text mt={16}>{t('auth:heading_signup_3')}</Text>
+            <Text mt={16}>{t('auth:signup_3')}</Text>
             <Text mt={8} mb={16} category='h2'>
-              {t('auth:title_signup_3')}
-            </Text>
-            <Text mt={8} mb={48}>
-              {t('auth:description_signup_3')}
+              {t('auth:signup_3_description')}
             </Text>
             <Controller
               control={control}
@@ -142,7 +140,7 @@ const SignupThirdStep = memo(() => {
                   label={t('auth:first_name').toString()}
                   status={errors.first_name ? 'warning' : 'basic'}
                   style={styles.input}
-                  value={value}
+                  value={capitalize(value)}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   keyboardType='default'
@@ -209,7 +207,7 @@ const SignupThirdStep = memo(() => {
               rules={RuleRequired}
               render={({ field: { onChange, onBlur, value } }) => (
                 <SelectPicker
-                  label='Provinsi'
+                  label={t('auth:province')}
                   items={provinces}
                   onChange={onChange}
                   value={value || null}
@@ -225,7 +223,7 @@ const SignupThirdStep = memo(() => {
               rules={RuleRequired}
               render={({ field: { onChange, onBlur, value } }) => (
                 <SelectPicker
-                  label='Asal Kota'
+                  label={t('auth:city')}
                   items={cities}
                   onChange={onChange}
                   value={value || null}
@@ -243,7 +241,7 @@ const SignupThirdStep = memo(() => {
                   label={t('auth:reffering_code').toString()}
                   status={errors.reffering_code ? 'warning' : 'basic'}
                   style={styles.input}
-                  value={value}
+                  value={value.toUpperCase()}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   keyboardType='default'

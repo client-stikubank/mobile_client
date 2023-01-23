@@ -30,3 +30,17 @@ export const createUserCarnivalGifts = async carnivalGiftId => {
     }
   )
 }
+
+export const updateUserCarnivalGifts = async data => {
+  const { credential } = await authSessionCheck()
+
+  return put(
+    `${url.USER_CARNIVAL_GIFTS}/${data.id}`,
+    { user_carnival_gift: data },
+    {
+      headers: {
+        Authorization: `Bearer ${credential?.access_token}`
+      }
+    }
+  )
+}

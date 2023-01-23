@@ -1,10 +1,12 @@
 import { fit } from 'helpers/response'
-import { map } from 'lodash'
+import { map, filter } from 'lodash'
 import {
   GET_USER_CARNIVAL_GIFTS_SUCCESS,
   GET_USER_CARNIVAL_GIFTS_FAIL,
   CREATE_USER_CARNIVAL_GIFTS_SUCCESS,
-  CREATE_USER_CARNIVAL_GIFTS_FAIL
+  CREATE_USER_CARNIVAL_GIFTS_FAIL,
+  UPDATE_USER_CARNIVAL_GIFTS_SUCCESS,
+  UPDATE_USER_CARNIVAL_GIFTS_FAIL
 } from './actionTypes'
 
 const INIT_STATE = {
@@ -23,10 +25,9 @@ const userCarnivalGifts = (state = INIT_STATE, action) => {
     case GET_USER_CARNIVAL_GIFTS_SUCCESS:
       return {
         ...state,
-        userCarnivalGifts: [
-          ...state.userCarnivalGifts,
-          ...map(action.payload, userCarnivalGift => fit(userCarnivalGift))
-        ],
+        userCarnivalGifts: map(action.payload, userCarnivalGift =>
+          fit(userCarnivalGift)
+        ),
         pagination: action.pagination,
         currentParams: action.params
       }
@@ -44,6 +45,31 @@ const userCarnivalGifts = (state = INIT_STATE, action) => {
       }
 
     case CREATE_USER_CARNIVAL_GIFTS_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      }
+
+    case UPDATE_USER_CARNIVAL_GIFTS_SUCCESS:
+      let userCarnivalGifts = []
+      if (action.payload.attributes.status === 'cancelled') {
+        userCarnivalGifts = filter(state.userCarnivalGifts, {
+          id: action.payload.id
+        })
+      } else {
+        userCarnivalGifts = map(state.userCarnivalGifts, userCarnivalGift =>
+          userCarnivalGift.id === action.payload.id
+            ? fit(action.payload)
+            : userCarnivalGift
+        )
+      }
+
+      return {
+        ...state,
+        userCarnivalGifts: userCarnivalGifts
+      }
+
+    case UPDATE_USER_CARNIVAL_GIFTS_FAIL:
       return {
         ...state,
         error: action.payload

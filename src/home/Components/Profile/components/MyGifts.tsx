@@ -1,63 +1,76 @@
-import React, { memo, useEffect } from 'react'
-import {
-  View,
-  StyleProp,
-  ImageStyle,
-  TouchableOpacity,
-  Image as ImageReact
-} from 'react-native'
+import React, { memo, useEffect, useState } from 'react'
+import { View, Image as ImageReact } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
 import {
   StyleService,
   useStyleSheet,
-  Layout,
-  Avatar,
-  Icon,
-  Button
+  Button,
+  Card,
+  Modal
 } from '@ui-kitten/components'
-import { isEmpty } from 'lodash'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Swiper from 'react-native-swiper'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 import { Images } from 'assets/images'
+import MonstaText from 'components/MonstaText'
 import Text from 'components/Text'
 import Flex from 'components/Flex'
 import LottieAnimation from 'components/LottieAnimation'
-import { defaultDate } from 'helpers/date'
 import { RootStackParamList } from 'navigation/types'
-import { getUserProfile, getUserCarnivalGifts } from 'store/actions'
+import {
+  getUserCarnivalGifts,
+  toggleModal,
+  updateUserCarnivalGifts
+} from 'store/actions'
 import { globalStyle } from 'styles/globalStyle'
 
-const Profile = memo(() => {
+interface ICarnivalGift {
+  id: string
+  gift: any
+}
+
+const MyGifts = memo(() => {
   const reduxDispatch = useDispatch()
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
   const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['home', 'common'])
+  const { t } = useTranslation(['home'])
 
-  const { userProfile, userCarnivalGifts, ucGiftPaginations, ucGiftParams } =
+  const [selectedGift, setSelectedGift] = useState<ICarnivalGift | undefined>(
+    undefined
+  )
+
+  const { userCarnivalGifts, ucGiftPaginations, ucGiftParams, modal } =
     useSelector((state: any) => ({
-      userProfile: state.UserProfile.userProfile,
       userCarnivalGifts: state.UserCarnivalGift.userCarnivalGifts,
       ucGiftPaginations: state.UserCarnivalGift.pagination,
-      ucGiftParams: state.UserCarnivalGift.currentParams
+      ucGiftParams: state.UserCarnivalGift.currentParams,
+      modal: state.Modal.modal
     }))
 
-  const { user_profile } = userProfile
-
   useEffect(() => {
-    reduxDispatch(getUserProfile())
-    reduxDispatch(getUserCarnivalGifts(ucGiftParams))
+    reduxDispatch(getUserCarnivalGifts())
   }, [])
 
-  const _onAdditionalProfile = () => navigate('AdditionalProfile')
-  const _onEditProfile = () => navigate('EditProfile')
+  const _toggleModal = (value: boolean) => {
+    reduxDispatch(toggleModal(value))
+  }
+
+  const _onSelect = (user_carnival_gift: any) => {
+    setSelectedGift(user_carnival_gift)
+    _toggleModal(true)
+  }
+
+  const _onCancel = () => {
+    setSelectedGift(undefined)
+    _toggleModal(false)
+  }
 
   const renderPagination = (index: number, total: number, context: Swiper) => {
     return (
       <Flex itemsCenter justify='center'>
-        <Text status='info' category='h7'>
+        <Text status='info' category='h7' mt={-100}>
           {index + 1}/{ucGiftPaginations.count}
         </Text>
       </Flex>
@@ -75,81 +88,26 @@ const Profile = memo(() => {
     }
   }
 
+  const cancelConfirmed = () => {
+    setSelectedGift(undefined)
+    reduxDispatch(toggleModal(false))
+    reduxDispatch(
+      updateUserCarnivalGifts(
+        {
+          id: selectedGift?.id,
+          status: 'cancelled'
+        },
+        () => {}
+      )
+    )
+  }
+
   return (
-    <View style={styles.carnivalContainer}>
-      <Text style={styles.subTitle} category='h6'>
-        I am
-      </Text>
-      <Layout level={'2'} style={styles.content}>
-        <TouchableOpacity onPress={_onEditProfile} style={styles.editAction}>
-          <Icon pack='assets' name='edit' style={styles.icon} />
-        </TouchableOpacity>
-        <Flex alignItems='flex-start' justify='flex-start'>
-          <Avatar
-            style={styles.avatar as StyleProp<ImageStyle>}
-            source={Images.tokenMamo}
-            size='giant'
-            shape='round'
-          />
-          <Flex vertical style={styles.profileItems}>
-            <Text category='h7' style={{ marginBottom: 8 }}>
-              {user_profile?.full_name}
-            </Text>
-            <Flex vertical style={styles.additionalItem}>
-              <Text category='h8'>Tanggal Lahir</Text>
-              <Text category='h8-s'>
-                {defaultDate(user_profile?.birth_date)}
-              </Text>
-            </Flex>
-            <Flex vertical style={styles.additionalItem}>
-              <Text category='h8'>Nomor HP</Text>
-              <Text category='h8-s'>{user_profile?.phone_number}</Text>
-            </Flex>
-            <Flex vertical style={styles.additionalItem}>
-              <Text category='h8'>Email</Text>
-              <Text category='h8-s'>{userProfile?.email}</Text>
-            </Flex>
-            <Flex vertical style={styles.additionalItem}>
-              <Text category='h8'>Asal Kota</Text>
-              <Text category='h8-s'>{user_profile?.city?.name}</Text>
-            </Flex>
-          </Flex>
-        </Flex>
-      </Layout>
-      {isEmpty(user_profile?.additional_info) ? (
-        <TouchableOpacity onPress={_onAdditionalProfile}>
-          <Text status={'info'} category='h8' bold mr={4}>
-            {t('home:fill_additional_profile_student')}
-          </Text>
-        </TouchableOpacity>
-      ) : (
-        <Layout level={'2'} style={styles.content}>
-          <TouchableOpacity
-            onPress={_onAdditionalProfile}
-            style={styles.editAction}
-          >
-            <Icon pack='assets' name='edit' style={styles.icon} />
-          </TouchableOpacity>
-          <View>
-            <Flex vertical style={styles.additionalItem}>
-              <Text category='h8'>Pendidikan</Text>
-              <Text category='h8-s'>
-                {user_profile?.additional_info.education_status_name}
-              </Text>
-            </Flex>
-            <Flex vertical>
-              <Text category='h8'>Sekolah</Text>
-              <Text category='h8-s'>
-                {user_profile?.additional_info.previous_school}
-              </Text>
-            </Flex>
-          </View>
-        </Layout>
-      )}
+    <View style={styles.myGiftsContainer}>
       <Text style={styles.subTitle} category='h6' mt={24}>
         My Kado
       </Text>
-      {userCarnivalGifts.length > 0 && (
+      {userCarnivalGifts.length > 0 ? (
         <Flex mh={-24}>
           <Swiper
             style={styles.swiper}
@@ -160,7 +118,7 @@ const Profile = memo(() => {
             {userCarnivalGifts.map((carnivalGift: any) => (
               <View style={styles.giftCardWrapper} key={carnivalGift.id}>
                 <View style={styles.giftCard}>
-                  {carnivalGift.status == 'paid' && (
+                  {carnivalGift.status === 'paid' && (
                     <Flex
                       style={styles.overlayOutStock}
                       justify='center'
@@ -200,52 +158,6 @@ const Profile = memo(() => {
                       resizeMode='contain'
                     />
                   </Flex>
-                  {/* <Flex justify='space-between'>
-                    <Button
-                      status='control'
-                      size='medium'
-                      style={{ width: '31.5%' }}
-                    >
-                      <Flex itemsCenter>
-                        <Ionicons name='qr-code' size={14} color='black' />
-                        <Text category='h8' ml={4}>
-                          Scan
-                        </Text>
-                      </Flex>
-                    </Button>
-                    <Button
-                      status='control'
-                      size='medium'
-                      style={{ width: '31.5%' }}
-                    >
-                      <Flex itemsCenter>
-                        <Ionicons
-                          name='remove-circle-outline'
-                          size={14}
-                          color='black'
-                        />
-                        <Text category='h8' ml={4}>
-                          Batal
-                        </Text>
-                      </Flex>
-                    </Button>
-                    <Button
-                      status='control'
-                      size='medium'
-                      style={{ width: '31.5%' }}
-                    >
-                      <Flex itemsCenter>
-                        <Ionicons
-                          name='remove-circle-outline'
-                          size={14}
-                          color='black'
-                        />
-                        <Text category='h8' ml={4}>
-                          Batal
-                        </Text>
-                      </Flex>
-                    </Button>
-                  </Flex> */}
                   <Flex
                     style={styles.tokens}
                     justify='center'
@@ -294,53 +206,110 @@ const Profile = memo(() => {
                     </Flex>
                   </Flex>
                 </View>
+                {carnivalGift.status === 'redeemed' && (
+                  <Flex justify='space-between' mt={16}>
+                    <Button
+                      status='control'
+                      size='medium'
+                      style={{ width: '31.5%' }}
+                      onPress={() =>
+                        navigate('GiftScanner', {
+                          userCarnivalGift: carnivalGift
+                        })
+                      }
+                    >
+                      <Flex itemsCenter>
+                        <Ionicons name='qr-code' size={14} color='black' />
+                        <Text category='h8' ml={4}>
+                          Scan
+                        </Text>
+                      </Flex>
+                    </Button>
+                    <Button
+                      status='control'
+                      size='medium'
+                      style={{ width: '31.5%' }}
+                      onPress={() => _onSelect(carnivalGift)}
+                    >
+                      <Flex itemsCenter>
+                        <Ionicons
+                          name='remove-circle-outline'
+                          size={14}
+                          color='black'
+                        />
+                        <Text category='h8' ml={4}>
+                          Batal
+                        </Text>
+                      </Flex>
+                    </Button>
+                  </Flex>
+                )}
               </View>
             ))}
           </Swiper>
+          {selectedGift && (
+            <Modal
+              backdropStyle={globalStyle.backdropStyle}
+              onBackdropPress={_onCancel}
+              visible={modal}
+            >
+              <Card
+                header={
+                  <View>
+                    <Text category='h6'>{selectedGift.gift.name}</Text>
+                  </View>
+                }
+                footer={
+                  <View>
+                    <Flex>
+                      <Button
+                        size='small'
+                        status='outline'
+                        style={styles.buttonModal}
+                        onPress={_onCancel}
+                      >
+                        Gak jadi
+                      </Button>
+                      <Button
+                        size='small'
+                        style={styles.buttonModal}
+                        onPress={cancelConfirmed}
+                      >
+                        Batalkan kado!
+                      </Button>
+                    </Flex>
+                  </View>
+                }
+              >
+                <Flex vertical alignItems='center' justify='center' mb={16}>
+                  <Text category='h8' mb={2}>
+                    MONSTA yang akan dikembalikan:
+                  </Text>
+                  <MonstaText
+                    amount={selectedGift.gift?.reward_amount?.join('')}
+                    category='h8'
+                    radius={11}
+                  />
+                </Flex>
+                <Text category='h8-s' center>
+                  Apakah kamu yakin ingin membatalkan kado ini?
+                </Text>
+              </Card>
+            </Modal>
+          )}
         </Flex>
+      ) : (
+        <Text mb={16}>Kamu belum memiliki satupun kado 🙁</Text>
       )}
     </View>
   )
 })
 
-export default Profile
+export default MyGifts
 
 const themedStyles = StyleService.create({
-  carnivalContainer: {
-    marginVertical: 16,
-    paddingHorizontal: 24
-  },
+  myGiftsContainer: {},
   subTitle: {
-    marginBottom: 8
-  },
-  content: {
-    position: 'relative',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    ...globalStyle.shadow
-  },
-  avatar: {
-    backgroundColor: 'color-mamo',
-    marginRight: 16,
-    width: '30%'
-  },
-  icon: {
-    width: 18,
-    height: 18
-  },
-  profileItems: {
-    width: '70%',
-    paddingRight: 16
-  },
-  editAction: {
-    position: 'absolute',
-    right: 16,
-    top: 16,
-    zIndex: 3,
-    elevation: 3
-  },
-  additionalItem: {
     marginBottom: 8
   },
   swiper: {
@@ -416,5 +385,8 @@ const themedStyles = StyleService.create({
     height: '109%',
     backgroundColor: 'rgba(29, 30, 44, 0.8)',
     zIndex: 1
+  },
+  buttonModal: {
+    marginHorizontal: 8
   }
 })

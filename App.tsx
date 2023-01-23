@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { StatusBar } from 'expo-status-bar'
+import { LogBox } from 'react-native'
 import 'react-native-gesture-handler'
 
 import AssetIconsPack from 'assets/AssetIconsPack'
@@ -29,6 +30,10 @@ declare global {
 }
 
 const store = createStore()
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state'
+])
 
 function App() {
   const [theme, setTheme] = React.useState<'light' | 'dark'>('light')

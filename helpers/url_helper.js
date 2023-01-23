@@ -3,6 +3,8 @@ export const POST_LOGOUT = '/users/oauth/revoke'
 
 export const POST_REGISTER = '/users/sign_up'
 
+export const RESET_PASSWORD = '/password/reset'
+
 export const USER_PROFILES = '/users/user_profiles'
 
 export const ACTIVE_CARNIVAL = '/api/v1/active_carnival'
@@ -13,6 +15,7 @@ export const USER_STAGE_SCHEDULES = '/api/v1/user_stage_schedules'
 
 export const DISPLAY_PROFILE = 'api/v1/display_profile'
 export const UPDATE_PROFILE = 'api/v1/update_profile'
+export const UPDATE_PASSWORD = 'api/v1/update_password'
 
 export const PROVINCES = 'api/v1/provinces'
 export const CITIES = 'api/v1/cities'

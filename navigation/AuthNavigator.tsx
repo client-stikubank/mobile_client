@@ -2,7 +2,7 @@ import React, { memo, useEffect } from 'react'
 import Toast from 'react-native-toast-message'
 
 import Login from 'src/auth/Login/Login'
-import ForgetPassword from 'src/auth/ForgetPassword'
+import ForgotPassword from 'src/auth/ForgotPassword'
 import SignupFirstStep from 'src/auth/Signup/SignupFirstStep'
 import SignupSecondStep from 'src/auth/Signup/SignupSecondStep'
 import SignupThirdStep from 'src/auth/Signup/SignupThirdStep'
@@ -33,7 +33,7 @@ const AuthNavigator = memo((props: any) => {
       <Stack.Screen name='SignupFirstStep' component={SignupFirstStep} />
       <Stack.Screen name='SignupSecondStep' component={SignupSecondStep} />
       <Stack.Screen name='SignupThirdStep' component={SignupThirdStep} />
-      <Stack.Screen name='ForgetPassword' component={ForgetPassword} />
+      <Stack.Screen name='ForgotPassword' component={ForgotPassword} />
       <Stack.Screen name='NewPassword' component={NewPassword} />
     </Stack.Navigator>
   )

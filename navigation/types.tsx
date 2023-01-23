@@ -17,6 +17,8 @@ export type RootStackParamList = {
   InviteAndWin: undefined
   AdditionalProfile: undefined
   EditProfile: undefined
+  EditAccount: undefined
+  GiftScanner: { userCarnivalGift: any }
   CampList: undefined
   CampSchedule: undefined
   CampDetail: undefined
@@ -64,8 +66,8 @@ export type AuthStackParamList = {
   SignupFirstStep: undefined
   SignupSecondStep: undefined
   SignupThirdStep: undefined
-  ForgetPassword: undefined
-  NewPassword: undefined
+  ForgotPassword: undefined
+  NewPassword: { email: 'string' }
 }
 export type NewJobStackParamList = {
   TypeOfCare: undefined
@@ -100,8 +102,8 @@ export type RequestsStackParamList = {
 export type HomeStackParamList = {
   HomeSrc: undefined
   MyFavorites: undefined
+  EditAccount: undefined
   CampDetail: undefined
-  EditProfile: undefined
 }
 export type MoreStackParamList = {
   MoreSrc: undefined

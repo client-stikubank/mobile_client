@@ -21,3 +21,13 @@ export const updateUserProfile = async data => {
     }
   })
 }
+
+export const updateNewPassword = async data => {
+  const { credential } = await authSessionCheck()
+
+  return put(url.UPDATE_PASSWORD, data, {
+    headers: {
+      Authorization: `Bearer ${credential?.access_token}`
+    }
+  })
+}

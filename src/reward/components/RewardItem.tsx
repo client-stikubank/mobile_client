@@ -13,6 +13,7 @@ import { Images } from 'assets/images'
 import Text from 'components/Text'
 import Flex from 'components/Flex'
 import { globalStyle } from 'styles/globalStyle'
+import { Ionicons } from '@expo/vector-icons'
 
 interface ItemProps {
   item: any
@@ -38,9 +39,41 @@ const RewardItem = memo(({ item, _onPress }: ItemProps) => {
 
   const rewardType = () => {
     switch (item.reward_type) {
+      case 'refferal':
+        return { text: 'Refferal', color: '#FFC40C' }
       case 'join_camp':
       default:
         return { text: 'Youthcamp', color: '#EE157F' }
+    }
+  }
+
+  const rewardContent = () => {
+    switch (item.reward_type) {
+      case 'refferal':
+        return (
+          <>
+            <Text category='h8-s'>
+              <Ionicons name='key' color='#EE157F' />{' '}
+              {item?.activitable.refferal_code}
+            </Text>
+            <Text category='h9-s'>
+              <Ionicons name='checkmark-circle-sharp' color='#0EAD69' />{' '}
+              {item?.activitable.user}
+            </Text>
+          </>
+        )
+      case 'join_camp':
+      default:
+        return (
+          <>
+            <Text category='h8-s'>
+              Level {item?.activitable.stage_camp.stage.level}
+            </Text>
+            <Text category='h9-s'>
+              {item?.activitable.stage_camp.camp.title}
+            </Text>
+          </>
+        )
     }
   }
 
@@ -62,12 +95,7 @@ const RewardItem = memo(({ item, _onPress }: ItemProps) => {
                 {rewardType().text}
               </Text>
             </View>
-            <Text category='h8-s'>
-              Level {item?.activitable.stage_camp.stage.level}
-            </Text>
-            <Text category='h9-s'>
-              {item?.activitable.stage_camp.camp.title}
-            </Text>
+            {rewardContent()}
             <Text category='h9' mt={4}>
               {dayjs(item?.updated_at)
                 .locale('id')

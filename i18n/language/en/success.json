@@ -1,12 +1,9 @@
 {
   "title": "Congrats!",
-  "description": "You have successfully change password. Please use the new password when logging in.",
-  "title_2": "Welcome to Youthcamp!",
-  "description_2": "Belajar dan bermain hanya di Youthcamp.\nKumpulkan MONSTA dan tukarkan dengan hadiah menarik.",
-  "lets_go": "Let's go!",
-  "see_your_dashboard": "See your dashboard",
-  "create_new_job": "Create new job",
-  "payment-successful": "Payment Successful!",
-  "payment-successful-title": "Thank you for your paying quickly! Payment information was sent to your email.",
-  "success_change_password": "You have successfully change password. Please use the new password when logging in."
+  "success_change_password": "Kamu berhasil mengganti kata sandi. Gunakan kata sandi baru untuk login ya!",
+  "register": "Welcome to Youthcamp!",
+  "register_description": "Belajar dan bermain hanya di Youthcamp.\nKumpulkan MONSTA dan tukarkan dengan hadiah menarik.",
+  "lets_go_button": "Yes, let's go!",
+  "gift_paid": "Selamat kamu telah kamu berhasil mendapatkan kado dari Youthcamp!",
+  "home_button": "Ke Beranda"
 }

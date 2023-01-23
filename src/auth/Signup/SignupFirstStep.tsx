@@ -23,15 +23,15 @@ import { globalStyle } from 'styles/globalStyle'
 
 const SignupFirstStep = memo(() => {
   const { navigate } = useNavigation<NavigationProp<AuthStackParamList>>()
-  const { t } = useTranslation(['auth', 'common'])
+  const { t } = useTranslation(['auth'])
   const { width } = useLayout()
   const theme = useTheme()
   const styles = useStyleSheet(themedStyles)
   const reduxDispatch = useDispatch()
   const ROLES = [
-    { name: 'student', title: t('auth:student'), icon: 'student' },
-    { name: 'guardian', title: t('auth:parent'), icon: 'parent' },
-    { name: 'teacher', title: t('auth:teacher'), icon: 'teacher' }
+    { name: 'student', title: t('auth:student'), icon: 'student' }
+    // { name: 'guardian', title: t('auth:parent'), icon: 'parent' },
+    // { name: 'teacher', title: t('auth:teacher'), icon: 'teacher' }
   ]
   const sizeBG = 120 * (width / 375)
   const [isChoose, setChoose] = useState({ name: '' })
@@ -64,9 +64,9 @@ const SignupFirstStep = memo(() => {
         accessoryLeft={<NavigationAction />}
       />
       <Content padder>
-        <Text mt={16}>{t('auth:heading_signup_1')}</Text>
-        <Text mt={8} mb={40} category='h2'>
-          {t('auth:title_signup_1')}
+        <Text mt={16}>{t('auth:signup_1')}</Text>
+        <Text mt={8} mb={32} category='h2'>
+          {t('auth:signup_1_description')}
         </Text>
         <View style={styles.content}>
           {ROLES.map((item, i) => {

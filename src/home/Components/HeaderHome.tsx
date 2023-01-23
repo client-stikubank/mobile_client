@@ -15,7 +15,6 @@ import { globalStyle } from 'styles/globalStyle'
 
 const HeaderHome = () => {
   const reduxDispatch = useDispatch()
-  const theme = useTheme()
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['home', 'common'])
@@ -45,7 +44,7 @@ const HeaderHome = () => {
             />
           </Flex>
 
-          <Flex mh={12} onPress={_onInviteAndWin} style={styles.button}>
+          {/* <Flex mh={12} onPress={_onInviteAndWin} style={styles.button}>
             <Image
               source={Images.buttonRanking}
               style={styles.buttonImage as StyleProp<ImageStyle>}
@@ -61,7 +60,7 @@ const HeaderHome = () => {
               source={Images.buttonQr}
               style={styles.buttonImage as StyleProp<ImageStyle>}
             />
-          </Flex>
+          </Flex> */}
 
           <Flex
             mh={12}

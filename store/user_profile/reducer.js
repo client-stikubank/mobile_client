@@ -3,7 +3,9 @@ import {
   GET_USER_PROFILE_FAIL,
   GET_USER_PROFILE_SUCCESS,
   UPDATE_USER_PROFILE_FAIL,
-  UPDATE_USER_PROFILE_SUCCESS
+  UPDATE_USER_PROFILE_SUCCESS,
+  UPDATE_NEW_PASSWORD_FAIL,
+  UPDATE_NEW_PASSWORD_SUCCESS
 } from './actionTypes'
 
 const INIT_STATE = {
@@ -34,6 +36,18 @@ const userProfiles = (state = INIT_STATE, action) => {
       }
 
     case UPDATE_USER_PROFILE_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      }
+
+    case UPDATE_NEW_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        lastSubmitAt: Date.now()
+      }
+
+    case UPDATE_NEW_PASSWORD_FAIL:
       return {
         ...state,
         error: action.payload

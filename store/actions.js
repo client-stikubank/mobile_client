@@ -9,6 +9,7 @@ export * from './error/actions'
 // Authentication
 export * from './auth/login/actions'
 export * from './auth/register/actions'
+export * from './auth/reset_password/actions'
 
 export * from './user_profile/actions'
 export * from './carnival/actions'

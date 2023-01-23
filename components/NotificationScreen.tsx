@@ -15,7 +15,7 @@ const NotificationScreen = memo(
   ({
     title,
     description,
-    children,
+    actions,
     buttonsViewStyle,
     logo
   }: SuccessScreenType) => {
@@ -63,7 +63,7 @@ const NotificationScreen = memo(
           <Text category='h8-s' center mb={44} mh={24}>
             {description}
           </Text>
-          {children?.map((item, i) => {
+          {actions?.map((item: any, i: number) => {
             return (
               <Button
                 key={i}

@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { TouchableOpacity, Platform, View } from 'react-native'
+import { TouchableWithoutFeedback, Platform, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Controller, useForm } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -14,6 +14,7 @@ import {
   Layout,
   Button
 } from '@ui-kitten/components'
+import { Ionicons } from '@expo/vector-icons'
 
 import Text from 'components/Text'
 import Content from 'components/Content'
@@ -22,12 +23,12 @@ import NavigationAction from 'components/NavigationAction'
 import useToggle from 'hooks/useToggle'
 import { AuthStackParamList } from 'navigation/types'
 import { collectRegister } from 'store/actions'
-import { RuleEmail, RulePassword } from 'utils/rules'
+import { RuleEmail, RulePassword, RuleConfirmPassword } from 'utils/rules'
 
 const SignupSecondStep = memo(() => {
   const { navigate } = useNavigation<NavigationProp<AuthStackParamList>>()
   const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['auth', 'success', 'common'])
+  const { t } = useTranslation(['auth'])
   const reduxDispatch = useDispatch()
 
   const [invisible, setInvisible] = useToggle(true)
@@ -43,35 +44,15 @@ const SignupSecondStep = memo(() => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      email: form.email,
-      password: form.password,
-      password_confirmation: form.password_confirmation
+      email: '',
+      password: '',
+      password_confirmation: ''
     }
   })
 
   const handleSignup = useCallback(data => {
     reduxDispatch(collectRegister({ ...form, ...data }))
     navigate('SignupThirdStep')
-    // navigate('SuccessScr', {
-    //   successScr: {
-    //     title: t('success:title_2'),
-    //     logo: true,
-    //     description: t('success:description_2'),
-    //     children: [
-    //       {
-    //         title: t('success:see_your_dashboard'),
-    //         onPress: () => navigate('MainBottomTab'),
-    //         status: 'outline'
-    //       },
-    //       {
-    //         title: t('success:create_new_job'),
-    //         onPress: () => navigate('MainBottomTab'),
-    //         status: 'basic'
-    //       }
-    //     ],
-    //     buttonsViewStyle: { marginHorizontal: 68 }
-    //   }
-    // })
   }, [])
 
   return (
@@ -89,42 +70,20 @@ const SignupSecondStep = memo(() => {
       >
         <View>
           <Content padder>
-            <Text mt={16}>{t('auth:heading_signup_2')}</Text>
+            <Text mt={16}>{t('auth:signup_2')}</Text>
             <Text mt={8} mb={16} category='h2'>
-              {t('auth:title_signup_2')}
+              {t('auth:signup_2_description')}
             </Text>
-            <Text mt={8} mb={48}>
-              {t('auth:description_signup_2')}
-            </Text>
-            {/* <Controller
-                control={control}
-                name='full_name'
-                rules={RuleName}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    label={t('auth:full_name').toString()}
-                    status={errors.full_name ? 'warning' : 'basic'}
-                    style={styles.input}
-                    value={value}
-                    onChangeText={onChange}
-                    onTouchStart={handleSubmit(() => {})}
-                    onTouchEnd={handleSubmit(() => {})}
-                    onBlur={onBlur}
-                    keyboardType='email-address'
-                    caption={errors.full_name?.message}
-                  />
-                )}
-              /> */}
             <Controller
               control={control}
               name='email'
-              rules={RuleEmail}
+              rules={RuleEmail(t)}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
                   label={t('auth:email').toString()}
                   status={errors.email ? 'warning' : 'basic'}
                   style={styles.input}
-                  value={value}
+                  value={value.toLowerCase()}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   keyboardType='email-address'
@@ -135,7 +94,7 @@ const SignupSecondStep = memo(() => {
             <Controller
               control={control}
               name='password'
-              rules={RulePassword}
+              rules={RulePassword(t)}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
                   label={t('auth:password').toString()}
@@ -148,16 +107,13 @@ const SignupSecondStep = memo(() => {
                   caption={errors.password?.message}
                   secureTextEntry={invisible}
                   accessoryRight={props => (
-                    <TouchableOpacity
-                      activeOpacity={0.54}
-                      onPress={setInvisible}
-                    >
-                      <Icon
-                        {...props}
-                        pack='assets'
-                        name={!invisible ? 'eyeOn' : 'eyeOff'}
+                    <TouchableWithoutFeedback onPress={setInvisible}>
+                      <Ionicons
+                        name={invisible ? 'eye-off' : 'eye'}
+                        size={24}
+                        color='#EE157F'
                       />
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
                   )}
                 />
               )}
@@ -165,14 +121,7 @@ const SignupSecondStep = memo(() => {
             <Controller
               control={control}
               name='password_confirmation'
-              rules={{
-                ...RulePassword,
-                validate: (val: string) => {
-                  if (watch('password') !== val) {
-                    return 'Konfirmasi Password tidak cocok'
-                  }
-                }
-              }}
+              rules={RuleConfirmPassword(t, watch('password'))}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
                   label={t('auth:password_confirmation').toString()}
@@ -184,18 +133,6 @@ const SignupSecondStep = memo(() => {
                   keyboardType='default'
                   caption={errors.password_confirmation?.message}
                   secureTextEntry={invisible}
-                  accessoryRight={props => (
-                    <TouchableOpacity
-                      activeOpacity={0.54}
-                      onPress={setInvisible}
-                    >
-                      <Icon
-                        {...props}
-                        pack='assets'
-                        name={!invisible ? 'eyeOn' : 'eyeOff'}
-                      />
-                    </TouchableOpacity>
-                  )}
                 />
               )}
             />

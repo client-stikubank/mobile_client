@@ -94,7 +94,7 @@ const EditProfile = memo(() => {
         <View>
           <Content padder>
             <Text mt={8} mb={48} category='h2'>
-              {t('auth:title_signup_3')}
+              {t('auth:profile')}
             </Text>
 
             <Controller
@@ -110,7 +110,7 @@ const EditProfile = memo(() => {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   keyboardType='default'
-                  caption={errors.first_name?.message}
+                  caption={errors?.first_name?.message}
                 />
               )}
             />

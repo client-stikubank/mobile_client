@@ -6,6 +6,7 @@ import ModalSaga from './modal/saga'
 import ErrorSaga from './error/saga'
 import LoginSaga from './auth/login/saga'
 import RegisterSaga from './auth/register/saga'
+import ResetPasswordSaga from './auth/reset_password/saga'
 import UserProfileSaga from './user_profile/saga'
 import CarnivalSaga from './carnival/saga'
 import StageSaga from './stage/saga'
@@ -27,6 +28,7 @@ export default function* rootSaga() {
     fork(ErrorSaga),
     fork(LoginSaga),
     fork(RegisterSaga),
+    fork(ResetPasswordSaga),
     fork(UserProfileSaga),
     fork(CarnivalSaga),
     fork(StageSaga),

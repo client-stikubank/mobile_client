@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  useTheme,
-  useStyleSheet,
-  StyleService,
-  Datepicker,
-  NativeDateService
-} from '@ui-kitten/components'
+import { Datepicker, NativeDateService } from '@ui-kitten/components'
 
 interface DatepickerProps {
   label: string
@@ -24,9 +18,6 @@ const DatepickerField = ({
   value,
   style
 }: DatepickerProps) => {
-  const theme = useTheme()
-  const styles = useStyleSheet(themedStyles)
-
   const i18n: any = {
     dayNames: {
       short: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
@@ -81,6 +72,7 @@ const DatepickerField = ({
       placeholder={null}
       min={new Date(1900, 0, 0)}
       max={new Date()}
+      initialVisibleDate={new Date(2000, 0, 1)}
       onSelect={(nextDate: any) => {
         onChange(nextDate)
       }}
@@ -91,9 +83,5 @@ const DatepickerField = ({
     />
   )
 }
-
-const themedStyles = StyleService.create({
-  datepicker: {}
-})
 
 export default React.memo(DatepickerField)

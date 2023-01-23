@@ -7,20 +7,20 @@ const initValue = {
   goBack: true,
   title: 'Oops!',
   description: 'Something went wrong somewhere.\nWould you like to try again?',
-  children: [],
+  actions: [],
   logo: false
 }
 
 const SuccessScr = memo(() => {
   const route = useRoute<ModalScreenNavigationProp>()
-  const { title, description, children, buttonsViewStyle, logo } =
+  const { title, description, actions, buttonsViewStyle, logo } =
     route?.params?.successScr || initValue
 
   return (
     <NotificationScreen
       title={title}
       description={description}
-      children={children}
+      actions={actions}
       buttonsViewStyle={buttonsViewStyle}
       logo={logo}
     />

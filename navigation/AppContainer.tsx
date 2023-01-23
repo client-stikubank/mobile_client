@@ -14,7 +14,8 @@ import SuccessScr from 'src/SuccessScr'
 import InviteAndWin from 'src/home/InviteAndWin'
 import AdditionalProfile from 'src/home/AdditionalProfile'
 import EditProfile from 'src/home/EditProfile'
-import FavoritesFilter from 'src/home/MyFavorites/FavoritesFilter'
+import EditAccount from 'src/home/EditAccount'
+import GiftScanner from 'src/home/GiftScanner'
 import SelectLanguage from 'src/home/MyFavorites/SelectLanguage'
 import FavoritesMap from 'src/home/MyFavorites/FavoritesMap'
 import Notification from 'src/home/Notification'
@@ -92,6 +93,8 @@ const AppContainer = () => {
         <Stack.Screen name='InviteAndWin' component={InviteAndWin} />
         <Stack.Screen name='AdditionalProfile' component={AdditionalProfile} />
         <Stack.Screen name='EditProfile' component={EditProfile} />
+        <Stack.Screen name='EditAccount' component={EditAccount} />
+        <Stack.Screen name='GiftScanner' component={GiftScanner} />
         <Stack.Screen name='CampList' component={CampList} />
         <Stack.Screen name='CampSchedule' component={CampSchedule} />
         <Stack.Screen name='Assessment' component={Assessment} />

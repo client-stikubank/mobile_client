@@ -11,6 +11,7 @@ import Error from './error/reducer'
 // Authentication
 import Login from './auth/login/reducer'
 import Register from './auth/register/reducer'
+import ResetPassword from './auth/reset_password/reducer'
 
 import UserProfile from './user_profile/reducer'
 import Carnival from './carnival/reducer'
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   Error,
   Login,
   Register,
+  ResetPassword,
   UserProfile,
   Carnival,
   Stage,

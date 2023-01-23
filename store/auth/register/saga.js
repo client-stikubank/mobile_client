@@ -17,13 +17,11 @@ function* register({ payload: { data, transition } }) {
   } catch (error) {
     yield put(registerFail(error))
     const { data } = error.response
-    _.mapKeys(data.errors, (value, key) =>
-      Toast.show({
-        type: 'error',
-        text1: 'Permintaan Gagal',
-        text2: value.join(', ')
-      })
-    )
+    Toast.show({
+      type: 'error',
+      text1: 'Permintaan Gagal',
+      text2: Object.values(data.errors)[0]
+    })
   }
   yield put(toggleScreen(false))
 }

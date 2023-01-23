@@ -1,6 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React, { memo } from 'react'
-// import EditProfile from "src/more/EditProfile";
 import MoreSrc from 'src/more/MoreSrc'
 import MyChildren from 'src/more/MyChildren'
 import MyPost from 'src/more/MyPost'
@@ -22,7 +21,6 @@ const MoreNavigator = memo(() => {
       <Stack.Screen name='ReferFriend' component={ReferFriend} />
       <Stack.Screen name='MyChildren' component={MyChildren} />
       <Stack.Screen name='ProfileSrc' component={ProfileSrc} />
-      {/* <Stack.Screen name="EditProfile" component={EditProfile} /> */}
       <Stack.Screen name='PaymentMethod' component={PaymentMethod} />
     </Stack.Navigator>
   )

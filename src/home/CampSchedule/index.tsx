@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
   TopNavigation,
   StyleService,
@@ -24,8 +24,6 @@ const CampList = memo(() => {
     stageCamp: state.StageCamp.stageCamp,
     stage: state.Stage.stage
   }))
-
-  console.tron.log('STAGECAMP', stageCamp)
 
   return (
     <Container style={styles.container}>

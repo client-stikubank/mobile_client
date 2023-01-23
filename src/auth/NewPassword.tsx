@@ -1,116 +1,150 @@
-import React, {memo} from 'react';
-import {TouchableOpacity} from 'react-native';
+import React, { memo, useState, useEffect } from 'react'
+import { TouchableWithoutFeedback } from 'react-native'
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
   Input,
   Icon,
-  Button,
-} from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
+  Button
+} from '@ui-kitten/components'
+import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
+import { Ionicons } from '@expo/vector-icons'
+import { toUpper } from 'lodash'
 
-import Text from 'components/Text';
-import Content from 'components/Content';
-import Container from 'components/Container';
-import {Controller, useForm} from 'react-hook-form';
-import {RulePassword, RuleResetCode} from 'utils/rules';
-import useToggle from 'hooks/useToggle';
-import NavigationAction from 'components/NavigationAction';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from 'navigation/types';
-import {globalStyle} from 'styles/globalStyle';
+import Text from 'components/Text'
+import Content from 'components/Content'
+import Container from 'components/Container'
+import { Controller, useForm } from 'react-hook-form'
+import { RulePassword, RuleConfirmPassword, RuleResetCode } from 'utils/rules'
+import useToggle from 'hooks/useToggle'
+import NavigationAction from 'components/NavigationAction'
+import {
+  NavigationProp,
+  useNavigation,
+  useRoute
+} from '@react-navigation/native'
+import { RootStackParamList } from 'navigation/types'
+import { updatePassword } from 'store/actions'
+import { globalStyle } from 'styles/globalStyle'
 
 const NewPassword = memo(() => {
-  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
-  const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['auth', 'common', 'success']);
+  const reduxDispatch = useDispatch()
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
+  const route = useRoute()
+  const { email }: any = route.params
+  const styles = useStyleSheet(themedStyles)
+  const { t } = useTranslation(['auth', 'common', 'success'])
 
-  const [invisible, setInvisible] = useToggle(true);
+  const [invisible, setInvisible] = useToggle(true)
   const {
     control,
     handleSubmit,
-    getValues,
-    formState: {errors},
+    watch,
+    setError,
+    formState: { errors }
   } = useForm({
     defaultValues: {
-      code: 'ASR325',
-      password: '123456Aab',
-      confirmPassword: '123456Aab',
-    },
-  });
-  const [canContinue, setCanContinue] = React.useState(false);
-  const [validation, setValidation] = React.useState(false);
-
-  React.useEffect(() => {
-    if (getValues('confirmPassword') === getValues('password')) {
-      setValidation(true);
-    } else {
-      setValidation(false);
+      email: email,
+      reset_code: '',
+      password: '',
+      password_confirmation: ''
     }
-  }, [getValues('confirmPassword'), getValues('password')]);
-  React.useEffect(() => {
+  })
+  const [canContinue, setCanContinue] = useState(false)
+  const [validation, setValidation] = useState(false)
+
+  useEffect(() => {
+    if (watch('password_confirmation') === watch('password')) {
+      setValidation(true)
+    } else {
+      setValidation(false)
+    }
+  }, [watch('password_confirmation'), watch('password')])
+
+  useEffect(() => {
     if (
       validation === true &&
-      errors.confirmPassword === undefined &&
+      errors.password_confirmation === undefined &&
       errors.password === undefined
     ) {
-      setCanContinue(true);
+      setCanContinue(true)
     } else {
-      setCanContinue(false);
+      setCanContinue(false)
     }
-  }, [validation, errors.password, errors.confirmPassword]);
+  }, [validation, errors.password, errors.password_confirmation])
 
   const handleFinish = React.useCallback(() => {
     navigate('SuccessScr', {
       successScr: {
         title: t('success:title'),
         description: t('success:success_change_password'),
-        children: [
+        actions: [
           {
-            title: t('auth:login_btn'),
-            onPress: () => navigate('AuthStack', {screen: 'Login'}),
-            status: 'basic',
-          },
+            title: t('auth:login_button'),
+            onPress: () => navigate('AuthStack', { screen: 'Login' }),
+            status: 'basic'
+          }
         ],
-        buttonsViewStyle: {alignSelf: 'center'},
-      },
-    });
-  }, []);
+        buttonsViewStyle: { alignSelf: 'center' }
+      }
+    })
+  }, [])
+
+  const onUpdatePassword = (data: any) => {
+    data.reset_code = toUpper(data.reset_code)
+    reduxDispatch(updatePassword(data, () => handleFinish()))
+  }
+
   return (
     <Container style={styles.container}>
       <TopNavigation accessoryLeft={<NavigationAction />} />
       <Content padder contentContainerStyle={styles.content}>
-        <Text category="h2" mb={8}>
+        <Text category='h2' mb={8}>
           {t('auth:recovery_password')}
         </Text>
-        <Text category="h8-s" mb={60}>
+        <Text category='h8-s' mb={60}>
           {t('auth:recovery_password_description')}
         </Text>
         <Controller
           control={control}
-          name="code"
-          rules={RuleResetCode}
-          render={({field: {onChange, onBlur, value}}) => (
+          name='email'
+          render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label={t('auth:code').toString()}
-              status={errors.code ? 'warning' : 'basic'}
-              style={styles.code}
+              label={t('auth:email').toString()}
+              status={errors.email ? 'warning' : 'basic'}
+              style={styles.email}
               value={value}
-              onTouchStart={handleSubmit(() => {})}
-              onTouchEnd={handleSubmit(() => {})}
               onChangeText={onChange}
               onBlur={onBlur}
-              keyboardType="email-address"
-              caption={errors.password?.message}
+              keyboardType='email-address'
+              disabled
             />
           )}
         />
         <Controller
           control={control}
-          name="password"
-          rules={RulePassword}
-          render={({field: {onChange, onBlur, value}}) => (
+          name='reset_code'
+          rules={RuleResetCode(t)}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label={t('auth:reset_code').toString()}
+              status={errors.reset_code ? 'warning' : 'basic'}
+              style={styles.reset_code}
+              value={toUpper(value)}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              keyboardType='email-address'
+              caption={errors.reset_code?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name='password'
+          rules={RulePassword(t)}
+          render={({ field: { onChange, onBlur, value } }) => (
             <Input
               label={t('auth:password').toString()}
               status={errors.password ? 'warning' : 'basic'}
@@ -120,71 +154,75 @@ const NewPassword = memo(() => {
               onTouchEnd={handleSubmit(() => {})}
               onChangeText={onChange}
               onBlur={onBlur}
-              keyboardType="email-address"
+              keyboardType='email-address'
               caption={errors.password?.message}
               secureTextEntry={invisible}
               accessoryRight={props => (
-                <TouchableOpacity activeOpacity={0.7} onPress={setInvisible}>
-                  <Icon
-                    {...props}
-                    pack="assets"
-                    name={!invisible ? 'eyeOn' : 'eyeOff'}
+                <TouchableWithoutFeedback onPress={setInvisible}>
+                  <Ionicons
+                    name={invisible ? 'eye-off' : 'eye'}
+                    size={24}
+                    color='#EE157F'
                   />
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
               )}
             />
           )}
         />
         <Controller
           control={control}
-          name="confirmPassword"
-          rules={RulePassword}
-          render={({field: {onChange, onBlur, value}}) => (
+          name='password_confirmation'
+          rules={RuleConfirmPassword(t, watch('password'))}
+          render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label={t('auth:confirm_password').toString()}
-              status={errors.confirmPassword ? 'warning' : 'basic'}
-              style={styles.confirmPassword}
+              label={t('auth:password_confirmation').toString()}
+              status={errors.password_confirmation ? 'warning' : 'basic'}
+              style={styles.password_confirmation}
               value={value}
               onTouchStart={handleSubmit(() => {})}
               onTouchEnd={handleSubmit(() => {})}
               onChangeText={onChange}
               onBlur={onBlur}
-              keyboardType="email-address"
-              caption={errors.confirmPassword?.message}
+              keyboardType='email-address'
+              caption={errors.password_confirmation?.message}
               secureTextEntry={invisible}
             />
           )}
         />
         <Button
-          onPress={handleFinish}
-          disabled={!canContinue}
-          style={globalStyle.shadowBtn}>
-          {t('auth:change_password').toString()}
+          onPress={handleSubmit(onUpdatePassword)}
+          style={globalStyle.shadowBtn}
+        >
+          {t('auth:change_password_button').toString()}
         </Button>
       </Content>
     </Container>
-  );
-});
+  )
+})
 
-export default NewPassword;
+export default NewPassword
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   content: {
-    marginTop: 16,
+    marginTop: 16
   },
-  code: {
+  email: {
     marginBottom: 24,
-    borderBottomWidth: 2,
+    borderBottomWidth: 2
+  },
+  reset_code: {
+    marginBottom: 24,
+    borderBottomWidth: 2
   },
   password: {
     borderBottomWidth: 2,
-    marginBottom: 24,
+    marginBottom: 24
   },
-  confirmPassword: {
+  password_confirmation: {
     borderBottomWidth: 2,
-    marginBottom: 32,
-  },
-});
+    marginBottom: 32
+  }
+})

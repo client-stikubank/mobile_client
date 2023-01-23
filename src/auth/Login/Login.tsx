@@ -1,5 +1,10 @@
 import React, { memo, useEffect, useCallback, useState } from 'react'
-import { Image, TouchableOpacity, Platform } from 'react-native'
+import {
+  Image,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Platform
+} from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -8,7 +13,6 @@ import {
   StyleService,
   useStyleSheet,
   Input,
-  Icon,
   Button
 } from '@ui-kitten/components'
 import {
@@ -16,6 +20,7 @@ import {
   NavigationProp,
   useNavigation
 } from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons'
 
 import { Images } from 'assets/images'
 import Container from 'components/Container'
@@ -32,7 +37,7 @@ const Login = memo(() => {
   const { navigate, dispatch } =
     useNavigation<NavigationProp<RootStackParamList>>()
   const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['auth', 'common'])
+  const { t } = useTranslation(['auth'])
 
   const [canContinue, setCanContinue] = useState(false)
   const [invisible, setInvisible] = useToggle(true)
@@ -61,6 +66,8 @@ const Login = memo(() => {
     defaultValues: {
       email: 'user_client01@mailinator.com',
       password: 'Admin123!'
+      // email: '',
+      // password: ''
     }
   })
 
@@ -91,18 +98,18 @@ const Login = memo(() => {
       >
         <Image source={Images.logo} />
         <Text mt={24} category='h7' mb={72}>
-          {t('auth:welcome_back')}
+          {t('auth:welcome')}
         </Text>
         <Controller
           control={control}
           name='email'
-          rules={RuleEmail}
+          rules={RuleEmail(t)}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               label={t('auth:email').toString()}
               status={errors.email ? 'warning' : 'basic'}
               style={styles.email}
-              value={value}
+              value={value.toLowerCase()}
               onChangeText={onChange}
               onBlur={onBlur}
               keyboardType='email-address'
@@ -113,7 +120,7 @@ const Login = memo(() => {
         <Controller
           control={control}
           name='password'
-          rules={RulePassword}
+          rules={RulePassword(t)}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               label={t('auth:password').toString()}
@@ -125,30 +132,26 @@ const Login = memo(() => {
               keyboardType='default'
               caption={errors.password?.message}
               secureTextEntry={invisible}
-              accessoryRight={props => (
-                <TouchableOpacity activeOpacity={0.7} onPress={setInvisible}>
-                  <Icon
-                    {...props}
-                    pack='assets'
-                    name={!invisible ? 'eyeOn' : 'eyeOff'}
+              accessoryRight={() => (
+                <TouchableWithoutFeedback onPress={setInvisible}>
+                  <Ionicons
+                    name={invisible ? 'eye-off' : 'eye'}
+                    size={24}
+                    color='#EE157F'
                   />
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
               )}
             />
           )}
         />
         <Flex mv={16} />
-        <Button
-          onPress={handleSubmit(onLogin)}
-          disabled={canContinue}
-          style={globalStyle.shadowBtn}
-        >
-          {t('auth:login').toString()}
+        <Button onPress={handleSubmit(onLogin)} style={globalStyle.shadowBtn}>
+          {t('auth:login_button').toString()}
         </Button>
         <Flex>
           <TouchableOpacity
             activeOpacity={0.54}
-            onPress={onAuth('ForgetPassword')}
+            onPress={onAuth('ForgotPassword')}
             style={styles.forgetPass}
           >
             <Text
@@ -158,7 +161,7 @@ const Login = memo(() => {
               center
               underline
             >
-              {t('auth:forgot_password')}?
+              {t('auth:forgot_password_link')}?
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

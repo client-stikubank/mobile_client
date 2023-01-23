@@ -77,5 +77,6 @@ export const Images = {
   isfjChar: require('./isfj_char.png'),
   isfpChar: require('./isfp_char.png'),
   istpChar: require('./istp_char.png'),
-  placeholderChar: require('./placeholder_char.json')
+  placeholderChar: require('./placeholder_char.json'),
+  qrScanner: require('./qr_scanner.json')
 }
