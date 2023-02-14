@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import { Share } from 'react-native'
 import {
   TopNavigation,
@@ -7,8 +7,10 @@ import {
 } from '@ui-kitten/components'
 import { useTranslation } from 'react-i18next'
 import Image from 'react-native-scalable-image'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { find } from 'lodash'
 
+import { getGlobalSetting } from 'store/actions'
 import { Images } from 'assets/images'
 import Text from 'components/Text'
 import Content from 'components/Content'
@@ -20,16 +22,26 @@ import ButtonFill from 'components/ButtonFill'
 import { globalStyle } from 'styles/globalStyle'
 
 const InviteAndWin = memo(() => {
+  const reduxDispatch = useDispatch()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['more', 'invite_and_win'])
 
-  const { userProfile } = useSelector((state: any) => ({
-    userProfile: state.UserProfile.userProfile
+  const { userProfile, globalSettings } = useSelector((state: any) => ({
+    userProfile: state.UserProfile.userProfile,
+    globalSettings: state.GlobalSetting.globalSettings,
   }))
 
+  useEffect(() => {
+    if (!find(globalSettings, { code: 'invite_message' })) {
+      reduxDispatch(getGlobalSetting('invite_message'))
+    }
+  }, [])
+
   const shareRefferalCode = () => {
+    const setting = find(globalSettings, { code: 'invite_message' })
+
     Share.share({
-      message: userProfile?.refferal_code
+      message: `${setting?.value}\nPakai kode referral ${userProfile?.refferal_code} untuk mendapatkan 1 token MAMO!`.replace(/\\n/g, "\n")
     })
   }
 
@@ -88,7 +100,7 @@ export default InviteAndWin
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   inviteAndWin: {
     marginTop: 24,
@@ -97,6 +109,7 @@ const themedStyles = StyleService.create({
   clipboard: {
     padding: 16,
     paddingHorizontal: 16,
+    marginBottom: 32,
     borderRadius: 8,
     ...globalStyle.shadow
   },

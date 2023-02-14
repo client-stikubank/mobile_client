@@ -194,7 +194,6 @@ const AssessmentAnswer = memo(() => {
                         }
                       >
                         <Flex
-                          alignItems='center'
                           vertical
                           style={[
                             styles.option,
@@ -268,7 +267,7 @@ const AssessmentAnswer = memo(() => {
                   onPress={() => onPrev(assessmentAnswers.length - 1)}
                   status='gift'
                   style={{ ...globalStyle.shadow, marginTop: 64 }}
-                  size='tiny'
+                  size='small'
                 >
                   Pertanyaan Sebelumnya
                 </Button>

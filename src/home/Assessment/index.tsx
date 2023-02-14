@@ -1,10 +1,5 @@
-import React, { memo, useEffect } from 'react'
-import {
-  ImageBackground,
-  View,
-  FlatList,
-  Text as TextNative
-} from 'react-native'
+import React, { memo } from 'react'
+import { ImageBackground, View, Text as TextNative } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -15,16 +10,17 @@ import {
   Button
 } from '@ui-kitten/components'
 import { CommonActions, useNavigation } from '@react-navigation/native'
+import { isEmpty } from 'lodash'
 
 import { Images } from 'assets/images'
 import Text from 'components/Text'
 import Container from 'components/Container'
+import Content from 'components/Content'
 import NavigationAction from 'components/NavigationAction'
 import Flex from 'components/Flex'
 import { navigate } from 'navigation/RootNavigation'
 import { createAssessments } from 'store/actions'
 import { globalStyle } from 'styles/globalStyle'
-import keyExtractor from 'utils/keyExtractor'
 
 import AssessmentItem from './components/AssessmentItem'
 
@@ -78,9 +74,10 @@ const Assessment = memo(() => {
     navigate('AssessmentDetail', { firstTime: false, assessment: assessment })
   }
 
-  const renderItem = React.useCallback(({ item }) => {
+  const renderItem = (item: any) => {
     return (
       <AssessmentItem
+        key={item.id}
         item={item}
         onPress={(item: any) =>
           item.status === 'pending'
@@ -90,7 +87,7 @@ const Assessment = memo(() => {
         currentIndex={carnival.current_assessment_index}
       />
     )
-  }, [])
+  }
 
   return (
     <Container style={styles.container}>
@@ -98,42 +95,54 @@ const Assessment = memo(() => {
         title={t('home:assessment')}
         accessoryLeft={<NavigationAction />}
       />
-      <Layout style={styles.cardLayout} level='1'>
-        <View style={styles.startCard}>
-          <ImageBackground
-            source={Images.cardBackground}
-            style={styles.cardBackground}
-            resizeMode='cover'
-          >
-            <Flex style={styles.cardContent} vertical justify='space-between'>
-              <TextNative style={styles.cardTitle}>
-                Cari tahu kepribadian kamu!
-              </TextNative>
-              <Button
-                onPress={isPending ? continueAssessment : startAssessment}
-                status='gift'
-              >
-                {isPending ? 'Lanjutin Tes' : 'Mulai Tes'}
-              </Button>
-            </Flex>
-          </ImageBackground>
-        </View>
-      </Layout>
-      {assessments.length > 0 && (
-        <View style={styles.section}>
-          <Text category='h3' mb={12}>
-            Tes Kamu
-          </Text>
-          <FlatList
-            data={assessments.length > 0 ? assessments : []}
-            renderItem={renderItem}
-            keyExtractor={keyExtractor}
-            contentContainerStyle={styles.content}
-            showsVerticalScrollIndicator={false}
-            refreshing={refresh}
-          />
-        </View>
-      )}
+      <Content>
+        <Layout style={styles.cardLayout} level='1'>
+          <View style={styles.startCard}>
+            <ImageBackground
+              source={Images.cardBackground}
+              style={styles.cardBackground}
+              resizeMode='cover'
+            >
+              <Flex style={styles.cardContent} vertical justify='space-between'>
+                <TextNative style={styles.cardTitle}>
+                  Cari tahu kepribadian kamu!
+                </TextNative>
+                <Button
+                  onPress={isPending ? continueAssessment : startAssessment}
+                  status='gift'
+                >
+                  {isPending ? 'Lanjutin Tes' : 'Mulai Tes'}
+                </Button>
+              </Flex>
+            </ImageBackground>
+          </View>
+        </Layout>
+
+        {!isEmpty(carnival.personality) && (
+          <View style={styles.section}>
+            <Text category='h3' mb={12}>
+              Tes Kamu
+            </Text>
+            <AssessmentItem
+              item={carnival.personality}
+              onPress={(item: any) =>
+                item.status === 'pending'
+                  ? continueAssessment()
+                  : onAssesmentDetail(item)
+              }
+              currentIndex={carnival.current_assessment_index}
+            />
+          </View>
+        )}
+        {assessments.length > 0 && (
+          <View style={styles.section}>
+            <Text category='h3' mb={12}>
+              Tes Temanmu
+            </Text>
+            {assessments.map((item: any) => renderItem(item))}
+          </View>
+        )}
+      </Content>
     </Container>
   )
 })

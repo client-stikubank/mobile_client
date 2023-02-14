@@ -19,6 +19,7 @@ import CarnivalGiftSaga from './carnival_gift/saga'
 import UserCarnivalGiftSaga from './user_carnival_gift/saga'
 import AssessmentSaga from './assessment/saga'
 import AssessmentAnswerSaga from './assessment_answer/saga'
+import GlobalSettingSaga from './global_setting/saga'
 
 export default function* rootSaga() {
   yield all([
@@ -40,6 +41,7 @@ export default function* rootSaga() {
     fork(CarnivalGiftSaga),
     fork(UserCarnivalGiftSaga),
     fork(AssessmentSaga),
-    fork(AssessmentAnswerSaga)
+    fork(AssessmentAnswerSaga),
+    fork(GlobalSettingSaga)
   ])
 }

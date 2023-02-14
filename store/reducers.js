@@ -25,6 +25,7 @@ import CarnivalGift from './carnival_gift/reducer'
 import UserCarnivalGift from './user_carnival_gift/reducer'
 import Assessment from './assessment/reducer'
 import AssessmentAnswer from './assessment_answer/reducer'
+import GlobalSetting from './global_setting/reducer'
 
 const rootReducer = combineReducers({
   Loading,
@@ -45,7 +46,8 @@ const rootReducer = combineReducers({
   CarnivalGift,
   UserCarnivalGift,
   Assessment,
-  AssessmentAnswer
+  AssessmentAnswer,
+  GlobalSetting,
 })
 
 export default rootReducer

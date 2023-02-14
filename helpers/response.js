@@ -13,9 +13,7 @@ const mergeAttributes = attributes => {
   forEach(attributes, (value, key) => {
     if (key === 'image') {
       if (value.url) {
-        value = value.url.includes('https://')
-          ? value.url
-          : process.env.BACKEND_API_URL + value.url
+        value = value.url
       } else {
         value = null
       }

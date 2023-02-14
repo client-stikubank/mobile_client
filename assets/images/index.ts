@@ -64,19 +64,7 @@ export const Images = {
   cardBackground: require('./card_background.webp'),
   pageBackground: require('./page_background.webp'),
   loveLottie: require('./love_select.json'),
-  enfjChar: require('./enfj_char.png'),
-  enfpChar: require('./enfp_char.png'),
-  esfjChar: require('./esfj_char.png'),
-  esfpChar: require('./esfp_char.png'),
-  estpChar: require('./estp_char.png'),
-  iestChar: require('./iest_char.png'),
-  infjChar: require('./infj_char.png'),
-  infpChar: require('./infp_char.png'),
-  intjChar: require('./intj_char.png'),
-  intpChar: require('./intp_char.png'),
-  isfjChar: require('./isfj_char.png'),
-  isfpChar: require('./isfp_char.png'),
-  istpChar: require('./istp_char.png'),
   placeholderChar: require('./placeholder_char.json'),
-  qrScanner: require('./qr_scanner.json')
+  qrScanner: require('./qr_scanner.json'),
+  eCertificate: require('./e_certificate.webp')
 }

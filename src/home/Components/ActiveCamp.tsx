@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { TouchableOpacity, View, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 import * as Linking from 'expo-linking'
 import {
@@ -24,9 +24,11 @@ import ButtonFill from 'components/ButtonFill'
 import useLayout from 'hooks/useLayout'
 import { getCarnival, getUserStageSchedules, toggleScreen } from 'store/actions'
 import { globalStyle } from 'styles/globalStyle'
+import { RootStackParamList } from 'navigation/types'
 
 const ActiveCamp = memo(({ campItem }: any) => {
   const reduxDispatch = useDispatch()
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
   const styles = useStyleSheet(themedStyles)
   const { width } = useLayout()
   const { t } = useTranslation(['home', 'common'])
@@ -82,22 +84,54 @@ const ActiveCamp = memo(({ campItem }: any) => {
   }
 
   const confirm = async () => {
-    reduxDispatch(toggleScreen(true))
-    const res = await confirmActiveCamp()
-    if (res) {
-      reduxDispatch(getUserStageSchedules())
-      reduxDispatch(getCarnival())
+    if (stage_camp_schedule?.learning_type === 'offline') {
+      navigate('AttendanceScanner', {
+        stageCampSchedule: stage_camp_schedule,
+        isClaim: false,
+        onSuccess: async () => {
+          reduxDispatch(toggleScreen(true))
+          const res = await confirmActiveCamp()
+          if (res) {
+            reduxDispatch(getUserStageSchedules())
+            reduxDispatch(getCarnival())
+          }
+        }
+      })
+    } else {
+      reduxDispatch(toggleScreen(true))
+      const res = await confirmActiveCamp()
+      if (res) {
+        reduxDispatch(getUserStageSchedules())
+        reduxDispatch(getCarnival())
+      }
     }
   }
 
   const claim = async () => {
-    reduxDispatch(toggleScreen(true))
-    const res = await claimActiveCamp()
-    if (res) {
-      reduxDispatch(getUserStageSchedules())
-      reduxDispatch(getCarnival())
+    if (stage_camp_schedule?.learning_type === 'offline') {
+      navigate('AttendanceScanner', {
+        stageCampSchedule: stage_camp_schedule,
+        isClaim: true,
+        onSuccess: async () => {
+          reduxDispatch(toggleScreen(true))
+          const res = await claimActiveCamp()
+          if (res) {
+            reduxDispatch(getUserStageSchedules())
+            reduxDispatch(getCarnival())
+          }
+        }
+      })
+    } else {
+      reduxDispatch(toggleScreen(true))
+      const res = await claimActiveCamp()
+      if (res) {
+        reduxDispatch(getUserStageSchedules())
+        reduxDispatch(getCarnival())
+      }
     }
   }
+
+  console.tron.log('CARNA', stage_camp_schedule)
 
   return (
     <View style={styles.container}>
@@ -140,7 +174,8 @@ const ActiveCamp = memo(({ campItem }: any) => {
                     radius={11}
                   />
                 </Flex>
-                {stage_camp_schedule?.status === 'reminded' &&
+                {stage_camp_schedule?.learning_type === 'online' &&
+                  stage_camp_schedule?.status === 'reminded' &&
                   active_camp.status === 'confirmed' && (
                     <Button
                       status='outline'

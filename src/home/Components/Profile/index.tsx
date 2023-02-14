@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { StyleService, useStyleSheet } from '@ui-kitten/components'
 
+import MyCertificate from './components/MyCertificate'
 import MyGifts from './components/MyGifts'
 import MyProfile from './components/MyProfile'
 
@@ -14,6 +15,7 @@ const Profile = memo(() => {
     <View style={styles.carnivalContainer}>
       <MyProfile />
       <MyGifts />
+      <MyCertificate />
     </View>
   )
 })

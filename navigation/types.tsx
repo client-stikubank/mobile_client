@@ -19,6 +19,11 @@ export type RootStackParamList = {
   EditProfile: undefined
   EditAccount: undefined
   GiftScanner: { userCarnivalGift: any }
+  AttendanceScanner: {
+    stageCampSchedule: any
+    onSuccess: any
+    isClaim: boolean
+  }
   CampList: undefined
   CampSchedule: undefined
   CampDetail: undefined

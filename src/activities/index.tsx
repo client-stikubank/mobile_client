@@ -51,8 +51,8 @@ const Activities = memo(() => {
           shouldLoadComponent={shouldLoadComponent}
         >
           <CampTab />
-          <CampTab />
-          <CampTab />
+          {/* <CampTab />
+          <CampTab /> */}
         </ViewPager>
       </View>
     )
@@ -67,8 +67,8 @@ const Activities = memo(() => {
           onChange={setActiveIndex}
           tabs={[
             t('activities:camp'),
-            t('activities:treasure_hunt'),
-            t('activities:gift')
+            // t('activities:treasure_hunt'),
+            // t('activities:gift')
           ]}
         />
       </Layout>

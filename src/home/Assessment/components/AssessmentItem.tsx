@@ -2,11 +2,9 @@ import React, { memo } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import Image from 'react-native-scalable-image'
 import { StyleService, useStyleSheet } from '@ui-kitten/components'
-import Lottie from 'lottie-react-native'
 import dayjs from 'dayjs'
 import 'dayjs/locale/id'
 
-import { Images } from 'assets/images'
 import Text from 'components/Text'
 import Flex from 'components/Flex'
 import { globalStyle } from 'styles/globalStyle'
@@ -37,15 +35,7 @@ const AssessmentItem = memo(({ item, onPress, currentIndex }: ItemProps) => {
       <Flex alignItems='center' justify='space-between'>
         <Flex alignItems='center'>
           <View style={styles.viewCharacter}>
-            {isPending ? (
-              <Lottie
-                source={Images.placeholderChar}
-                loop
-                autoPlay
-                resizeMode='contain'
-                style={{ width: 80 }}
-              />
-            ) : (
+            {!isPending && (
               <Image
                 source={{ uri: item?.personality.image }}
                 width={80}
@@ -64,6 +54,7 @@ const AssessmentItem = memo(({ item, onPress, currentIndex }: ItemProps) => {
                 {assessmentStatus().text}
               </Text>
             </View>
+            <Text category='h7'>{item?.user?.user_profile?.first_name}</Text>
             {isPending && (
               <Text category='h8-s'>
                 Pertanyaan{' '}
@@ -73,7 +64,7 @@ const AssessmentItem = memo(({ item, onPress, currentIndex }: ItemProps) => {
             )}
             {!isPending ? (
               <>
-                <Text category='h8' mt={4}>
+                <Text category='h8-s'>
                   {dayjs(item?.completed_at)
                     .locale('id')
                     .format('DD MMM YYYY - h:mm A')}
@@ -109,7 +100,7 @@ const themedStyles = StyleService.create({
     flex: 1
   },
   viewCharacter: {
-    marginRight: 0
+    marginRight: 8
   },
   onlineIcon: {
     width: 14,

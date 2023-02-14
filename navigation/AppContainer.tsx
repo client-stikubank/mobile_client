@@ -16,6 +16,7 @@ import AdditionalProfile from 'src/home/AdditionalProfile'
 import EditProfile from 'src/home/EditProfile'
 import EditAccount from 'src/home/EditAccount'
 import GiftScanner from 'src/home/GiftScanner'
+import AttendanceScanner from 'src/home/AttendanceScanner'
 import SelectLanguage from 'src/home/MyFavorites/SelectLanguage'
 import FavoritesMap from 'src/home/MyFavorites/FavoritesMap'
 import Notification from 'src/home/Notification'
@@ -95,6 +96,7 @@ const AppContainer = () => {
         <Stack.Screen name='EditProfile' component={EditProfile} />
         <Stack.Screen name='EditAccount' component={EditAccount} />
         <Stack.Screen name='GiftScanner' component={GiftScanner} />
+        <Stack.Screen name='AttendanceScanner' component={AttendanceScanner} />
         <Stack.Screen name='CampList' component={CampList} />
         <Stack.Screen name='CampSchedule' component={CampSchedule} />
         <Stack.Screen name='Assessment' component={Assessment} />

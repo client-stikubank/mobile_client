@@ -64,10 +64,10 @@ const Login = memo(() => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      email: 'user_client01@mailinator.com',
-      password: 'Admin123!'
-      // email: '',
-      // password: ''
+      // email: 'aphrocrypto@gmail.com',
+      // password: 'Admin123!'
+      email: '',
+      password: ''
     }
   })
 

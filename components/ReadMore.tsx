@@ -19,15 +19,25 @@ const Readmore = ({ text, maxCount, containerStyle }: ReadMoreProps) => {
   const onPressMore = () => setReadMore(!isReadmore)
 
   return (
-    <View style={{ ...containerStyle, alignItems: 'flex-end' }}>
-      <Text category='h8-s'>{isReadmore ? displayString : text}</Text>
+    <>
+      <View
+        style={{
+          ...containerStyle,
+          alignItems: 'flex-end',
+          flexDirection: 'row'
+        }}
+      >
+        <Text category='h8-s' style={{ flex: 1, flexWrap: 'wrap' }}>
+          {isReadmore ? displayString : text}
+        </Text>
+      </View>
       <Flex onPress={onPressMore} justify='flex-start' itemsCenter mt={4}>
         <Text category='h8-s' status={'info'} bold mr={4}>
           {isReadmore ? 'Lihat lebih banyak' : 'Lihat lebih sedikit'}
         </Text>
         <Icon pack='assets' name='arrowRight' style={globalStyle.icon16} />
       </Flex>
-    </View>
+    </>
   )
 }
 

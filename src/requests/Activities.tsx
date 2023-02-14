@@ -92,7 +92,7 @@ const Activities = memo(() => {
           tabs={[
             t('request:camp'),
             t('request:treasure_hunt'),
-            t('request:gift')
+            t('request:event')
           ]}
         />
       </Layout>

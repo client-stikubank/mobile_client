@@ -19,7 +19,8 @@ import {
   updateUserProfileFail,
   updateNewPasswordSuccess,
   updateNewPasswordFail,
-  toggleScreen
+  toggleScreen,
+  responseError
 } from 'store/actions'
 
 function* fetchUserProfile() {

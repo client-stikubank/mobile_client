@@ -44,10 +44,10 @@ const HeaderHome = () => {
             />
           </Flex>
 
-          {/* <Flex mh={12} onPress={_onInviteAndWin} style={styles.button}>
+          <Flex mh={12} onPress={() => {}} style={styles.button}>
             <Image
               source={Images.buttonRanking}
-              style={styles.buttonImage as StyleProp<ImageStyle>}
+              style={styles.buttonImageDeactive as StyleProp<ImageStyle>}
             />
           </Flex>
 
@@ -58,9 +58,9 @@ const HeaderHome = () => {
           >
             <Image
               source={Images.buttonQr}
-              style={styles.buttonImage as StyleProp<ImageStyle>}
+              style={styles.buttonImageDeactive as StyleProp<ImageStyle>}
             />
-          </Flex> */}
+          </Flex>
 
           <Flex
             mh={12}
@@ -211,6 +211,11 @@ const themedStyles = StyleService.create({
   buttonImage: {
     width: '100%',
     resizeMode: 'contain'
+  },
+  buttonImageDeactive: {
+    width: '100%',
+    resizeMode: 'contain',
+    opacity: 0.5
   },
   imageBackground: {
     width: '100%',

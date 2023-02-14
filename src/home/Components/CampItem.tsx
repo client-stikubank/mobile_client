@@ -1,16 +1,11 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
-import { View, ImageBackground, StyleProp, ImageStyle } from 'react-native'
-import { useDispatch } from 'react-redux'
-import {
-  StyleService,
-  useStyleSheet,
-  Layout,
-  Icon,
-  Avatar
-} from '@ui-kitten/components'
-import { isEmpty } from 'lodash'
+import { View, ImageBackground } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { StyleService, useStyleSheet, Layout } from '@ui-kitten/components'
+import { isEmpty, find } from 'lodash'
+import Image from 'react-native-scalable-image'
 
 import { Images } from 'assets/images'
 import ReadMore from 'components/ReadMore'
@@ -32,12 +27,17 @@ const CampItem = memo(
   ({ calendar, stageCamp, activeCamp, currentStage = 0 }: CampItemProps) => {
     const reduxDispatch = useDispatch()
     const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
-
     const styles = useStyleSheet(themedStyles)
     const { t } = useTranslation(['more', 'common'])
 
     const { camp } = stageCamp
     const { speaker } = camp
+
+    const { carnival } = useSelector((state: any) => ({
+      carnival: state.Carnival.carnival
+    }))
+
+    const finishedCamp = find(carnival.finished_camps, { id: camp?.id })
 
     const _onJoin = () => {
       reduxDispatch(getStageCamp(stageCamp))
@@ -63,41 +63,50 @@ const CampItem = memo(
             <View style={styles.calendarView}>{calendar}</View>
           ) : (
             <React.Fragment>
-              <Flex justify='flex-start' itemsCenter mb={16} mh={16} mt={16}>
+              <Flex
+                justify='flex-start'
+                alignItems='flex-start'
+                mb={16}
+                mh={16}
+                mt={16}
+              >
                 {speaker?.user_profile.image && (
-                  <Avatar
-                    style={styles.avatar as StyleProp<ImageStyle>}
-                    source={{ uri: speaker?.user_profile.image }}
-                    size='small'
-                    shape='round'
-                  />
+                  <Flex mr={16} style={styles.avatar}>
+                    <Image
+                      source={{ uri: speaker?.user_profile.image }}
+                      width={120}
+                    />
+                  </Flex>
                 )}
-                <Flex vertical>
-                  <Text category='h7' bold>
+                <Flex
+                  vertical
+                  justify='flex-start'
+                  alignItems='flex-start'
+                  style={{ flex: 1 }}
+                >
+                  <Text category='h8' bold mb={4}>
                     {speaker?.user_profile.full_name}
                   </Text>
+                  <Flex mb={8}>
+                    <MonstaText
+                      amount={camp?.reward_amount?.join('')}
+                      category='h8'
+                      radius={11}
+                    />
+                  </Flex>
+                  {camp?.description.length > 250 ? (
+                    <ReadMore text={camp?.description} maxCount={250} />
+                  ) : (
+                    <Text category='h8-s'>{camp?.description}</Text>
+                  )}
                 </Flex>
-              </Flex>
-              <Flex mb={8} mh={16}>
-                {camp?.description.length > 250 ? (
-                  <ReadMore text={camp?.description} maxCount={250} />
-                ) : (
-                  <Text category='h8-s'>{camp?.description}</Text>
-                )}
-              </Flex>
-              <Flex justify='flex-start' itemsCenter mb={8} mh={16}>
-                <MonstaText
-                  amount={camp?.reward_amount?.join('')}
-                  category='h8'
-                  radius={11}
-                />
               </Flex>
               <Flex
                 justify='space-between'
                 alignItems='flex-end'
                 style={styles.cardFooter}
               >
-                {isEmpty(activeCamp) && currentStage === stageCamp.stage.level && (
+                {isEmpty(activeCamp) && isEmpty(finishedCamp) && (
                   <Flex
                     style={styles.button}
                     itemsCenter
@@ -121,10 +130,15 @@ const CampItem = memo(
                     </Text>
                   )
                 )}
-                {currentStage !== stageCamp.stage.level && (
+                {/* {currentStage !== stageCamp.stage.level && (
                   <Text category='h8' status='warning'>
                     Level pelatihan terlalu{' '}
                     {currentStage < stageCamp.stage.level ? 'tinggi' : 'rendah'}
+                  </Text>
+                )} */}
+                {!isEmpty(finishedCamp) && (
+                  <Text category='h8' status='warning'>
+                    Sudah pernah mengikuti pelatihan ini
                   </Text>
                 )}
               </Flex>
@@ -205,8 +219,9 @@ const themedStyles = StyleService.create({
     marginTop: 2
   },
   avatar: {
-    backgroundColor: 'color-mamo',
-    marginRight: 8
+    borderRadius: 8,
+    ...globalStyle.shadowFade,
+    overflow: 'hidden'
   },
   button: {
     backgroundColor: 'color-primary-100',
