@@ -83,7 +83,7 @@ const AssessmentItem = memo(({ item, onPress, currentIndex }: ItemProps) => {
         <Flex justify='flex-end' alignItems='flex-end' vertical>
           <Flex alignItems='center'>
             <Text category='h6'>
-              {isPending ? '????' : item?.personality.name}
+              {isPending ? '????' : item?.personality.code}
             </Text>
           </Flex>
         </Flex>

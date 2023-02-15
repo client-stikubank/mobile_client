@@ -118,13 +118,13 @@ const Assessment = memo(() => {
           </View>
         </Layout>
 
-        {!isEmpty(carnival.personality) && (
+        {!isEmpty(carnival.last_assessment) && (
           <View style={styles.section}>
             <Text category='h3' mb={12}>
               Tes Kamu
             </Text>
             <AssessmentItem
-              item={carnival.personality}
+              item={carnival.last_assessment}
               onPress={(item: any) =>
                 item.status === 'pending'
                   ? continueAssessment()

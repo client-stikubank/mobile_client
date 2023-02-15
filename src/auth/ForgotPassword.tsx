@@ -62,7 +62,7 @@ const ForgotPassword = memo(() => {
               label={t('auth:email').toString()}
               status={errors.email ? 'warning' : 'basic'}
               style={styles.email}
-              value={value.toLowerCase()}
+              value={value}
               onChangeText={onChange}
               onBlur={onBlur}
               keyboardType='email-address'

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "youthcamp_mobile_client",
+    "name": "Youthcamp",
     "slug": "youthcamp_mobile_client",
     "version": "1.0.1",
     "orientation": "portrait",
@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

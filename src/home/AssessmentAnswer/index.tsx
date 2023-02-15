@@ -15,7 +15,8 @@ import {
   updateAssessmentAnswer,
   updateAssessments,
   getCarnivalSuccess,
-  createAssessmentsSuccess
+  createAssessmentsSuccess,
+  getCarnival
 } from 'store/actions'
 import Text from 'components/Text'
 import { globalStyle } from 'styles/globalStyle'
@@ -119,15 +120,10 @@ const AssessmentAnswer = memo(() => {
           status: 'completed',
           completed_at: new Date()
         },
-        () => navigate('AssessmentDetail', { firstTime: true })
-        // () =>
-        //   dispatch(
-        //     CommonActions.reset({
-        //       routes: [
-        //         { name: 'AssessmentDetail', params: { firstTime: true } }
-        //       ]
-        //     })
-        //   )
+        () => {
+          navigate('AssessmentDetail', { firstTime: true })
+          reduxDispatch(getCarnival())
+        }
       )
     )
   }
