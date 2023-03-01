@@ -24,6 +24,7 @@ const HeaderHome = () => {
   }))
 
   const _onInviteAndWin = () => navigate('InviteAndWin')
+  const _onQr = () => navigate('Qr')
 
   const changeDisplay = (display: string) => {
     reduxDispatch(homeDisplay(display))
@@ -51,14 +52,10 @@ const HeaderHome = () => {
             />
           </Flex>
 
-          <Flex
-            mh={12}
-            onPress={() => changeDisplay('carnival')}
-            style={styles.button}
-          >
+          <Flex mh={12} onPress={_onQr} style={styles.button}>
             <Image
               source={Images.buttonQr}
-              style={styles.buttonImageDeactive as StyleProp<ImageStyle>}
+              style={styles.buttonImage as StyleProp<ImageStyle>}
             />
           </Flex>
 

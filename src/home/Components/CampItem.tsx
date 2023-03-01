@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
-import { View, ImageBackground } from 'react-native'
+import { View, ImageBackground, Text as TextNative } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyleService, useStyleSheet, Layout } from '@ui-kitten/components'
 import { isEmpty, find } from 'lodash'
@@ -19,12 +19,11 @@ import { globalStyle } from 'styles/globalStyle'
 interface CampItemProps {
   calendar?: any
   stageCamp?: any
-  activeCamp?: any
   currentStage?: number
 }
 
 const CampItem = memo(
-  ({ calendar, stageCamp, activeCamp, currentStage = 0 }: CampItemProps) => {
+  ({ calendar, stageCamp, currentStage = 0 }: CampItemProps) => {
     const reduxDispatch = useDispatch()
     const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
     const styles = useStyleSheet(themedStyles)
@@ -38,6 +37,13 @@ const CampItem = memo(
     }))
 
     const finishedCamp = find(carnival.finished_camps, { id: camp?.id })
+    const activatedCamp = find(carnival.active_camps, {
+      stage_camp: {
+        camp: {
+          id: camp?.id
+        }
+      }
+    })
 
     const _onJoin = () => {
       reduxDispatch(getStageCamp(stageCamp))
@@ -51,13 +57,11 @@ const CampItem = memo(
           level='2'
         >
           <ImageBackground
-            source={Images.cardHeader}
+            source={Images.pageBackground}
             style={styles.headerImage}
             resizeMode='cover'
           >
-            <Text category='h2' bold style={styles.cardTitle}>
-              {camp?.title}
-            </Text>
+            <TextNative style={styles.cardTitle}>{camp?.title}</TextNative>
           </ImageBackground>
           {calendar ? (
             <View style={styles.calendarView}>{calendar}</View>
@@ -106,7 +110,7 @@ const CampItem = memo(
                 alignItems='flex-end'
                 style={styles.cardFooter}
               >
-                {isEmpty(activeCamp) && isEmpty(finishedCamp) && (
+                {isEmpty(activatedCamp) && isEmpty(finishedCamp) && (
                   <Flex
                     style={styles.button}
                     itemsCenter
@@ -118,63 +122,17 @@ const CampItem = memo(
                     </Text>
                   </Flex>
                 )}
-                {activeCamp?.stage_camp?.id === stageCamp?.id ? (
+                {!isEmpty(activatedCamp) && (
                   <Text category='h8' status='success'>
                     Sedang Diikuti
                   </Text>
-                ) : (
-                  activeCamp &&
-                  currentStage === stageCamp.stage.level && (
-                    <Text category='h8' status='warning'>
-                      Sedang mengikuti pelatihan lain!
-                    </Text>
-                  )
                 )}
-                {/* {currentStage !== stageCamp.stage.level && (
-                  <Text category='h8' status='warning'>
-                    Level pelatihan terlalu{' '}
-                    {currentStage < stageCamp.stage.level ? 'tinggi' : 'rendah'}
-                  </Text>
-                )} */}
                 {!isEmpty(finishedCamp) && (
                   <Text category='h8' status='warning'>
                     Sudah pernah mengikuti pelatihan ini
                   </Text>
                 )}
               </Flex>
-              {/* {detail ? (
-              <React.Fragment>
-                <Flex justify='flex-start' itemsCenter mb={8} mh={16} mt={8}>
-                  <Icon pack='assets' name='calendar' style={styles.icon} />
-                  <Text category='h7' ml={8} bold>
-                    25 September 2022
-                  </Text>
-                </Flex>
-                <Flex justify='flex-start' itemsCenter mb={16} mh={16}>
-                  <Icon pack='assets' name='time' style={styles.icon} />
-                  <Text category='h7-s' ml={8}>
-                    08.00 - 11.00
-                  </Text>
-                </Flex>
-              </React.Fragment>
-            ) : (
-              <Flex
-                justify='space-between'
-                alignItems='flex-end'
-                style={styles.cardFooter}
-              >
-                <Flex
-                  style={styles.button}
-                  itemsCenter
-                  center
-                  onPress={() => _onJoin()}
-                >
-                  <Text category='h7' style={{ color: '#FFF' }}>
-                    Join
-                  </Text>
-                </Flex>
-              </Flex>
-            )} */}
             </React.Fragment>
           )}
         </Layout>
@@ -206,22 +164,18 @@ const themedStyles = StyleService.create({
   },
   cardTitle: {
     color: 'color-basic-100',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: 'rgba(0, 0, 0, 0.25)',
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
-    paddingHorizontal: 24,
+    textShadowRadius: 1,
+    fontSize: 24,
+    fontWeight: '800',
+    paddingHorizontal: 16,
     marginVertical: 8
-  },
-  icon: {
-    width: 14,
-    height: 14,
-    tintColor: 'text-placeholder-color',
-    marginTop: 2
   },
   avatar: {
     borderRadius: 8,
-    ...globalStyle.shadowFade,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    ...globalStyle.shadowFade
   },
   button: {
     backgroundColor: 'color-primary-100',

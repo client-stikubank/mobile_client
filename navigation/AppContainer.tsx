@@ -12,6 +12,7 @@ import Onboarding from 'src/onboarding'
 import SuccessScr from 'src/SuccessScr'
 
 import InviteAndWin from 'src/home/InviteAndWin'
+import Qr from 'src/home/Qr'
 import AdditionalProfile from 'src/home/AdditionalProfile'
 import EditProfile from 'src/home/EditProfile'
 import EditAccount from 'src/home/EditAccount'
@@ -22,7 +23,6 @@ import FavoritesMap from 'src/home/MyFavorites/FavoritesMap'
 import Notification from 'src/home/Notification'
 
 import CaregiverProfile from 'src/find/CaregiverProfile'
-import ProfileGallery from 'src/find/ProfileGallery'
 import WriteReview from 'src/find/WriteReview'
 import ViewOnMap from 'src/find/ViewOnMap'
 
@@ -92,6 +92,7 @@ const AppContainer = () => {
         <Stack.Screen name='FavoritesMap' component={FavoritesMap} />
         <Stack.Screen name='Notification' component={Notification} />
         <Stack.Screen name='InviteAndWin' component={InviteAndWin} />
+        <Stack.Screen name='Qr' component={Qr} />
         <Stack.Screen name='AdditionalProfile' component={AdditionalProfile} />
         <Stack.Screen name='EditProfile' component={EditProfile} />
         <Stack.Screen name='EditAccount' component={EditAccount} />
@@ -111,7 +112,6 @@ const AppContainer = () => {
         <Stack.Screen name='RedeemGift' component={RedeemGift} />
         <Stack.Screen name='ViewOnMap' component={ViewOnMap} />
         <Stack.Screen name='CaregiverProfile' component={CaregiverProfile} />
-        <Stack.Screen name='ProfileGallery' component={ProfileGallery} />
         <Stack.Screen name='WriteReview' component={WriteReview} />
 
         <Stack.Screen name='CreateJobStack' component={CreateJobNavigator} />

@@ -27,7 +27,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   const auth = firebase.auth()
 
   React.useEffect(() => {
-    const Unsubscribe = auth.onAuthStateChanged(user => {
+    const Unsubscribe = auth.onAuthStateChanged((user: any) => {
       setInitialized(true)
       setSignedIn(!!user)
     })

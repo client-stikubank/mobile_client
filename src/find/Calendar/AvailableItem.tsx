@@ -87,7 +87,7 @@ const AvailableItem = memo(({ data, onPress }: IAvailableItemProps) => {
     let start_date = dayjs(schedule.started_at)
       .set('hour', times[0])
       .set('minute', times[1])
-      .subtract(10, 'minute')
+      .subtract(1, 'minute')
 
     return schedule.full || dayjs() > start_date
   }

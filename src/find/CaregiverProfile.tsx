@@ -32,7 +32,6 @@ import OnlStatus from 'components/OnlStatus'
 import { Onl_State_Types_Enum } from 'constants/Types'
 import useModal from 'hooks/useModal'
 import ModalOption from './Component/ModalOption'
-import CoverList from './Component/CoverList'
 import Calendar from './Calendar/Calendar'
 import ReviewTitle from './Component/ReviewTitle'
 import Reviews from './Reviews'
@@ -104,7 +103,6 @@ const CaregiverProfile = memo(() => {
         bounces={false}
       >
         <Layout style={styles.headerContent}>
-          <CoverList list={DATA_COVER} />
           <Layout
             style={{
               marginTop: (280 + top) * (height / 812),

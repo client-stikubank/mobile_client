@@ -43,9 +43,11 @@ const Carnival = memo(() => {
 
   return isEmpty(carnival) ? null : (
     <Content>
-      {!isEmpty(carnival?.active_camp) && (
+      {!isEmpty(carnival?.active_camps) && (
         <View style={styles.activeCamp}>
-          <ActiveCamp />
+          {carnival?.active_camps.map((activeCamp: any) => (
+            <ActiveCamp campItem={activeCamp} key={activeCamp.id} />
+          ))}
         </View>
       )}
       <View style={styles.carnivalContainer}>

@@ -1,16 +1,10 @@
 {
   "cli": {
-    "version": ">= 1.1.1"
+    "appVersionSource": "remote"
   },
   "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
-    "preview2": {
+    "staging": {
+      "distribution": "internal",
       "android": {
         "buildType": "apk"
       }

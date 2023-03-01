@@ -70,7 +70,7 @@ const Flex: React.FC<FlexProps> = memo(
             {
               borderRadius: border,
               alignItems: itemsCenter ? 'center' : alignItems,
-              paddingHorizontal: padder ? 24 : 0,
+              paddingHorizontal: padder ? 16 : 0,
               paddingBottom: pb,
               flexDirection: vertical ? 'column' : 'row',
               justifyContent: justify,

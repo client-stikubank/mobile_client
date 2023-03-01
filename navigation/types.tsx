@@ -15,6 +15,7 @@ export type RootStackParamList = {
   FavoritesMap: undefined
   Notification: undefined
   InviteAndWin: undefined
+  Qr: undefined
   AdditionalProfile: undefined
   EditProfile: undefined
   EditAccount: undefined
@@ -33,7 +34,6 @@ export type RootStackParamList = {
   RedeemGift: { carnivalGift: any }
   ViewOnMap: undefined
   CaregiverProfile: undefined
-  ProfileGallery: undefined
   WriteReview: undefined
   AddMorePayment: undefined
   CaregiverPostDetails: undefined

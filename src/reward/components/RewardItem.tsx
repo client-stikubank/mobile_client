@@ -54,11 +54,11 @@ const RewardItem = memo(({ item, _onPress }: ItemProps) => {
           <>
             <Text category='h8-s'>
               <Ionicons name='key' color='#EE157F' />{' '}
-              {item?.activitable.refferal_code}
+              {item?.activitable?.refferal_code}
             </Text>
             <Text category='h9-s'>
               <Ionicons name='checkmark-circle-sharp' color='#0EAD69' />{' '}
-              {item?.activitable.user}
+              {item?.activitable?.user}
             </Text>
           </>
         )
@@ -67,10 +67,10 @@ const RewardItem = memo(({ item, _onPress }: ItemProps) => {
         return (
           <>
             <Text category='h8-s'>
-              Level {item?.activitable.stage_camp.stage.level}
+              Level {item?.activitable?.stage_camp.stage.level}
             </Text>
             <Text category='h9-s'>
-              {item?.activitable.stage_camp.camp.title}
+              {item?.activitable?.stage_camp.camp.title}
             </Text>
           </>
         )

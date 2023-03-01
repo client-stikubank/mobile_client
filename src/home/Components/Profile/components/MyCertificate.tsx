@@ -1,10 +1,10 @@
 import React, { memo, useRef } from 'react'
-import { View, Dimensions } from 'react-native'
+import { View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { StyleService, useStyleSheet } from '@ui-kitten/components'
 import Swiper from 'react-native-swiper'
 import Image from 'react-native-scalable-image'
-import { find } from 'lodash'
+import { find, truncate } from 'lodash'
 
 import { Images } from 'assets/images'
 import Text from 'components/Text'
@@ -47,7 +47,7 @@ const MyCertificate = memo(() => {
                       ' ' + camp?.speaker?.user_profile?.last_name}
                   </Text>
                   <Text category='h10-s' style={styles.campTitle}>
-                    {camp?.title}
+                    {truncate(camp?.subtitle, { length: 24 })}
                   </Text>
                   <Text category='h10-s' style={styles.campDate}>
                     {

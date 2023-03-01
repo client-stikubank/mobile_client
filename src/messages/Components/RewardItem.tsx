@@ -63,10 +63,10 @@ const RewardItem = memo(({ item, _onPress }: ItemProps) => {
               </Text>
             </View>
             <Text category='h8-s'>
-              Level {item?.activitable.stage_camp.stage.level}
+              Level {item?.activitable?.stage_camp.stage.level}
             </Text>
             <Text category='h9-s'>
-              {item?.activitable.stage_camp.camp.title}
+              {item?.activitable?.stage_camp.camp.title}
             </Text>
             <Text category='h9' mt={4}>
               {dayjs(item?.updated_at)

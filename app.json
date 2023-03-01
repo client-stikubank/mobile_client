@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#FC0C5C"
+      "backgroundColor": "#FFC40C"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -20,11 +20,11 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FFC40C"
       },
       "package": "com.youthcamp.mobile_client",
       "softwareKeyboardLayoutMode": "pan",
-      "versionCode": 4
+      "permissions": ["CAMERA"]
     },
     "androidStatusBar": {
       "backgroundColor": "#000000"

@@ -12,11 +12,11 @@ export const getCarnival = async () => {
   })
 }
 
-export const confirmActiveCamp = async () => {
+export const confirmActiveCamp = async id => {
   const { credential } = await authSessionCheck()
 
   return post(
-    url.ACTIVE_CAMP + '/confirm',
+    url.ACTIVE_CAMP + `/confirm/${id}`,
     {},
     {
       headers: {
@@ -26,11 +26,11 @@ export const confirmActiveCamp = async () => {
   )
 }
 
-export const claimActiveCamp = async () => {
+export const claimActiveCamp = async id => {
   const { credential } = await authSessionCheck()
 
   return post(
-    url.ACTIVE_CAMP + '/claim',
+    url.ACTIVE_CAMP + `/claim/${id}`,
     {},
     {
       headers: {

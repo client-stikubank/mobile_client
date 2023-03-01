@@ -81,8 +81,6 @@ const AttendanceScanner = () => {
 
   const handleBarCodeScanned = ({ type, data }: any) => {
     setScanned(true)
-    console.tron.log('DATA', data)
-    console.tron.log('DATA', stageCampSchedule)
     if (data === stageCampSchedule?.id) {
       onSuccess()
       if (isClaim) {

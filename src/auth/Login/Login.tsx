@@ -31,6 +31,7 @@ import { RootStackParamList } from 'navigation/types'
 import { loginUser } from 'store/actions'
 import { globalStyle } from 'styles/globalStyle'
 import { RuleEmail, RulePassword } from 'utils/rules'
+import { authSessionCheck } from 'lib/Session'
 
 const Login = memo(() => {
   const reduxDispatch = useDispatch()
@@ -41,6 +42,18 @@ const Login = memo(() => {
 
   const [canContinue, setCanContinue] = useState(false)
   const [invisible, setInvisible] = useToggle(true)
+
+  const isLoggedIn = async () => {
+    const { logged } = await authSessionCheck()
+
+    if (logged) {
+      nextScreen('MainBottomTab')
+    }
+  }
+
+  useEffect(() => {
+    isLoggedIn()
+  }, [isLoggedIn])
 
   const nextScreen = useCallback((screenName: string) => {
     const resetAction = CommonActions.reset({
@@ -64,10 +77,10 @@ const Login = memo(() => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      // email: 'aphrocrypto@gmail.com',
-      // password: 'Admin123!'
-      email: '',
-      password: ''
+      email: 'aphrocrypto@gmail.com',
+      password: 'Admin123!'
+      // email: '',
+      // password: ''
     }
   })
 
@@ -80,7 +93,7 @@ const Login = memo(() => {
   }, [errors.email, errors.password])
 
   const onAuth = React.useCallback(
-    screen => () => {
+    (screen: any) => () => {
       navigate('AuthStack', { screen: screen })
     },
     []

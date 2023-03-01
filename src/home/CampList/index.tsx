@@ -52,7 +52,6 @@ const Assessment = memo(() => {
               <CampItem
                 key={stageCamp?.id}
                 stageCamp={stageCamp}
-                activeCamp={carnival?.active_camp}
                 currentStage={carnival?.current_stage}
               />
             ))

@@ -39,7 +39,7 @@ const CampTab = memo(
 
     return (
       <View style={styles.container}>
-        {userStageSchedules?.length <= 0 && isEmpty(carnival?.active_camp) ? (
+        {userStageSchedules?.length <= 0 && isEmpty(carnival?.active_camps) ? (
           !refresh && (
             <EmptyData
               image={Images.noBooking}
@@ -49,10 +49,12 @@ const CampTab = memo(
           )
         ) : (
           <View>
-            {!isEmpty(carnival?.active_camp) && (
+            {!isEmpty(carnival?.active_camps) && (
               <React.Fragment>
                 <TitleList title='Sedang Berlangsung' dataLength={0} mt={32} />
-                <ActiveCamp />
+                {carnival?.active_camps.map((activeCamp: any) => (
+                  <ActiveCamp campItem={activeCamp} key={activeCamp.id} />
+                ))}
               </React.Fragment>
             )}
 
