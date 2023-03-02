@@ -11,7 +11,6 @@ import {
 import { isEmpty } from 'lodash'
 
 import { Images } from 'assets/images'
-import Flex from 'components/Flex'
 import Content from 'components/Content'
 import Container from 'components/Container'
 import NavigationAction from 'components/NavigationAction'
@@ -21,7 +20,7 @@ import ActiveCamp from 'src/home/Components/ActiveCamp'
 import TitleList from '../../requests/Components/TitleList'
 import EmptyData from '../../requests/Components/EmptyData'
 
-const Qr = memo(() => {
+const QrActivities = memo(() => {
   const { t } = useTranslation(['request', 'common'])
   const { navigate } =
     useNavigation<NavigationProp<MainBottomTabStackParamList>>()
@@ -72,7 +71,7 @@ const Qr = memo(() => {
   )
 })
 
-export default Qr
+export default QrActivities
 
 const themedStyles = StyleService.create({
   container: {

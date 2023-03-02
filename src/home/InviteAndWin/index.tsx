@@ -28,7 +28,7 @@ const InviteAndWin = memo(() => {
 
   const { userProfile, globalSettings } = useSelector((state: any) => ({
     userProfile: state.UserProfile.userProfile,
-    globalSettings: state.GlobalSetting.globalSettings,
+    globalSettings: state.GlobalSetting.globalSettings
   }))
 
   useEffect(() => {
@@ -41,7 +41,11 @@ const InviteAndWin = memo(() => {
     const setting = find(globalSettings, { code: 'invite_message' })
 
     Share.share({
-      message: `${setting?.value}\nPakai kode referral ${userProfile?.refferal_code} untuk mendapatkan 1 token MAMO!`.replace(/\\n/g, "\n")
+      message:
+        `${setting?.value}\nPakai kode referral ${userProfile?.refferal_code} untuk mendapatkan 1 token MAMO!`.replace(
+          /\\n/g,
+          '\n'
+        )
     })
   }
 
@@ -100,7 +104,7 @@ export default InviteAndWin
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   inviteAndWin: {
     marginTop: 24,

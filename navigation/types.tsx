@@ -15,7 +15,7 @@ export type RootStackParamList = {
   FavoritesMap: undefined
   Notification: undefined
   InviteAndWin: undefined
-  Qr: undefined
+  QrActivities: undefined
   AdditionalProfile: undefined
   EditProfile: undefined
   EditAccount: undefined

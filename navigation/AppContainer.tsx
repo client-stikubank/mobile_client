@@ -12,7 +12,7 @@ import Onboarding from 'src/onboarding'
 import SuccessScr from 'src/SuccessScr'
 
 import InviteAndWin from 'src/home/InviteAndWin'
-import Qr from 'src/home/Qr'
+import QrActivities from 'src/home/QrActivities'
 import AdditionalProfile from 'src/home/AdditionalProfile'
 import EditProfile from 'src/home/EditProfile'
 import EditAccount from 'src/home/EditAccount'
@@ -92,7 +92,7 @@ const AppContainer = () => {
         <Stack.Screen name='FavoritesMap' component={FavoritesMap} />
         <Stack.Screen name='Notification' component={Notification} />
         <Stack.Screen name='InviteAndWin' component={InviteAndWin} />
-        <Stack.Screen name='Qr' component={Qr} />
+        <Stack.Screen name='QrActivities' component={QrActivities} />
         <Stack.Screen name='AdditionalProfile' component={AdditionalProfile} />
         <Stack.Screen name='EditProfile' component={EditProfile} />
         <Stack.Screen name='EditAccount' component={EditAccount} />
