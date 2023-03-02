@@ -77,10 +77,10 @@ const Login = memo(() => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      email: 'aphrocrypto@gmail.com',
-      password: 'Admin123!'
-      // email: '',
-      // password: ''
+      // email: 'aphrocrypto@gmail.com',
+      // password: 'Admin123!'
+      email: '',
+      password: ''
     }
   })
 
