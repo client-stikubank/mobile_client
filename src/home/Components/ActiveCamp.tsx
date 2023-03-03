@@ -190,19 +190,7 @@ const ActiveCamp = memo(({ campItem }: any) => {
                   Link Meeting
                 </Button>
               )}
-            {stage_camp_schedule?.learning_type === 'online' &&
-              stage_camp_schedule?.status === 'reminded' &&
-              active_camp.status === 'pending' && (
-                <Button
-                  size='small'
-                  style={styles.buttonAction}
-                  onPress={() => attendaceConfirmation(active_camp?.id)}
-                >
-                  Konfirmasi Kehadiran
-                </Button>
-              )}
-
-            {stage_camp_schedule?.learning_type === 'offline' &&
+            {stage_camp_schedule?.status === 'reminded' &&
               active_camp.status === 'pending' && (
                 <Button
                   size='small'
