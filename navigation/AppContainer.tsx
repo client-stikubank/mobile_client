@@ -8,6 +8,7 @@ import * as Linking from 'expo-linking'
 
 import LoadingScreen from 'components/LoadingScreen'
 import { responseError, logoutUser } from 'store/actions'
+import { getGlobalSetting } from 'api/global_setting'
 
 import Onboarding from 'src/onboarding'
 import SuccessScr from 'src/SuccessScr'
@@ -62,31 +63,37 @@ const AppContainer = () => {
     error: state.Error.error
   }))
 
-  useEffect(() => {
-    if (
-      (Constants?.manifest?.version || 0) <
-      (process.env.MINIMUM_APP_VERSION || 0)
-    ) {
-      Alert.alert(
-        'Ada update!',
-        'Yuk update dulu apps nya.\nBiar gak ketinggalan fitur-fitur terbaru dari Youthcamp!',
-        [
-          {
-            text: 'Update',
-            onPress: () => {
-              if (Platform.OS !== 'ios') {
-                Linking.openURL(
-                  'https://play.google.com/store/apps/details?id=com.youthcamp.mobile_client&hl=id'
-                )
+  const checkVersion = async () => {
+    const response = await getGlobalSetting('minimum_app_version')
+    if (response) {
+      const minimumVersion = response?.data.attributes.value
+
+      if ((Constants?.manifest?.version || 0) < (minimumVersion || 0)) {
+        Alert.alert(
+          'Ada update!',
+          'Yuk update dulu apps nya.\nBiar gak ketinggalan fitur-fitur terbaru dari Youthcamp!',
+          [
+            {
+              text: 'Update',
+              onPress: () => {
+                if (Platform.OS !== 'ios') {
+                  Linking.openURL(
+                    'https://play.google.com/store/apps/details?id=com.youthcamp.mobile_client&hl=id'
+                  )
+                }
+                return BackHandler.exitApp()
               }
-              return BackHandler.exitApp()
             }
-          }
-        ],
-        { cancelable: false }
-      )
+          ],
+          { cancelable: false }
+        )
+      }
     }
-  }, [Constants?.manifest?.version])
+  }
+
+  useEffect(() => {
+    checkVersion()
+  }, [])
 
   useEffect(() => {
     if (error) {
