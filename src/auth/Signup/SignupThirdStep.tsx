@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
+
 import {
   TopNavigation,
   StyleService,
@@ -18,7 +19,6 @@ import { capitalize } from 'lodash'
 import Text from 'components/Text'
 import Content from 'components/Content'
 import Container from 'components/Container'
-import DatepickerField from 'components/DatepickerField'
 import NavigationAction from 'components/NavigationAction'
 import SelectPicker from 'components/SelectPicker'
 import { submitDate } from 'helpers/date'
@@ -30,6 +30,7 @@ import {
   getCities
 } from 'store/actions'
 import { RuleRequired } from 'utils/rules'
+import DatepickerField from 'components/DatepickerField'
 
 const SignupThirdStep = memo(() => {
   const reduxDispatch = useDispatch()
@@ -76,7 +77,7 @@ const SignupThirdStep = memo(() => {
     }
   }, [watch('province_id')])
 
-  const handleSignup = useCallback(data => {
+  const handleSignup = useCallback((data: any) => {
     const userProfile = {
       first_name: data.first_name,
       last_name: data.last_name,

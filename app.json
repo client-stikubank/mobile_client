@@ -2,7 +2,7 @@
   "expo": {
     "name": "Youthcamp",
     "slug": "youthcamp_mobile_client",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/brand/icon.png",
     "splash": {
@@ -18,7 +18,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 8,
+      "versionCode": 9,
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/icon.png",
         "backgroundColor": "#FFC40C"

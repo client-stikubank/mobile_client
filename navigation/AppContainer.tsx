@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { LogBox } from 'react-native'
+import { LogBox, Alert, Platform, BackHandler } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import * as Linking from 'expo-linking'
 
 import LoadingScreen from 'components/LoadingScreen'
 import { responseError, logoutUser } from 'store/actions'
@@ -45,6 +46,7 @@ import RequestsStackNavigator from './RequestStackNavigator'
 import { RootStackParamList } from './types'
 import { navigationRef } from './RootNavigation'
 import * as RootNavigation from './RootNavigation.js'
+import Constants from 'expo-constants'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -59,6 +61,32 @@ const AppContainer = () => {
     screen: state.Loading.screen,
     error: state.Error.error
   }))
+
+  useEffect(() => {
+    if (
+      (Constants?.manifest?.version || 0) <
+      (process.env.MINIMUM_APP_VERSION || 0)
+    ) {
+      Alert.alert(
+        'Ada update!',
+        'Yuk update dulu apps nya.\nBiar gak ketinggalan fitur-fitur terbaru dari Youthcamp!',
+        [
+          {
+            text: 'Update',
+            onPress: () => {
+              if (Platform.OS !== 'ios') {
+                Linking.openURL(
+                  'https://play.google.com/store/apps/details?id=com.youthcamp.mobile_client&hl=id'
+                )
+              }
+              return BackHandler.exitApp()
+            }
+          }
+        ],
+        { cancelable: false }
+      )
+    }
+  }, [Constants?.manifest?.version])
 
   useEffect(() => {
     if (error) {

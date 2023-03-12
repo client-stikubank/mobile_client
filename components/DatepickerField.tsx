@@ -1,5 +1,6 @@
 import React from 'react'
 import { Datepicker, NativeDateService } from '@ui-kitten/components'
+import { isDate } from 'lodash'
 
 interface DatepickerProps {
   label: string
@@ -76,7 +77,7 @@ const DatepickerField = ({
       onSelect={(nextDate: any) => {
         onChange(nextDate)
       }}
-      date={value}
+      date={isDate(value) ? value : null}
       filter={() => true}
       dateService={localeDateService}
       caption={errorMessage}

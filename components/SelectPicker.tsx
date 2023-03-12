@@ -42,6 +42,7 @@ const SelectPicker = ({
         onValueChange={onChange}
         items={items}
         style={pickerSelectStyles}
+        useNativeAndroidPickerStyle={false}
       />
       {errors && (
         <Text status='warning' category='h9' style={styles.labelWarning}>
@@ -77,14 +78,13 @@ const pickerSelectStyles = StyleService.create({
     fontWeight: '700'
   },
   inputAndroid: {
+    minHeight: 40,
+    borderRadius: 0,
+    borderBottomWidth: 2,
+    borderWidth: 0,
+    borderColor: '#F0F0F0',
+    paddingVertical: 7,
     fontSize: 14,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: 'black',
-    paddingRight: 30,
     fontWeight: '700'
   }
 })

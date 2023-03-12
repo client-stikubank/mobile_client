@@ -50,7 +50,7 @@ const SignupSecondStep = memo(() => {
     }
   })
 
-  const handleSignup = useCallback(data => {
+  const handleSignup = useCallback((data: any) => {
     reduxDispatch(collectRegister({ ...form, ...data }))
     navigate('SignupThirdStep')
   }, [])
