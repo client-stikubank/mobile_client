@@ -54,7 +54,7 @@ const SignupThirdStep = memo(() => {
       first_name: '',
       last_name: '',
       phone_number: '',
-      birth_date: '',
+      birth_date: new Date(2000, 0, 1),
       province_id: '',
       city_id: '',
       reffering_code: ''
