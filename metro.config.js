@@ -1,8 +1,12 @@
+const path = require('path')
 const MetroConfig = require('@ui-kitten/metro-config')
+const { getDefaultConfig } = require('expo/metro-config')
+
+const config = getDefaultConfig(__dirname)
 
 const evaConfig = {
   evaPackage: '@eva-design/eva',
-  customMappingPath: './constants/theme/mapping.json'
+  customMappingPath: path.resolve(__dirname, 'constants/theme/mapping.json')
 }
 
-module.exports = MetroConfig.create(evaConfig, {})
+module.exports = MetroConfig.create(evaConfig, config)

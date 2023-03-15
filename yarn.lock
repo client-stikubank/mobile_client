@@ -1416,10 +1416,10 @@
     json5 "^2.2.2"
     write-file-atomic "^2.3.0"
 
-"@expo/metro-config@~0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@expo/metro-config/-/metro-config-0.6.0.tgz#c3f17c57a380214e8eb81a17cfe82c446d9980a6"
-  integrity sha512-AqiWCyD6MGQuddZuitdpNVpPUO7JZEjPmLaDabAf/hEP6Uo9UJ4flx0OGcJRBkZTRSZ3Z3WwSBtq0LWvABJzrA==
+"@expo/metro-config@^0.7.1", "@expo/metro-config@~0.7.0":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@expo/metro-config/-/metro-config-0.7.1.tgz#eaae792da23554c1abbc401df868566fab29951b"
+  integrity sha512-vGWU62Zp5pRGw5IEHDNdqvsy62/hu/Na7bswePYVjoaItOjJY7+qilFeF0AAK+3V8qAM8fpltH3ByylKfWaA7A==
   dependencies:
     "@expo/config" "~8.0.0"
     chalk "^4.1.0"
@@ -1429,10 +1429,10 @@
     resolve-from "^5.0.0"
     sucrase "^3.20.0"
 
-"@expo/metro-config@~0.7.0":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@expo/metro-config/-/metro-config-0.7.1.tgz#eaae792da23554c1abbc401df868566fab29951b"
-  integrity sha512-vGWU62Zp5pRGw5IEHDNdqvsy62/hu/Na7bswePYVjoaItOjJY7+qilFeF0AAK+3V8qAM8fpltH3ByylKfWaA7A==
+"@expo/metro-config@~0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@expo/metro-config/-/metro-config-0.6.0.tgz#c3f17c57a380214e8eb81a17cfe82c446d9980a6"
+  integrity sha512-AqiWCyD6MGQuddZuitdpNVpPUO7JZEjPmLaDabAf/hEP6Uo9UJ4flx0OGcJRBkZTRSZ3Z3WwSBtq0LWvABJzrA==
   dependencies:
     "@expo/config" "~8.0.0"
     chalk "^4.1.0"
