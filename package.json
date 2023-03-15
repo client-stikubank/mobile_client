@@ -100,6 +100,7 @@
     "@types/react": "~18.0.27",
     "@types/react-native": "~0.67.6",
     "@types/react-native-svg-charts": "^5.0.12",
+    "@ui-kitten/metro-config": "^5.1.2",
     "babel-plugin-inline-dotenv": "^1.7.0",
     "deprecated-react-native-prop-types": "2.2.0",
     "reactotron-react-native": "^5.0.2",
