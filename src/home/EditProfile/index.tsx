@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Controller, useForm } from 'react-hook-form'
@@ -18,6 +18,7 @@ import Text from 'components/Text'
 import Content from 'components/Content'
 import Container from 'components/Container'
 import DatepickerField from 'components/DatepickerField'
+import DatePicker from 'components/DatePicker'
 import NavigationAction from 'components/NavigationAction'
 import SelectPicker from 'components/SelectPicker'
 import { submitDate, toDate } from 'helpers/date'
@@ -26,10 +27,11 @@ import { updateUserProfile, getProvinces, getCities } from 'store/actions'
 import { RuleRequired } from 'utils/rules'
 
 const EditProfile = memo(() => {
+  const reduxDispatch = useDispatch()
   const { navigate } = useNavigation<NavigationProp<HomeStackParamList>>()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['home', 'auth', 'common'])
-  const reduxDispatch = useDispatch()
+  const [toggleCalendar, setToggleCalendar] = useState(false)
 
   const { userProfile, provinces, cities } = useSelector((state: any) => ({
     userProfile: state.UserProfile.userProfile,
@@ -49,7 +51,7 @@ const EditProfile = memo(() => {
       first_name: user_profile?.first_name,
       last_name: user_profile?.last_name,
       phone_number: user_profile?.phone_number,
-      birth_date: toDate(user_profile?.birth_date),
+      birth_date: toDate(user_profile?.birth_date) || new Date(2000, 0, 1),
       province_id: user_profile?.city?.province?.id,
       city_id: user_profile?.city?.id
     }
@@ -156,12 +158,12 @@ const EditProfile = memo(() => {
               name='birth_date'
               rules={RuleRequired}
               render={({ field: { onChange, onBlur, value } }) => (
-                <DatepickerField
+                <DatePicker
                   label={t('auth:birth_date')}
-                  errors={!!errors.birth_date}
-                  errorMessage={errors.birth_date?.message}
+                  time={value}
+                  show={toggleCalendar}
                   onChange={onChange}
-                  value={value}
+                  setShow={setToggleCalendar}
                   style={styles.datepicker}
                 />
               )}

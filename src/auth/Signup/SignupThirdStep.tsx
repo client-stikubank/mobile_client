@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Controller, useForm } from 'react-hook-form'
@@ -21,6 +21,7 @@ import Content from 'components/Content'
 import Container from 'components/Container'
 import NavigationAction from 'components/NavigationAction'
 import SelectPicker from 'components/SelectPicker'
+import DatePicker from 'components/DatePicker'
 import { submitDate } from 'helpers/date'
 import { RootStackParamList } from 'navigation/types'
 import {
@@ -30,13 +31,13 @@ import {
   getCities
 } from 'store/actions'
 import { RuleRequired } from 'utils/rules'
-import DatepickerField from 'components/DatepickerField'
 
 const SignupThirdStep = memo(() => {
   const reduxDispatch = useDispatch()
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
   const styles = useStyleSheet(themedStyles)
   const { t } = useTranslation(['auth', 'success'])
+  const [toggleCalendar, setToggleCalendar] = useState(false)
 
   const { form, provinces, cities } = useSelector((state: any) => ({
     form: state.Register.form,
@@ -191,12 +192,12 @@ const SignupThirdStep = memo(() => {
               name='birth_date'
               rules={RuleRequired}
               render={({ field: { onChange, onBlur, value } }) => (
-                <DatepickerField
+                <DatePicker
                   label={t('auth:birth_date')}
-                  errors={!!errors.birth_date}
-                  errorMessage={errors.birth_date?.message}
+                  time={value}
+                  show={toggleCalendar}
                   onChange={onChange}
-                  value={value}
+                  setShow={setToggleCalendar}
                   style={styles.datepicker}
                 />
               )}

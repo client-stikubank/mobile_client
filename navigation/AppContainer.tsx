@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as Linking from 'expo-linking'
 
 import LoadingScreen from 'components/LoadingScreen'
-import { responseError, logoutUser } from 'store/actions'
+import { toggleScreen, responseError, logoutUser } from 'store/actions'
 import { getGlobalSetting } from 'api/global_setting'
 
 import Onboarding from 'src/onboarding'
@@ -64,8 +64,10 @@ const AppContainer = () => {
   }))
 
   const checkVersion = async () => {
+    reduxDispatch(toggleScreen(true))
     const response = await getGlobalSetting('minimum_app_version')
     if (response) {
+      reduxDispatch(toggleScreen(false))
       const minimumVersion = response?.data.attributes.value
 
       if ((Constants?.manifest?.version || 0) < (minimumVersion || 0)) {
