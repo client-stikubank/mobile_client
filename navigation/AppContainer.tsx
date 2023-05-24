@@ -5,7 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LogBox, Alert, Platform, BackHandler } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Linking from 'expo-linking'
+import Constants from 'expo-constants'
 
+import AfterSplash from 'components/AfterSplash'
 import LoadingScreen from 'components/LoadingScreen'
 import { toggleScreen, responseError, logoutUser } from 'store/actions'
 import { getGlobalSetting } from 'api/global_setting'
@@ -15,10 +17,14 @@ import SuccessScr from 'src/SuccessScr'
 
 import InviteAndWin from 'src/home/InviteAndWin'
 import QrActivities from 'src/home/QrActivities'
+import Events from 'src/home/Events'
+import EventDetail from 'src/home/Events/detail'
+import BuyEvent from 'src/home/Events/buy'
 import AdditionalProfile from 'src/home/AdditionalProfile'
 import EditProfile from 'src/home/EditProfile'
 import EditAccount from 'src/home/EditAccount'
 import GiftScanner from 'src/home/GiftScanner'
+import EventScanner from 'src/home/EventScanner'
 import AttendanceScanner from 'src/home/AttendanceScanner'
 import SelectLanguage from 'src/home/MyFavorites/SelectLanguage'
 import FavoritesMap from 'src/home/MyFavorites/FavoritesMap'
@@ -47,7 +53,6 @@ import RequestsStackNavigator from './RequestStackNavigator'
 import { RootStackParamList } from './types'
 import { navigationRef } from './RootNavigation'
 import * as RootNavigation from './RootNavigation.js'
-import Constants from 'expo-constants'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -114,6 +119,7 @@ const AppContainer = () => {
 
   return (
     <NavigationContainer ref={navigationRef}>
+      <AfterSplash />
       <LoadingScreen show={screen} />
       <Stack.Navigator
         screenOptions={{
@@ -130,10 +136,14 @@ const AppContainer = () => {
         <Stack.Screen name='Notification' component={Notification} />
         <Stack.Screen name='InviteAndWin' component={InviteAndWin} />
         <Stack.Screen name='QrActivities' component={QrActivities} />
+        <Stack.Screen name='Events' component={Events} />
+        <Stack.Screen name='EventDetail' component={EventDetail} />
+        <Stack.Screen name='BuyEvent' component={BuyEvent} />
         <Stack.Screen name='AdditionalProfile' component={AdditionalProfile} />
         <Stack.Screen name='EditProfile' component={EditProfile} />
         <Stack.Screen name='EditAccount' component={EditAccount} />
         <Stack.Screen name='GiftScanner' component={GiftScanner} />
+        <Stack.Screen name='EventScanner' component={EventScanner} />
         <Stack.Screen name='AttendanceScanner' component={AttendanceScanner} />
         <Stack.Screen name='CampList' component={CampList} />
         <Stack.Screen name='CampSchedule' component={CampSchedule} />

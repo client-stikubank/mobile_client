@@ -6,6 +6,7 @@ import { StyleService, useStyleSheet } from '@ui-kitten/components'
 import MyCertificate from './components/MyCertificate'
 import MyGifts from './components/MyGifts'
 import MyProfile from './components/MyProfile'
+import MyEvents from './components/MyEvents'
 
 const Profile = memo(() => {
   const styles = useStyleSheet(themedStyles)
@@ -15,6 +16,7 @@ const Profile = memo(() => {
     <View style={styles.carnivalContainer}>
       <MyProfile />
       <MyGifts />
+      <MyEvents />
       <MyCertificate />
     </View>
   )

@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native'
 
 export const globalStyle = StyleSheet.create({
+  colorPrimary: {
+    color: '#EE157F'
+  },
   flexOne: {
     flex: 1
   },

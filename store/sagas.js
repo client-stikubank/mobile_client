@@ -15,6 +15,8 @@ import UserStageScheduleSaga from './user_stage_schedule/saga'
 import ProvinceSaga from './province/saga'
 import CitySaga from './city/saga'
 import RewardSaga from './reward/saga'
+import EventSaga from './event/saga'
+import UserEventSaga from './user_event/saga'
 import CarnivalGiftSaga from './carnival_gift/saga'
 import UserCarnivalGiftSaga from './user_carnival_gift/saga'
 import AssessmentSaga from './assessment/saga'
@@ -38,6 +40,8 @@ export default function* rootSaga() {
     fork(ProvinceSaga),
     fork(CitySaga),
     fork(RewardSaga),
+    fork(EventSaga),
+    fork(UserEventSaga),
     fork(CarnivalGiftSaga),
     fork(UserCarnivalGiftSaga),
     fork(AssessmentSaga),

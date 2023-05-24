@@ -16,10 +16,14 @@ export type RootStackParamList = {
   Notification: undefined
   InviteAndWin: undefined
   QrActivities: undefined
+  Events: undefined
+  EventDetail: { event: any; isPaid?: boolean; userEvent?: any }
+  BuyEvent: { event: any }
   AdditionalProfile: undefined
   EditProfile: undefined
   EditAccount: undefined
   GiftScanner: { userCarnivalGift: any }
+  EventScanner: { userEvent: any }
   AttendanceScanner: {
     stageCampSchedule: any
     onSuccess: any

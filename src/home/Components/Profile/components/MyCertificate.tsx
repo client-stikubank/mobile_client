@@ -5,6 +5,7 @@ import { StyleService, useStyleSheet } from '@ui-kitten/components'
 import Swiper from 'react-native-swiper'
 import Image from 'react-native-scalable-image'
 import { find, truncate } from 'lodash'
+import dayjs from 'dayjs'
 
 import { Images } from 'assets/images'
 import Text from 'components/Text'
@@ -41,20 +42,23 @@ const MyCertificate = memo(() => {
                   <Text category='h8' style={styles.textName}>
                     {user_profile?.full_name}
                   </Text>
-                  <Text category='h8' style={styles.textMentor}>
-                    {camp?.speaker?.user_profile?.first_name}
-                    {camp?.speaker?.user_profile?.last_name &&
-                      ' ' + camp?.speaker?.user_profile?.last_name}
+                  <Text category='h7' style={styles.textMentor}>
+                    {truncate(
+                      `${camp?.speaker?.user_profile?.first_name} ${camp?.speaker?.user_profile?.last_name}`,
+                      { length: 46 }
+                    )}
                   </Text>
                   <Text category='h10-s' style={styles.campTitle}>
-                    {truncate(camp?.subtitle, { length: 24 })}
+                    {truncate(camp?.subtitle)}
                   </Text>
                   <Text category='h10-s' style={styles.campDate}>
-                    {
+                    {dayjs(
                       find(finishedSchedules, {
                         stage_camp: { camp: { id: camp?.id } }
                       })?.stage_camp_schedule?.started_at
-                    }
+                    )
+                      .locale('id')
+                      .format('DD MMMM YYYY')}
                   </Text>
                   <Image
                     source={Images.eCertificate}
@@ -95,20 +99,26 @@ const themedStyles = StyleService.create({
     position: 'absolute',
     width: '100%',
     left: '0%',
-    top: '55%',
+    top: '57%',
+    fontWeight: 'bold',
+    color: '#EE157F',
     textAlign: 'center',
     zIndex: 99
   },
   campTitle: {
     position: 'absolute',
-    left: '40%',
+    left: '17%',
     top: '41%',
+    fontWeight: 'bold',
+    color: '#EE157F',
     zIndex: 99
   },
   campDate: {
     position: 'absolute',
-    left: '26%',
-    top: '43.7%',
+    left: '17%',
+    top: '43.5%',
+    fontWeight: 'bold',
+    color: '#EE157F',
     zIndex: 99
   },
   swiper: {

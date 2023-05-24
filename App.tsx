@@ -19,6 +19,7 @@ import { default as customMapping } from 'constants/theme/mapping.json'
 import useCachedResources from 'hooks/useCachedResources'
 import AppContainer from 'navigation/AppContainer'
 import createStore from 'store'
+import Splash from 'components/Splash'
 
 import ThemeContext from './ThemeContext'
 import './i18n'
@@ -32,7 +33,8 @@ declare global {
 const store = createStore()
 
 LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state'
+  'Non-serializable values were found in the navigation state',
+  'Sending `onAnimatedValueUpdate` with no listeners registered.'
 ])
 
 function App() {
@@ -53,36 +55,24 @@ function App() {
   const isLoadingComplete = useCachedResources()
 
   if (!isLoadingComplete) {
-    return null
+    return <Splash />
   } else {
     return (
-      <SafeAreaProvider>
-        <Provider store={store}>
-          <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            <IconRegistry icons={[EvaIconsPack, AssetIconsPack]} />
-            <ApplicationProvider
-              {...eva}
-              theme={
-                theme === 'light'
-                  ? { ...eva.light, ...customTheme, ...lightTheme }
-                  : { ...eva.dark, ...customTheme, ...darkTheme }
-              }
-              /* @ts-ignore */
-              customMapping={customMapping}
-            >
-              <SafeAreaProvider>
-                <StatusBar
-                  style={theme === 'light' ? 'dark' : 'light'}
-                  translucent={true}
-                  backgroundColor={'#00000000'}
-                />
-                <AppContainer />
-              </SafeAreaProvider>
-            </ApplicationProvider>
-          </ThemeContext.Provider>
-          <Toast />
-        </Provider>
-      </SafeAreaProvider>
+      <Provider store={store}>
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+          <IconRegistry icons={[EvaIconsPack, AssetIconsPack]} />
+          <ApplicationProvider
+            {...eva}
+            theme={{ ...eva.light, ...customTheme, ...lightTheme }}
+            /* @ts-ignore */
+            customMapping={customMapping}
+          >
+            <StatusBar translucent={true} backgroundColor={'#FFC438'} />
+            <AppContainer />
+            <Toast />
+          </ApplicationProvider>
+        </ThemeContext.Provider>
+      </Provider>
     )
   }
 }

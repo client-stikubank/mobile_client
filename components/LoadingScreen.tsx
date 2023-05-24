@@ -36,8 +36,8 @@ const themedStyles = StyleService.create({
     right: 0,
     top: 0,
     bottom: 0,
-    zIndex: 999,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)'
+    zIndex: 90,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)'
   },
   animated: {
     width: 300,

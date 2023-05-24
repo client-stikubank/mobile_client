@@ -25,6 +25,7 @@ const HeaderHome = () => {
 
   const _onInviteAndWin = () => navigate('InviteAndWin')
   const _onQrActivities = () => navigate('QrActivities')
+  const _onEvents = () => navigate('Events')
 
   const changeDisplay = (display: string) => {
     reduxDispatch(homeDisplay(display))
@@ -45,10 +46,10 @@ const HeaderHome = () => {
             />
           </Flex>
 
-          <Flex mh={12} onPress={() => {}} style={styles.button}>
+          <Flex mh={12} onPress={_onEvents} style={styles.button}>
             <Image
               source={Images.buttonRanking}
-              style={styles.buttonImageDeactive as StyleProp<ImageStyle>}
+              style={styles.buttonImage as StyleProp<ImageStyle>}
             />
           </Flex>
 

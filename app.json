@@ -2,13 +2,13 @@
   "expo": {
     "name": "Youthcamp",
     "slug": "youthcamp_mobile_client",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/brand/icon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/brand/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#FFC40C"
+      "backgroundColor": "#FFC438"
     },
     "userInterfaceStyle": "automatic",
     "updates": {
@@ -16,20 +16,22 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "id.youthcamp"
     },
     "android": {
-      "versionCode": 12,
+      "versionCode": 13,
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/icon.png",
-        "backgroundColor": "#FFC40C"
+        "backgroundColor": "#FFC438"
       },
       "package": "com.youthcamp.mobile_client",
       "softwareKeyboardLayoutMode": "pan",
       "permissions": ["CAMERA"]
     },
     "androidStatusBar": {
-      "backgroundColor": "#000000"
+      "backgroundColor": "#FFC438",
+      "translucent": false
     },
     "extra": {
       "eas": {

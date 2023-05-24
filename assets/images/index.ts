@@ -41,10 +41,6 @@ export const Images = {
   shape: require('./img_shape.png'),
   createPost: require('./img_create_post.png'),
   noCard: require('./img_no_card.png'),
-  loading: require('./loading.json'),
-  loading2: require('./loading_2.json'),
-  giftTitle: require('./gift_title.json'),
-  giftLight: require('./gift_light.json'),
   giftHeader: require('./gift_header.webp'),
   headerBg: require('./header-bg.webp'),
   buttonQr: require('./button_qr.webp'),
@@ -63,8 +59,14 @@ export const Images = {
   cardHeader: require('./card-header.png'),
   cardBackground: require('./card_background.webp'),
   pageBackground: require('./page_background.webp'),
+  eCertificate: require('./e_certificate.webp'),
+  // LOTTIE
+  loading: require('./loading.json'),
+  loading2: require('./loading_2.json'),
+  giftTitle: require('./gift_title.json'),
+  giftLight: require('./gift_light.json'),
   loveLottie: require('./love_select.json'),
   placeholderChar: require('./placeholder_char.json'),
   qrScanner: require('./qr_scanner.json'),
-  eCertificate: require('./e_certificate.webp')
+  afterSplash: require('./after_splash.json')
 }

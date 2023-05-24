@@ -21,6 +21,8 @@ import UserStageSchedule from './user_stage_schedule/reducer'
 import Province from './province/reducer'
 import City from './city/reducer'
 import Reward from './reward/reducer'
+import Event from './event/reducer'
+import UserEvent from './user_event/reducer'
 import CarnivalGift from './carnival_gift/reducer'
 import UserCarnivalGift from './user_carnival_gift/reducer'
 import Assessment from './assessment/reducer'
@@ -43,11 +45,13 @@ const rootReducer = combineReducers({
   Province,
   City,
   Reward,
+  Event,
+  UserEvent,
   CarnivalGift,
   UserCarnivalGift,
   Assessment,
   AssessmentAnswer,
-  GlobalSetting,
+  GlobalSetting
 })
 
 export default rootReducer
