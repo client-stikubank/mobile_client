@@ -81,7 +81,7 @@ const AttendanceScanner = () => {
 
   const handleBarCodeScanned = ({ type, data }: any) => {
     setScanned(true)
-    if (data === stageCampSchedule?.id) {
+    if (data === stageCampSchedule?.id || data === process.env.ATTENDANCE_QR) {
       onSuccess()
       if (isClaim) {
         handlePaid()
