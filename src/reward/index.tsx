@@ -1,56 +1,52 @@
-import React, { memo, useEffect } from 'react'
-import { View, Image, FlatList } from 'react-native'
+import React, { memo, useEffect } from "react";
+import { View, Image, FlatList } from "react-native";
 import {
   TopNavigation,
   StyleService,
-  useStyleSheet
-} from '@ui-kitten/components'
-import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+  useStyleSheet,
+} from "@ui-kitten/components";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 
-import { getRewards } from 'store/actions'
-import { Images } from 'assets/images'
-import Text from 'components/Text'
-import Container from 'components/Container'
-import keyExtractor from 'utils/keyExtractor'
+import { getRewards } from "store/actions";
+import { Images } from "assets/images";
+import Text from "components/Text";
+import Container from "components/Container";
+import keyExtractor from "utils/keyExtractor";
 
-import RewardItem from './components/RewardItem'
+import RewardItem from "./components/RewardItem";
 
 const Reward = memo(() => {
-  const reduxDispatch = useDispatch()
-  const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['reward', 'common'])
+  const reduxDispatch = useDispatch();
+  const styles = useStyleSheet(themedStyles);
+  const { t } = useTranslation(["reward", "common"]);
 
   const { rewards, refresh } = useSelector((state: any) => ({
     rewards: state.Reward.rewards,
-    refresh: state.Loading.refresh
-  }))
-
-  useEffect(() => {
-    reduxDispatch(getRewards())
-  }, [])
+    refresh: state.Loading.refresh,
+  }));
 
   const ListEmptyComponent = React.useCallback(() => {
     return refresh && rewards.length === 0 ? null : (
       <View style={styles.empty}>
         <Image source={Images.emptyFavorites} />
-        <Text category='h6' center mt={58} mb={16}>
-          {t('reward:noReward')}
+        <Text category="h6" center mt={58} mb={16}>
+          {t("reward:noReward")}
         </Text>
-        <Text category='h8-s' center mh={24}>
-          {t('reward:noRewardDescription')}
+        <Text category="h8-s" center mh={24}>
+          {t("reward:noRewardDescription")}
         </Text>
       </View>
-    )
-  }, [])
+    );
+  }, []);
 
-  const renderItem = React.useCallback(({ item }) => {
-    return <RewardItem item={item} _onPress={() => {}} />
-  }, [])
+  const renderItem = React.useCallback(({ item }: any) => {
+    return <RewardItem item={item} _onPress={() => {}} />;
+  }, []);
 
   return (
     <Container style={styles.container}>
-      <TopNavigation title={t('reward:title').toString()} />
+      <TopNavigation title={t("reward:title").toString()} />
       <FlatList
         data={rewards.length > 0 ? rewards : []}
         renderItem={renderItem}
@@ -61,20 +57,20 @@ const Reward = memo(() => {
         refreshing={refresh}
       />
     </Container>
-  )
-})
+  );
+});
 
-export default Reward
+export default Reward;
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   empty: {
-    alignItems: 'center',
-    marginTop: 120
+    alignItems: "center",
+    marginTop: 120,
   },
   content: {
-    marginTop: 24
-  }
-})
+    marginTop: 24,
+  },
+});

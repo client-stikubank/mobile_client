@@ -1,45 +1,54 @@
-import React, { memo } from 'react'
-import { View, Platform, RefreshControl } from 'react-native'
-import Image from 'react-native-scalable-image'
-import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { useTheme, StyleService, useStyleSheet } from '@ui-kitten/components'
-import { isEmpty } from 'lodash'
+import React, { memo } from "react";
+import { View, Platform, TouchableOpacity } from "react-native";
+import Image from "react-native-scalable-image";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useTheme, StyleService, useStyleSheet } from "@ui-kitten/components";
+import { isEmpty } from "lodash";
+import * as Animatable from "react-native-animatable";
 
-import { getStage, getAssessments } from 'store/actions'
-import useLayout from 'hooks/useLayout'
-import { Images } from 'assets/images'
-import Text from 'components/Text'
-import Flex from 'components/Flex'
-import Content from 'components/Content'
+import { getStage, getAssessments } from "store/actions";
+import useLayout from "hooks/useLayout";
+import { Images } from "assets/images";
+import Text from "components/Text";
+import Flex from "components/Flex";
+import Content from "components/Content";
 
-import MonstaText from 'components/MonstaText'
-import { RootStackParamList } from 'navigation/types'
-import { globalStyle } from 'styles/globalStyle'
+import MonstaText from "components/MonstaText";
+import { RootStackParamList } from "navigation/types";
+import { globalStyle } from "styles/globalStyle";
 
-import ActiveCamp from './ActiveCamp'
-import GiftList from './GiftList'
+import ActiveCamp from "./ActiveCamp";
+import GiftList from "./GiftList";
 
 const Carnival = memo(() => {
-  const reduxDispatch = useDispatch()
-  const theme = useTheme()
-  const { width } = useLayout()
-  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
-  const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['home', 'common'])
+  const reduxDispatch = useDispatch();
+  const theme = useTheme();
+  const { width } = useLayout();
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const styles = useStyleSheet(themedStyles);
+  const { t } = useTranslation(["home", "common"]);
 
   const { carnival, assessments } = useSelector((state: any) => ({
     carnival: state.Carnival.carnival,
-    assessments: state.Assessment.assessments
-  }))
+    assessments: state.Assessment.assessments,
+  }));
 
   const _onAssessment = () =>
-    reduxDispatch(getAssessments(() => navigate('Assessment')))
+    reduxDispatch(getAssessments(() => navigate("Assessment")));
 
   const _onCampList = (stage: object) => {
-    reduxDispatch(getStage(stage, () => navigate('CampList')))
-  }
+    reduxDispatch(getStage(stage, () => navigate("CampList")));
+  };
+
+  const onQrclueScanner = () => {
+    navigate("QrclueScanner");
+  };
+
+  const onQuestionnaire = () => {
+    navigate("QuestionnaireScanner");
+  };
 
   return isEmpty(carnival) ? null : (
     <Content>
@@ -53,7 +62,7 @@ const Carnival = memo(() => {
       <View style={styles.carnivalContainer}>
         <Image source={Images.carnivalTemplate} width={width} />
         <Flex onPress={_onAssessment} style={styles.startMapping}>
-          <Text category='h5' uppercase bold style={styles.startText}>
+          <Text category="h5" uppercase bold style={styles.startText}>
             Start
           </Text>
         </Flex>
@@ -70,93 +79,131 @@ const Carnival = memo(() => {
             <Flex style={styles.activeStage}>
               <Image source={Images.iconActiveStage} width={18} />
             </Flex>
-            <Text category='h9-s' mt={4}>
+            <Text category="h9-s" mt={4}>
               Level {stage.level}
             </Text>
-            <Text category='h9' bold>
+            <Text category="h9" bold>
               {stage.name}
             </Text>
-            <MonstaText amount={stage.high_amount || '----'} />
+            <MonstaText amount={stage.high_amount || "----"} />
           </Flex>
         ))}
-        <Flex onPress={() => {}} style={styles.finishMapping}>
-          <Text category='h5' uppercase bold style={styles.startText}>
+        <Flex style={styles.finishMapping}>
+          <Text category="h5" uppercase bold style={styles.startText}>
             Finish
           </Text>
+        </Flex>
+        <Flex style={styles.qrClueMapping}>
+          <TouchableOpacity onPress={onQrclueScanner}>
+            <Animatable.View
+              animation="pulse"
+              easing="ease-out"
+              iterationCount="infinite"
+              duration={2000}
+            >
+              <Image source={Images.qrclueIcon} width={50} />
+            </Animatable.View>
+          </TouchableOpacity>
+        </Flex>
+        <Flex style={styles.questionnaireMapping}>
+          <TouchableOpacity onPress={onQuestionnaire}>
+            <Animatable.View
+              animation="pulse"
+              easing="ease-out"
+              iterationCount="infinite"
+              duration={2000}
+            >
+              <Image source={Images.questionnaireIcon} width={50} />
+            </Animatable.View>
+          </TouchableOpacity>
         </Flex>
       </View>
       <GiftList />
     </Content>
-  )
-})
+  );
+});
 
-export default Carnival
+export default Carnival;
 
 const themedStyles = StyleService.create({
   carnivalContainer: {},
   activeCamp: {
     marginTop: 16,
     marginHorizontal: 24,
-    paddingBottom: 30
+    paddingBottom: 30,
   },
   startMapping: {
-    width: '20%',
-    height: '7.5%',
-    backgroundColor: 'color-primary-200',
-    position: 'absolute',
-    right: '16.7%',
-    top: '3.45%',
+    width: "20%",
+    height: "7.5%",
+    backgroundColor: "color-primary-200",
+    position: "absolute",
+    right: "16.7%",
+    top: "3.45%",
     borderRadius: 100,
-    ...globalStyle.center
+    ...globalStyle.center,
   },
   finishMapping: {
-    width: '20%',
-    height: '7.5%',
-    backgroundColor: 'color-primary-200',
-    position: 'absolute',
-    left: '3.9%',
-    bottom: '25.4%',
+    width: "20%",
+    height: "7.5%",
+    backgroundColor: "color-primary-200",
+    position: "absolute",
+    left: "3.9%",
+    bottom: "25.4%",
     borderRadius: 100,
-    ...globalStyle.center
+    ...globalStyle.center,
+  },
+  qrClueMapping: {
+    position: "absolute",
+    right: "15%",
+    bottom: "20%",
+    borderRadius: 100,
+    ...globalStyle.center,
+  },
+  questionnaireMapping: {
+    position: "absolute",
+    left: "31.05%",
+    bottom: "6.25%",
+    borderRadius: 100,
+    ...globalStyle.center,
   },
   startText: {
-    color: 'color-basic-100'
+    color: "color-basic-100",
   },
   itemMapping: {
-    position: 'absolute',
+    position: "absolute",
     transform: [
       {
-        scale: Platform.OS === 'ios' ? 1 : 0.95
-      }
-    ]
+        scale: Platform.OS === "ios" ? 1 : 0.95,
+      },
+    ],
   },
   stage1: {
-    right: '34.5%',
-    top: '11%'
+    right: "34.5%",
+    top: "11%",
   },
   stage2: {
-    right: '56.5%',
-    top: '22.5%'
+    right: "56.5%",
+    top: "22.5%",
   },
   stage3: {
-    right: '21%',
-    top: '30.5%'
+    right: "21%",
+    top: "30.5%",
   },
   stage4: {
-    left: '5%',
-    top: '39%'
+    left: "5%",
+    top: "39%",
   },
   stage5: {
-    right: '39.5%',
-    top: '48.5%'
+    right: "39.5%",
+    top: "48.5%",
   },
   stage6: {
-    right: '42%',
-    top: '60%'
+    right: "42%",
+    top: "60%",
   },
   activeStage: {
-    position: 'absolute',
+    position: "absolute",
     top: 20,
-    left: -8
-  }
-})
+    left: -8,
+  },
+});

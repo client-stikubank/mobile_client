@@ -1,20 +1,20 @@
-import React, { memo } from 'react'
-import { useRoute } from '@react-navigation/native'
-import { ModalScreenNavigationProp } from 'navigation/types'
-import NotificationScreen from 'components/NotificationScreen'
+import React, { memo } from "react";
+import { useRoute } from "@react-navigation/native";
+import { ModalScreenNavigationProp } from "navigation/types";
+import NotificationScreen from "components/NotificationScreen";
 
 const initValue = {
   goBack: true,
-  title: 'Oops!',
-  description: 'Something went wrong somewhere.\nWould you like to try again?',
+  title: "Oops!",
+  description: "Something went wrong somewhere.\nWould you like to try again?",
   actions: [],
-  logo: false
-}
+  logo: false,
+};
 
 const SuccessScr = memo(() => {
-  const route = useRoute<ModalScreenNavigationProp>()
+  const route = useRoute<ModalScreenNavigationProp>();
   const { title, description, actions, buttonsViewStyle, logo } =
-    route?.params?.successScr || initValue
+    route?.params?.successScr || initValue;
 
   return (
     <NotificationScreen
@@ -24,7 +24,7 @@ const SuccessScr = memo(() => {
       buttonsViewStyle={buttonsViewStyle}
       logo={logo}
     />
-  )
-})
+  );
+});
 
-export default SuccessScr
+export default SuccessScr;
