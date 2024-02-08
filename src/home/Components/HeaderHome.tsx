@@ -1,44 +1,44 @@
-import React from 'react'
-import { ImageBackground, Image, StyleProp, ImageStyle } from 'react-native'
-import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { useTheme, StyleService, useStyleSheet } from '@ui-kitten/components'
-import { isEmpty } from 'lodash'
+import React from "react";
+import { ImageBackground, Image, StyleProp, ImageStyle } from "react-native";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useTheme, StyleService, useStyleSheet } from "@ui-kitten/components";
+import { isEmpty } from "lodash";
 
-import { homeDisplay } from 'store/actions'
-import { Images } from 'assets/images'
-import Text from 'components/Text'
-import Flex from 'components/Flex'
-import { RootStackParamList } from 'navigation/types'
-import { globalStyle } from 'styles/globalStyle'
+import { homeDisplay } from "store/actions";
+import { Images } from "assets/images";
+import Text from "components/Text";
+import Flex from "components/Flex";
+import { RootStackParamList } from "navigation/types";
+import { globalStyle } from "styles/globalStyle";
 
 const HeaderHome = () => {
-  const reduxDispatch = useDispatch()
-  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
-  const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['home', 'common'])
+  const reduxDispatch = useDispatch();
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const styles = useStyleSheet(themedStyles);
+  const { t } = useTranslation(["home", "common"]);
 
-  const { userProfile } = useSelector((state: any) => ({
-    userProfile: state.UserProfile.userProfile
-  }))
+  const userProfile = useSelector(
+    (state: any) => state.UserProfile.userProfile
+  );
 
-  const _onInviteAndWin = () => navigate('InviteAndWin')
-  const _onQrActivities = () => navigate('QrActivities')
-  const _onEvents = () => navigate('Events')
+  const _onInviteAndWin = () => navigate("InviteAndWin");
+  const _onQrActivities = () => navigate("QrActivities");
+  const _onEvents = () => navigate("Events");
 
   const changeDisplay = (display: string) => {
-    reduxDispatch(homeDisplay(display))
-  }
+    reduxDispatch(homeDisplay(display));
+  };
 
   return (
     <Flex itemsCenter style={styles.container}>
       <ImageBackground
         source={Images.headerBg}
         style={styles.imageBackground}
-        resizeMode='cover'
+        resizeMode="cover"
       >
-        <Flex style={styles.navigationButton} vertical={false} justify='center'>
+        <Flex style={styles.navigationButton} vertical={false} justify="center">
           <Flex mh={12} onPress={_onInviteAndWin} style={styles.button}>
             <Image
               source={Images.buttonInvite}
@@ -62,7 +62,7 @@ const HeaderHome = () => {
 
           <Flex
             mh={12}
-            onPress={() => changeDisplay('profile')}
+            onPress={() => changeDisplay("profile")}
             style={styles.button}
           >
             <Image
@@ -75,7 +75,7 @@ const HeaderHome = () => {
         <Flex
           style={styles.tokens}
           vertical={false}
-          justify='center'
+          justify="center"
           itemsCenter
           center
         >
@@ -87,8 +87,8 @@ const HeaderHome = () => {
               />
             </Flex>
             <Flex style={[styles.tokenAmount, styles.tokenBeryl]} itemsCenter>
-              <Text category='h6' bold style={styles.tokenText}>
-                {!isEmpty(userProfile) ? userProfile.wallet_balance[0] : '-'}
+              <Text category="h6" bold style={styles.tokenText}>
+                {!isEmpty(userProfile) ? userProfile.wallet_balance[0] : "-"}
               </Text>
             </Flex>
           </Flex>
@@ -100,8 +100,8 @@ const HeaderHome = () => {
               />
             </Flex>
             <Flex style={[styles.tokenAmount, styles.tokenAle]} itemsCenter>
-              <Text category='h6' bold style={styles.tokenText}>
-                {!isEmpty(userProfile) ? userProfile.wallet_balance[1] : '-'}
+              <Text category="h6" bold style={styles.tokenText}>
+                {!isEmpty(userProfile) ? userProfile.wallet_balance[1] : "-"}
               </Text>
             </Flex>
           </Flex>
@@ -113,8 +113,8 @@ const HeaderHome = () => {
               />
             </Flex>
             <Flex style={[styles.tokenAmount, styles.tokenJenny]} itemsCenter>
-              <Text category='h6' bold style={styles.tokenText}>
-                {!isEmpty(userProfile) ? userProfile.wallet_balance[2] : '-'}
+              <Text category="h6" bold style={styles.tokenText}>
+                {!isEmpty(userProfile) ? userProfile.wallet_balance[2] : "-"}
               </Text>
             </Flex>
           </Flex>
@@ -126,97 +126,97 @@ const HeaderHome = () => {
               />
             </Flex>
             <Flex style={[styles.tokenAmount, styles.tokenMamo]} itemsCenter>
-              <Text category='h6' bold style={styles.tokenText}>
-                {!isEmpty(userProfile) ? userProfile.wallet_balance[3] : '-'}
+              <Text category="h6" bold style={styles.tokenText}>
+                {!isEmpty(userProfile) ? userProfile.wallet_balance[3] : "-"}
               </Text>
             </Flex>
           </Flex>
         </Flex>
       </ImageBackground>
     </Flex>
-  )
-}
+  );
+};
 
-export default HeaderHome
+export default HeaderHome;
 
 const themedStyles = StyleService.create({
   container: {
     paddingBottom: 40,
-    backgroundColor: 'color-carnival'
+    backgroundColor: "color-carnival",
   },
   navigationButton: {
     marginHorizontal: 16,
-    marginTop: 40
+    marginTop: 40,
   },
   tokens: {
     borderRadius: 32,
-    overflow: 'hidden',
+    overflow: "hidden",
     borderWidth: 6,
-    borderStyle: 'solid',
-    borderColor: 'color-carnival',
+    borderStyle: "solid",
+    borderColor: "color-carnival",
     marginTop: -16,
-    top: 32 + 1
+    top: 32 + 1,
   },
   token: {
-    backgroundColor: 'purple'
+    backgroundColor: "purple",
   },
   tokenImage: {
     width: 80,
-    height: 80
+    height: 80,
   },
   tokenMamo: {
-    backgroundColor: 'color-mamo',
-    paddingHorizontal: 6
+    backgroundColor: "color-mamo",
+    paddingHorizontal: 6,
   },
   tokenAle: {
-    backgroundColor: 'color-ale',
-    paddingHorizontal: 6
+    backgroundColor: "color-ale",
+    paddingHorizontal: 6,
   },
   tokenBeryl: {
-    backgroundColor: 'color-beryl',
-    paddingHorizontal: 6
+    backgroundColor: "color-beryl",
+    paddingHorizontal: 6,
   },
   tokenJenny: {
-    backgroundColor: 'color-jenny',
-    paddingHorizontal: 6
+    backgroundColor: "color-jenny",
+    paddingHorizontal: 6,
   },
   tokenAmount: {
     height: 32,
-    ...globalStyle.center
+    ...globalStyle.center,
   },
   tokenText: {
-    color: '#FFF'
+    color: "#FFF",
   },
   avatar: {
-    marginRight: 16
+    marginRight: 16,
   },
   notification: {
-    position: 'absolute',
+    position: "absolute",
     width: 14,
     height: 14,
-    backgroundColor: 'color-danger-100',
-    justifyContent: 'center',
+    backgroundColor: "color-danger-100",
+    justifyContent: "center",
     right: -4,
-    top: -4
+    top: -4,
   },
   button: {
     ...globalStyle.shadowFade,
     width: 64,
     height: 64,
     ...globalStyle.center,
-    borderRadius: 12
+    borderRadius: 12,
   },
   buttonImage: {
-    width: '100%',
-    resizeMode: 'contain'
+    width: "100%",
+    resizeMode: "contain",
   },
   buttonImageDeactive: {
-    width: '100%',
-    resizeMode: 'contain',
-    opacity: 0.5
+    width: "100%",
+    resizeMode: "contain",
+    opacity: 0.5,
   },
   imageBackground: {
-    width: '100%',
-    display: 'flex'
-  }
-})
+    width: "100%",
+    display: "flex",
+  },
+});

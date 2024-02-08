@@ -1,44 +1,42 @@
-import React, { memo, useEffect, useState, useCallback } from 'react'
-import { View, FlatList } from 'react-native'
+import React, { memo, useEffect, useState, useCallback } from "react";
+import { View, FlatList } from "react-native";
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
   Layout,
-  ViewPager
-} from '@ui-kitten/components'
-import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+  ViewPager,
+} from "@ui-kitten/components";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 
-import BasicTabBar from 'components/BasicTabBar'
-import Container from 'components/Container'
-import { getUserStageSchedules } from 'store/actions'
-import { globalStyle } from 'styles/globalStyle'
-import keyExtractor from 'utils/keyExtractor'
+import BasicTabBar from "components/BasicTabBar";
+import Container from "components/Container";
+import { getUserStageSchedules } from "store/actions";
+import { globalStyle } from "styles/globalStyle";
+import keyExtractor from "utils/keyExtractor";
 
-import CampTab from './components/CampTab'
+import CampTab from "./components/CampTab";
 
 const Activities = memo(() => {
-  const reduxDispatch = useDispatch()
-  const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['activities'])
-  const [activeIndex, setActiveIndex] = useState(0)
+  const reduxDispatch = useDispatch();
+  const styles = useStyleSheet(themedStyles);
+  const { t } = useTranslation(["activities"]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const { refresh } = useSelector((state: any) => ({
-    refresh: state.Loading.refresh
-  }))
+  const refresh = useSelector((state: any) => state.Loading.refresh);
 
   useEffect(() => {
-    reduxDispatch(getUserStageSchedules())
-  }, [])
+    reduxDispatch(getUserStageSchedules());
+  }, []);
 
-  const shouldLoadComponent = (index: number) => index === activeIndex
+  const shouldLoadComponent = (index: number) => index === activeIndex;
 
   const onRefresh = () => {
     if (activeIndex === 0) {
-      reduxDispatch(getUserStageSchedules())
+      reduxDispatch(getUserStageSchedules());
     }
-  }
+  };
 
   const ListFooterComponent = useCallback(() => {
     return (
@@ -55,8 +53,8 @@ const Activities = memo(() => {
           <CampTab /> */}
         </ViewPager>
       </View>
-    )
-  }, [activeIndex])
+    );
+  }, [activeIndex]);
 
   const ListHeaderComponent = useCallback(() => {
     return (
@@ -66,18 +64,18 @@ const Activities = memo(() => {
           activeIndex={activeIndex}
           onChange={setActiveIndex}
           tabs={[
-            t('activities:camp'),
+            t("activities:camp"),
             // t('activities:treasure_hunt'),
             // t('activities:gift')
           ]}
         />
       </Layout>
-    )
-  }, [activeIndex])
+    );
+  }, [activeIndex]);
 
   return (
     <Container style={styles.container}>
-      <TopNavigation title={t('activities:title').toString()} />
+      <TopNavigation title={t("activities:title").toString()} />
       <FlatList
         renderItem={() => <></>}
         stickyHeaderIndices={[0]}
@@ -91,22 +89,22 @@ const Activities = memo(() => {
         refreshing={refresh}
       />
     </Container>
-  )
-})
+  );
+});
 
-export default Activities
+export default Activities;
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   content: {},
   tabBar: {
     marginTop: 12,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
   },
   footer: {
     marginHorizontal: 24,
-    paddingBottom: 40
-  }
-})
+    paddingBottom: 40,
+  },
+});

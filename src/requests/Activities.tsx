@@ -1,61 +1,61 @@
-import React, { memo, useEffect } from 'react'
-import { View, FlatList } from 'react-native'
+import React, { memo, useEffect } from "react";
+import { View, FlatList } from "react-native";
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
   Layout,
-  ViewPager
-} from '@ui-kitten/components'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+  ViewPager,
+} from "@ui-kitten/components";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 
-import BasicTabBar from 'components/BasicTabBar'
-import Container from 'components/Container'
+import BasicTabBar from "components/BasicTabBar";
+import Container from "components/Container";
 import {
   DATA_CURRENT_BOOKING,
   DATA_CURRENT_INTERVIEW,
   DATA_PASS_BOOKING,
-  DATA_PAST_INTERVIEW
-} from 'constants/Data'
-import { RequestsStackParamList } from 'navigation/types'
-import { getUserStageSchedules } from 'store/actions'
-import { globalStyle } from 'styles/globalStyle'
-import keyExtractor from 'utils/keyExtractor'
+  DATA_PAST_INTERVIEW,
+} from "constants/Data";
+import { RequestsStackParamList } from "navigation/types";
+import { getUserStageSchedules } from "store/actions";
+import { globalStyle } from "styles/globalStyle";
+import keyExtractor from "utils/keyExtractor";
 
-import CampTab from './Camp/CampTab'
-import BookingsTab from './Bookings/BookingsTab'
-import ApplicationsTab from './Applications/ApplicationsTab'
+import CampTab from "./Camp/CampTab";
+import BookingsTab from "./Bookings/BookingsTab";
+import ApplicationsTab from "./Applications/ApplicationsTab";
 
 const Activities = memo(() => {
-  const reduxDispatch = useDispatch()
-  const { navigate } = useNavigation<NavigationProp<RequestsStackParamList>>()
-  const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['request', 'common'])
+  const reduxDispatch = useDispatch();
+  const { navigate } = useNavigation<NavigationProp<RequestsStackParamList>>();
+  const styles = useStyleSheet(themedStyles);
+  const { t } = useTranslation(["request", "common"]);
 
-  const { userStageSchedules, refresh } = useSelector((state: any) => ({
-    userStageSchedules: state.UserStageSchedule.userStageSchedules,
-    refresh: state.Loading.refresh
-  }))
+  const userStageSchedules = useSelector(
+    (state: any) => state.UserStageSchedule.userStageSchedules
+  );
+  const refresh = useSelector((state: any) => state.Loading.refresh);
 
-  const [activeIndex, setActiveIndex] = React.useState(0)
-  const shouldLoadComponent = (index: number) => index === activeIndex
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const shouldLoadComponent = (index: number) => index === activeIndex;
 
-  const [dataCurrent, setCurrent] = React.useState(DATA_CURRENT_INTERVIEW)
-  const [dataPast, setPast] = React.useState(DATA_PAST_INTERVIEW)
+  const [dataCurrent, setCurrent] = React.useState(DATA_CURRENT_INTERVIEW);
+  const [dataPast, setPast] = React.useState(DATA_PAST_INTERVIEW);
 
   useEffect(() => {
     if (activeIndex === 0) {
-      reduxDispatch(getUserStageSchedules())
+      reduxDispatch(getUserStageSchedules());
     }
-  }, [activeIndex])
+  }, [activeIndex]);
 
   const onRefresh = () => {
     if (activeIndex === 0) {
-      reduxDispatch(getUserStageSchedules())
+      reduxDispatch(getUserStageSchedules());
     }
-  }
+  };
 
   const ListFooterComponent = React.useCallback(() => {
     return (
@@ -79,8 +79,8 @@ const Activities = memo(() => {
           <ApplicationsTab />
         </ViewPager>
       </View>
-    )
-  }, [activeIndex, dataCurrent, dataPast])
+    );
+  }, [activeIndex, dataCurrent, dataPast]);
 
   const ListHeaderComponent = React.useCallback(() => {
     return (
@@ -90,18 +90,18 @@ const Activities = memo(() => {
           activeIndex={activeIndex}
           onChange={setActiveIndex}
           tabs={[
-            t('request:camp'),
-            t('request:treasure_hunt'),
-            t('request:event')
+            t("request:camp"),
+            t("request:treasure_hunt"),
+            t("request:event"),
           ]}
         />
       </Layout>
-    )
-  }, [activeIndex])
+    );
+  }, [activeIndex]);
 
   return (
     <Container style={styles.container}>
-      <TopNavigation title={t('request:title').toString()} />
+      <TopNavigation title={t("request:title").toString()} />
       <FlatList
         renderItem={() => <></>}
         stickyHeaderIndices={[0]}
@@ -115,22 +115,22 @@ const Activities = memo(() => {
         refreshing={refresh}
       />
     </Container>
-  )
-})
+  );
+});
 
-export default Activities
+export default Activities;
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   content: {},
   tabBar: {
     marginTop: 12,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
   },
   footer: {
     marginHorizontal: 24,
-    paddingBottom: 40
-  }
-})
+    paddingBottom: 40,
+  },
+});

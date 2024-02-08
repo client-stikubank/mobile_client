@@ -106,7 +106,7 @@ const QrclueScanner = () => {
           source={Images.qrScanner}
           autoPlay
           loop
-          resizeMode="contain"
+          style={{ width: "100%", aspectRatio: 1 }}
         />
       </BarCodeScanner>
       <TopNavigation accessoryLeft={() => <NavigationAction />} />

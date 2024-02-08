@@ -1,61 +1,60 @@
-import React from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import Toast from 'react-native-toast-message'
-import { Provider } from 'react-redux'
-import * as eva from '@eva-design/eva'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
-import { EvaIconsPack } from '@ui-kitten/eva-icons'
-import { StatusBar } from 'expo-status-bar'
-import { LogBox } from 'react-native'
-import 'react-native-gesture-handler'
+import React from "react";
+import Toast from "react-native-toast-message";
+import { Provider } from "react-redux";
+import * as eva from "@eva-design/eva";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import { StatusBar } from "expo-status-bar";
+import { LogBox } from "react-native";
+import "react-native-gesture-handler";
 
-import AssetIconsPack from 'assets/AssetIconsPack'
-import DebugConfig from 'config/DebugConfig'
-import { default as darkTheme } from 'constants/theme/dark.json'
-import { default as lightTheme } from 'constants/theme/light.json'
-import { default as customTheme } from 'constants/theme/appTheme.json'
-import { default as customMapping } from 'constants/theme/mapping.json'
-import useCachedResources from 'hooks/useCachedResources'
-import AppContainer from 'navigation/AppContainer'
-import createStore from 'store'
-import Splash from 'components/Splash'
+import AssetIconsPack from "assets/AssetIconsPack";
+import DebugConfig from "config/DebugConfig";
+import { default as darkTheme } from "constants/theme/dark.json";
+import { default as lightTheme } from "constants/theme/light.json";
+import { default as customTheme } from "constants/theme/appTheme.json";
+import { default as customMapping } from "constants/theme/mapping.json";
+import useCachedResources from "hooks/useCachedResources";
+import AppContainer from "navigation/AppContainer";
+import createStore from "store";
+import Splash from "components/Splash";
 
-import ThemeContext from './ThemeContext'
-import './i18n'
+import ThemeContext from "./ThemeContext";
+import "./i18n";
 
 declare global {
   interface Console {
-    tron: any
+    tron: any;
   }
 }
 
-const store = createStore()
+const store = createStore();
 
 LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-  'Sending `onAnimatedValueUpdate` with no listeners registered.'
-])
+  "Non-serializable values were found in the navigation state",
+  "Sending `onAnimatedValueUpdate` with no listeners registered.",
+]);
 
 function App() {
-  const [theme, setTheme] = React.useState<'light' | 'dark'>('light')
+  const [theme, setTheme] = React.useState<"light" | "dark">("light");
 
   React.useEffect(() => {
-    AsyncStorage.getItem('theme').then(value => {
-      if (value === 'light' || value === 'dark') setTheme(value)
-    })
-  }, [])
+    AsyncStorage.getItem("theme").then((value) => {
+      if (value === "light" || value === "dark") setTheme(value);
+    });
+  }, []);
 
   const toggleTheme = () => {
-    const nextTheme = theme === 'light' ? 'dark' : 'light'
-    AsyncStorage.setItem('theme', nextTheme).then(() => {
-      setTheme(nextTheme)
-    })
-  }
-  const isLoadingComplete = useCachedResources()
+    const nextTheme = theme === "light" ? "dark" : "light";
+    AsyncStorage.setItem("theme", nextTheme).then(() => {
+      setTheme(nextTheme);
+    });
+  };
+  const isLoadingComplete = useCachedResources();
 
   if (!isLoadingComplete) {
-    return <Splash />
+    return <Splash />;
   } else {
     return (
       <Provider store={store}>
@@ -67,14 +66,14 @@ function App() {
             /* @ts-ignore */
             customMapping={customMapping}
           >
-            <StatusBar translucent={true} backgroundColor={'#FFC438'} />
+            <StatusBar translucent={true} backgroundColor={"#FFC438"} />
             <AppContainer />
             <Toast />
           </ApplicationProvider>
         </ThemeContext.Provider>
       </Provider>
-    )
+    );
   }
 }
 
-export default DebugConfig.useReactotron ? console.tron.overlay(App) : App
+export default DebugConfig.useReactotron ? console.tron.overlay(App) : App;

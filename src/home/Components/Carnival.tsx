@@ -30,10 +30,7 @@ const Carnival = memo(() => {
   const styles = useStyleSheet(themedStyles);
   const { t } = useTranslation(["home", "common"]);
 
-  const { carnival, assessments } = useSelector((state: any) => ({
-    carnival: state.Carnival.carnival,
-    assessments: state.Assessment.assessments,
-  }));
+  const carnival = useSelector((state: any) => state.Carnival.carnival);
 
   const _onAssessment = () =>
     reduxDispatch(getAssessments(() => navigate("Assessment")));

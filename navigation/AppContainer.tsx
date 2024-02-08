@@ -65,11 +65,9 @@ LogBox.ignoreLogs([
 
 const AppContainer = () => {
   const reduxDispatch = useDispatch();
-  const { auth, screen, error } = useSelector((state: any) => ({
-    auth: state.Login.auth,
-    screen: state.Loading.screen,
-    error: state.Error.error,
-  }));
+  const auth = useSelector((state: any) => state.Login.auth);
+  const screen = useSelector((state: any) => state.Loading.screen);
+  const error = useSelector((state: any) => state.Error.error);
 
   const checkVersion = async () => {
     reduxDispatch(toggleScreen(true));
@@ -78,7 +76,7 @@ const AppContainer = () => {
       reduxDispatch(toggleScreen(false));
       const minimumVersion = response?.data.attributes.value;
 
-      if ((Constants?.manifest?.version || 0) < (minimumVersion || 0)) {
+      if ((Constants?.expoConfig?.version || 0) < (minimumVersion || 0)) {
         Alert.alert(
           "Ada update!",
           "Yuk update dulu apps nya.\nBiar gak ketinggalan fitur-fitur terbaru dari Youthcamp!",

@@ -21,10 +21,8 @@ const Reward = memo(() => {
   const styles = useStyleSheet(themedStyles);
   const { t } = useTranslation(["reward", "common"]);
 
-  const { rewards, refresh } = useSelector((state: any) => ({
-    rewards: state.Reward.rewards,
-    refresh: state.Loading.refresh,
-  }));
+  const rewards = useSelector((state: any) => state.Reward.rewards);
+  const refresh = useSelector((state: any) => state.Loading.refresh);
 
   const ListEmptyComponent = React.useCallback(() => {
     return refresh && rewards.length === 0 ? null : (

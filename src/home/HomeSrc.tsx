@@ -1,57 +1,55 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
-import { RefreshControl, View } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
-import { useTranslation } from 'react-i18next'
-import { StyleService, useStyleSheet } from '@ui-kitten/components'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
+import React, { memo, useCallback, useEffect, useState } from "react";
+import { RefreshControl, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { StyleService, useStyleSheet } from "@ui-kitten/components";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-import { Images } from 'assets/images'
-import Content from 'components/Content'
-import Container from 'components/Container'
-import Text from 'components/Text'
-import TitleField from 'components/TitleField'
-import IRecommended from 'components/IRecommended'
-import Flex from 'components/Flex'
-import { MY_FAVORITES, MY_RECOMMENDED } from 'constants/Data'
+import { Images } from "assets/images";
+import Content from "components/Content";
+import Container from "components/Container";
+import Text from "components/Text";
+import TitleField from "components/TitleField";
+import IRecommended from "components/IRecommended";
+import Flex from "components/Flex";
+import { MY_FAVORITES, MY_RECOMMENDED } from "constants/Data";
 import {
   HomeStackParamList,
   MainBottomTabStackParamList,
-  RootStackParamList
-} from 'navigation/types'
-import { getCarnival, getUserProfile } from 'store/actions'
+  RootStackParamList,
+} from "navigation/types";
+import { getCarnival, getUserProfile } from "store/actions";
 
-import CreateJobPost from './Components/CreateJobPost'
-import ActiveCamp from './Components/ActiveCamp'
-import IFavorites from './Components/IFavorites'
-import MyRecommend from './Components/MyRecommend'
-import HeaderHome from './Components/HeaderHome'
-import Carnival from './Components/Carnival'
-import Profile from './Components/Profile'
-import CampDetail from './CampDetail'
+import CreateJobPost from "./Components/CreateJobPost";
+import ActiveCamp from "./Components/ActiveCamp";
+import IFavorites from "./Components/IFavorites";
+import MyRecommend from "./Components/MyRecommend";
+import HeaderHome from "./Components/HeaderHome";
+import Carnival from "./Components/Carnival";
+import Profile from "./Components/Profile";
+import CampDetail from "./CampDetail";
 
 const HomeSrc = memo(() => {
-  const reduxDispatch = useDispatch()
-  const { navigate } = useNavigation<NavigationProp<HomeStackParamList>>()
-  const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['home', 'common'])
+  const reduxDispatch = useDispatch();
+  const { navigate } = useNavigation<NavigationProp<HomeStackParamList>>();
+  const styles = useStyleSheet(themedStyles);
+  const { t } = useTranslation(["home", "common"]);
 
-  const [isFirstTime, setFirst] = useState(true)
+  const [isFirstTime, setFirst] = useState(true);
 
-  const { displayHome, refresh } = useSelector((state: any) => ({
-    displayHome: state.Display.home,
-    refresh: state.Loading.refresh
-  }))
+  const displayHome = useSelector((state: any) => state.Display.home);
+  const refresh = useSelector((state: any) => state.Loading.refresh);
 
   const onRefresh = () => {
-    reduxDispatch(getUserProfile())
-    reduxDispatch(getCarnival())
-  }
+    reduxDispatch(getUserProfile());
+    reduxDispatch(getCarnival());
+  };
 
   useEffect(() => {
-    if (displayHome == 'carnival') {
-      reduxDispatch(getCarnival())
+    if (displayHome == "carnival") {
+      reduxDispatch(getCarnival());
     }
-  }, [displayHome])
+  }, [displayHome]);
 
   return (
     <Container style={styles.container}>
@@ -62,9 +60,9 @@ const HomeSrc = memo(() => {
         }
       >
         <HeaderHome />
-        {displayHome == 'carnival' && <Carnival />}
-        {displayHome == 'profile' && <Profile />}
-        {displayHome == 'campDetail' && <CampDetail />}
+        {displayHome == "carnival" && <Carnival />}
+        {displayHome == "profile" && <Profile />}
+        {displayHome == "campDetail" && <CampDetail />}
         {/* <View style={styles.topContent}>
           {isFirstTime ? (
             <>
@@ -94,25 +92,25 @@ const HomeSrc = memo(() => {
         <MyRecommend data={MY_RECOMMENDED} /> */}
       </Content>
     </Container>
-  )
-})
+  );
+});
 
-export default HomeSrc
+export default HomeSrc;
 
 const themedStyles = StyleService.create({
   container: {
     flex: 1,
     paddingBottom: 40,
-    backgroundColor: 'color-carnival'
+    backgroundColor: "color-carnival",
   },
   myFavorites: {
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
   },
   content: {
-    marginBottom: 40
+    marginBottom: 40,
   },
   topContent: {
     marginBottom: 48,
-    marginTop: 40
-  }
-})
+    marginTop: 40,
+  },
+});

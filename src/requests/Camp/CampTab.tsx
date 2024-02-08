@@ -1,41 +1,39 @@
-import React, { memo } from 'react'
-import { View } from 'react-native'
-import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { StyleService, useStyleSheet } from '@ui-kitten/components'
-import { isEmpty } from 'lodash'
+import React, { memo } from "react";
+import { View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { StyleService, useStyleSheet } from "@ui-kitten/components";
+import { isEmpty } from "lodash";
 
-import { Images } from 'assets/images'
-import Flex from 'components/Flex'
-import { RequestInterviewItemProps, Request_Type_Enum } from 'constants/Types'
-import { MainBottomTabStackParamList } from 'navigation/types'
-import ActiveCamp from 'src/home/Components/ActiveCamp'
+import { Images } from "assets/images";
+import Flex from "components/Flex";
+import { RequestInterviewItemProps, Request_Type_Enum } from "constants/Types";
+import { MainBottomTabStackParamList } from "navigation/types";
+import ActiveCamp from "src/home/Components/ActiveCamp";
 
-import TitleList from '../Components/TitleList'
-import EmptyData from '../Components/EmptyData'
-import RequestInterviewItem from '../Components/RequestInterviewItem'
+import TitleList from "../Components/TitleList";
+import EmptyData from "../Components/EmptyData";
+import RequestInterviewItem from "../Components/RequestInterviewItem";
 
 interface CampProps {
-  dataCurrentRequest: RequestInterviewItemProps[]
-  dataPassRequest: RequestInterviewItemProps[]
-  data: any
+  dataCurrentRequest: RequestInterviewItemProps[];
+  dataPassRequest: RequestInterviewItemProps[];
+  data: any;
 }
 
 const CampTab = memo(
   ({ dataCurrentRequest, dataPassRequest, data }: CampProps) => {
-    const { t } = useTranslation(['request', 'common'])
+    const { t } = useTranslation(["request", "common"]);
     const { navigate } =
-      useNavigation<NavigationProp<MainBottomTabStackParamList>>()
-    const styles = useStyleSheet(themedStyles)
+      useNavigation<NavigationProp<MainBottomTabStackParamList>>();
+    const styles = useStyleSheet(themedStyles);
 
-    const { carnival, userStageSchedules, refresh } = useSelector(
-      (state: any) => ({
-        carnival: state.Carnival.carnival,
-        userStageSchedules: state.UserStageSchedule.userStageSchedules,
-        refresh: state.Loading.refresh
-      })
-    )
+    const carnival = useSelector((state: any) => state.Carnival.carnival);
+    const userStageSchedules = useSelector(
+      (state: any) => state.UserStageSchedule.userStageSchedules
+    );
+    const refresh = useSelector((state: any) => state.Loading.refresh);
 
     return (
       <View style={styles.container}>
@@ -43,15 +41,15 @@ const CampTab = memo(
           !refresh && (
             <EmptyData
               image={Images.noBooking}
-              title={t('request:noSchedules')}
-              description={t('request:noSchedulesDescription')}
+              title={t("request:noSchedules")}
+              description={t("request:noSchedulesDescription")}
             />
           )
         ) : (
           <View>
             {!isEmpty(carnival?.active_camps) && (
               <React.Fragment>
-                <TitleList title='Sedang Berlangsung' dataLength={0} mt={32} />
+                <TitleList title="Sedang Berlangsung" dataLength={0} mt={32} />
                 {carnival?.active_camps.map((activeCamp: any) => (
                   <ActiveCamp campItem={activeCamp} key={activeCamp.id} />
                 ))}
@@ -61,7 +59,7 @@ const CampTab = memo(
             {userStageSchedules.length > 0 ? (
               <>
                 <TitleList
-                  title='Telah Diikuti'
+                  title="Telah Diikuti"
                   dataLength={userStageSchedules.length}
                   mt={32}
                 />
@@ -75,15 +73,15 @@ const CampTab = memo(
           </View>
         )}
       </View>
-    )
+    );
   }
-)
+);
 
-export default CampTab
+export default CampTab;
 
 const themedStyles = StyleService.create({
   container: {
-    flex: 1
+    flex: 1,
   },
-  empty: {}
-})
+  empty: {},
+});

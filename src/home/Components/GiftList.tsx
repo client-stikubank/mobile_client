@@ -1,74 +1,74 @@
-import React, { memo, useEffect } from 'react'
-import { View, Platform, Image as ImageReact } from 'react-native'
-import Image from 'react-native-scalable-image'
-import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
+import React, { memo, useEffect } from "react";
+import { View, Platform, Image as ImageReact } from "react-native";
+import Image from "react-native-scalable-image";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import {
   useTheme,
   StyleService,
   useStyleSheet,
-  Button
-} from '@ui-kitten/components'
-import { isEmpty } from 'lodash'
+  Button,
+} from "@ui-kitten/components";
+import { isEmpty } from "lodash";
 
-import { getCarnivalGifts } from 'store/actions'
-import { Images } from 'assets/images'
-import useLayout from 'hooks/useLayout'
-import Text from 'components/Text'
-import Flex from 'components/Flex'
-import Content from 'components/Content'
-import LottieAnimation from 'components/LottieAnimation'
-import NavigationAction from 'components/NavigationAction'
-import { RootStackParamList } from 'navigation/types'
-import { getStage, getCarnival } from 'store/actions'
-import { globalStyle } from 'styles/globalStyle'
+import { getCarnivalGifts } from "store/actions";
+import { Images } from "assets/images";
+import useLayout from "hooks/useLayout";
+import Text from "components/Text";
+import Flex from "components/Flex";
+import Content from "components/Content";
+import LottieAnimation from "components/LottieAnimation";
+import NavigationAction from "components/NavigationAction";
+import { RootStackParamList } from "navigation/types";
+import { getStage, getCarnival } from "store/actions";
+import { globalStyle } from "styles/globalStyle";
 
-import ActiveCamp from './ActiveCamp'
+import ActiveCamp from "./ActiveCamp";
 
 const GiftList = memo(() => {
-  const reduxDispatch = useDispatch()
-  const theme = useTheme()
-  const { width } = useLayout()
-  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>()
-  const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['home', 'common'])
+  const reduxDispatch = useDispatch();
+  const theme = useTheme();
+  const { width } = useLayout();
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const styles = useStyleSheet(themedStyles);
+  const { t } = useTranslation(["home", "common"]);
 
-  const { carnival, carnivalGifts } = useSelector((state: any) => ({
-    carnival: state.Carnival.carnival,
-    carnivalGifts: state.CarnivalGift.carnivalGifts
-  }))
+  const carnival = useSelector((state: any) => state.Carnival.carnival);
+  const carnivalGifts = useSelector(
+    (state: any) => state.CarnivalGift.carnivalGifts
+  );
 
   useEffect(() => {
     reduxDispatch(
       getCarnivalGifts({
         query: {
-          status_eq: 1
-        }
+          status_eq: 1,
+        },
       })
-    )
-  }, [])
+    );
+  }, []);
 
   const _onRedeemGift = (gift: any) => {
-    navigate('RedeemGift', { carnivalGift: gift })
-  }
+    navigate("RedeemGift", { carnivalGift: gift });
+  };
 
   return isEmpty(carnival) ? null : (
     <Content style={styles.giftContainer}>
-      <Flex style={styles.giftHeader} itemsCenter justify='center'>
-        <Flex justify='center' itemsCenter style={styles.giftAnimated}>
+      <Flex style={styles.giftHeader} itemsCenter justify="center">
+        <Flex justify="center" itemsCenter style={styles.giftAnimated}>
           <LottieAnimation
             source={Images.giftTitle}
             autoPlay
             loop
-            resizeMode='cover'
+            style={{ width: "100%", aspectRatio: 1 }}
           />
         </Flex>
         <View style={styles.giftHeaderImage}>
           <Image source={Images.giftHeader} width={width - 160} />
         </View>
       </Flex>
-      <Text category='h8-s' mt={16} mb={16}>
+      <Text category="h8-s" mt={16} mb={16}>
         Pilih kado yang kamu sukai. Pastikan MONSTA-mu cukup untuk ditukarkan!
       </Text>
       {carnivalGifts.length > 0 && (
@@ -79,34 +79,34 @@ const GiftList = memo(() => {
                 {carnivalGift.out_of_stock && (
                   <Flex
                     style={styles.overlayOutStock}
-                    justify='center'
+                    justify="center"
                     itemsCenter
                   >
-                    <Text status='white' category='h6'>
+                    <Text status="white" category="h6">
                       Kado Habis!
                     </Text>
                   </Flex>
                 )}
                 <Text
-                  category='h8'
+                  category="h8"
                   numberOfLines={2}
-                  style={{ color: 'white', height: 36 }}
+                  style={{ color: "white", height: 36 }}
                 >
                   {carnivalGift.gift.name}
                 </Text>
-                <Flex style={styles.imageWrapper} itemsCenter justify='center'>
+                <Flex style={styles.imageWrapper} itemsCenter justify="center">
                   {!carnivalGift.out_of_stock && (
                     <LottieAnimation
                       source={Images.giftLight}
                       autoPlay
                       loop
-                      resizeMode='cover'
+                      style={{ width: "100%", aspectRatio: 2 / 3 }}
                     />
                   )}
                   <ImageReact
                     source={{ uri: carnivalGift.gift.image.url }}
                     style={{ height: 150, aspectRatio: 1 }}
-                    resizeMode='contain'
+                    resizeMode="contain"
                   />
                 </Flex>
                 <Button
@@ -115,19 +115,19 @@ const GiftList = memo(() => {
                       ? { ...styles.bookGift, opacity: 0 }
                       : styles.bookGift
                   }
-                  size='small'
-                  status='gift'
+                  size="small"
+                  status="gift"
                   onPress={() => _onRedeemGift(carnivalGift)}
                 >
                   Redeem
                 </Button>
-                <Flex style={styles.tokens} justify='center' itemsCenter center>
+                <Flex style={styles.tokens} justify="center" itemsCenter center>
                   <Flex style={styles.token} vertical={true}>
                     <Flex
                       style={[styles.tokenAmount, styles.tokenBeryl]}
                       itemsCenter
                     >
-                      <Text category='h6' bold style={styles.tokenText}>
+                      <Text category="h6" bold style={styles.tokenText}>
                         {carnivalGift.gift.reward_amount[0]}
                       </Text>
                     </Flex>
@@ -137,7 +137,7 @@ const GiftList = memo(() => {
                       style={[styles.tokenAmount, styles.tokenAle]}
                       itemsCenter
                     >
-                      <Text category='h6' bold style={styles.tokenText}>
+                      <Text category="h6" bold style={styles.tokenText}>
                         {carnivalGift.gift.reward_amount[1]}
                       </Text>
                     </Flex>
@@ -147,7 +147,7 @@ const GiftList = memo(() => {
                       style={[styles.tokenAmount, styles.tokenJenny]}
                       itemsCenter
                     >
-                      <Text category='h6' bold style={styles.tokenText}>
+                      <Text category="h6" bold style={styles.tokenText}>
                         {carnivalGift.gift.reward_amount[2]}
                       </Text>
                     </Flex>
@@ -157,7 +157,7 @@ const GiftList = memo(() => {
                       style={[styles.tokenAmount, styles.tokenMamo]}
                       itemsCenter
                     >
-                      <Text category='h6' bold style={styles.tokenText}>
+                      <Text category="h6" bold style={styles.tokenText}>
                         {carnivalGift.gift.reward_amount[3]}
                       </Text>
                     </Flex>
@@ -169,90 +169,90 @@ const GiftList = memo(() => {
         </Flex>
       )}
     </Content>
-  )
-})
+  );
+});
 
-export default GiftList
+export default GiftList;
 
 const themedStyles = StyleService.create({
   giftContainer: {
     paddingHorizontal: 16,
     paddingVertical: 32,
-    backgroundColor: 'color-basic-100'
+    backgroundColor: "color-basic-100",
   },
   giftHeader: {
-    position: 'relative'
+    position: "relative",
   },
   giftHeaderImage: {
-    marginTop: 8
+    marginTop: 8,
   },
   giftAnimated: {
     width: 100,
-    aspectRatio: 1
+    aspectRatio: 1,
   },
   giftCardWrapper: {
     padding: 8,
-    width: '50%'
+    width: "50%",
   },
   giftCard: {
     borderRadius: 16,
     padding: 12,
-    backgroundColor: 'color-success-200',
-    position: 'relative',
-    overflow: 'hidden'
+    backgroundColor: "color-success-200",
+    position: "relative",
+    overflow: "hidden",
   },
   imageWrapper: {
     height: 260,
     marginTop: -35,
     marginBottom: -25,
-    overflow: 'visible'
+    overflow: "visible",
   },
   bookGift: {
-    backgroundColor: 'color-mamo',
-    borderColor: 'color-mamo',
-    textAlign: 'center'
+    backgroundColor: "color-mamo",
+    borderColor: "color-mamo",
+    textAlign: "center",
   },
   tokens: {
-    overflow: 'hidden',
+    overflow: "hidden",
     marginHorizontal: -12,
     marginBottom: -12,
-    marginTop: 16
+    marginTop: 16,
   },
   token: {
-    width: '25%'
+    width: "25%",
   },
   tokenMamo: {
-    backgroundColor: 'color-mamo',
+    backgroundColor: "color-mamo",
     paddingHorizontal: 6,
-    borderBottomRightRadius: 15
+    borderBottomRightRadius: 15,
   },
   tokenAle: {
-    backgroundColor: 'color-ale',
-    paddingHorizontal: 6
+    backgroundColor: "color-ale",
+    paddingHorizontal: 6,
   },
   tokenBeryl: {
-    backgroundColor: 'color-beryl',
+    backgroundColor: "color-beryl",
     paddingHorizontal: 6,
-    borderBottomLeftRadius: 15
+    borderBottomLeftRadius: 15,
   },
   tokenJenny: {
-    backgroundColor: 'color-jenny',
-    paddingHorizontal: 6
+    backgroundColor: "color-jenny",
+    paddingHorizontal: 6,
   },
   tokenAmount: {
     height: 32,
-    ...globalStyle.center
+    ...globalStyle.center,
   },
   tokenText: {
-    color: '#FFF'
+    color: "#FFF",
   },
   overlayOutStock: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
-    width: '115%',
-    height: '109%',
-    backgroundColor: 'rgba(29, 30, 44, 0.8)',
-    zIndex: 1
-  }
-})
+    width: "115%",
+    height: "109%",
+    backgroundColor: "rgba(29, 30, 44, 0.8)",
+    zIndex: 1,
+  },
+});
