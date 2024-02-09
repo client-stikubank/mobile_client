@@ -17,7 +17,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "id.youthcamp"
+      "bundleIdentifier": "id.youthcamp",
+      "buildNumber": "4"
     },
     "android": {
       "versionCode": 16,
