@@ -78,7 +78,7 @@ const AppContainer = () => {
       reduxDispatch(toggleScreen(false));
       const minimumVersion = response?.data.attributes.value;
 
-      if ((Constants?.manifest?.version || 0) < (minimumVersion || 0)) {
+      if ((Constants?.expoConfig?.version || 0) < (minimumVersion || 0)) {
         Alert.alert(
           "Ada update!",
           "Yuk update dulu apps nya.\nBiar gak ketinggalan fitur-fitur terbaru dari Youthcamp!",

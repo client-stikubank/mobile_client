@@ -1,43 +1,45 @@
-import axios from 'axios'
+import axios from "axios";
 
 const axiosApi = axios.create({
-  baseURL: process.env.BACKEND_API_URL,
+  baseURL: "https://youthcamp.id",
   headers: {
     uid: process.env.BACKEND_API_CLIENT,
-    secret: process.env.BACKEND_API_SECRET
-  }
-})
+    secret: process.env.BACKEND_API_SECRET,
+  },
+});
 
 axiosApi.interceptors.response.use(
-  response => response,
-  error => {
-    return Promise.reject(error)
+  (response) => response,
+  (error) => {
+    return Promise.reject(error);
   }
-)
+);
 
 export async function get(url, config = {}) {
-  return await axiosApi.get(url, { ...config }).then(response => response.data)
+  return await axiosApi
+    .get(url, { ...config })
+    .then((response) => response.data);
 }
 
 export async function post(url, data, config = {}) {
   return axiosApi
     .post(url, { ...data }, { ...config })
-    .then(response => response.data)
+    .then((response) => response.data);
 }
 
 export async function postFormData(url, data, headers = {}) {
-  const config = { method: 'POST', url, data, headers }
-  return await axiosApi(config)
+  const config = { method: "POST", url, data, headers };
+  return await axiosApi(config);
 }
 
 export async function put(url, data, config = {}) {
   return axiosApi
     .put(url, { ...data }, { ...config })
-    .then(response => response.data)
+    .then((response) => response.data);
 }
 
 export async function del(url, config = {}) {
   return await axiosApi
     .delete(url, { ...config })
-    .then(response => response.data)
+    .then((response) => response.data);
 }
