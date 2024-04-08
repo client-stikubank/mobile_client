@@ -18,6 +18,11 @@
       "android": {
         "serviceAccountKeyPath": "./service_account_youthcamp.json",
         "track": "internal"
+      },
+      "ios": {
+        "appleId": "aphromac@icloud.com",
+        "ascAppId": "6477560673",
+        "appleTeamId": "ZS95J3T82R"
       }
     }
   }

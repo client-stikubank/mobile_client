@@ -1,19 +1,20 @@
-import React, { memo } from 'react'
-import { View } from 'react-native'
-import { StyleService, useStyleSheet } from '@ui-kitten/components'
+import React, { memo } from "react";
+import { View } from "react-native";
+import { StyleService, useStyleSheet } from "@ui-kitten/components";
 
-import AnimatedLottieView from 'lottie-react-native'
-import { Images } from 'assets/images'
+import AnimatedLottieView from "lottie-react-native";
+import { Images } from "assets/images";
+import LottieAnimation from "./LottieAnimation";
 interface LoadingScreenProps {
-  show: any
+  show: any;
 }
 
 const LoadingScreen = memo(({ show }: LoadingScreenProps) => {
-  const styles = useStyleSheet(themedStyles)
+  const styles = useStyleSheet(themedStyles);
 
   return show ? (
     <View style={styles.container}>
-      <AnimatedLottieView
+      <LottieAnimation
         source={Images.loading2}
         autoPlay
         speed={3}
@@ -21,26 +22,26 @@ const LoadingScreen = memo(({ show }: LoadingScreenProps) => {
         loop
       />
     </View>
-  ) : null
-})
+  ) : null;
+});
 
-export default LoadingScreen
+export default LoadingScreen;
 
 const themedStyles = StyleService.create({
   container: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
     zIndex: 90,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)'
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   animated: {
     width: 300,
-    height: 300
-  }
-})
+    height: 300,
+  },
+});

@@ -2,9 +2,19 @@
   "expo": {
     "name": "Youthcamp",
     "slug": "youthcamp_mobile_client",
-    "version": "1.0.11",
+    "version": "1.0.13",
     "orientation": "portrait",
     "icon": "./assets/brand/icon.png",
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/brand/splash.png",
       "resizeMode": "cover",
@@ -16,11 +26,15 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "id.youthcamp"
+      "supportsTablet": false,
+      "bundleIdentifier": "id.youthcamp",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan QR codes on event tickets, redeem gifts, and attendance camp."
+      },
+      "buildNumber": "1"
     },
     "android": {
-      "versionCode": 15,
+      "versionCode": 17,
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/icon.png",
         "backgroundColor": "#FFC438"

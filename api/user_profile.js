@@ -1,33 +1,47 @@
-import { del, get, post, put } from 'helpers/api_helper'
-import * as url from 'helpers/url_helper'
-import { authSessionCheck } from 'lib/Session'
+import { del, get, post, put } from "helpers/api_helper";
+import * as url from "helpers/url_helper";
+import { authSessionCheck } from "lib/Session";
 
 export const getUserProfile = async () => {
-  const { credential } = await authSessionCheck()
+  const { credential } = await authSessionCheck();
 
   return get(url.DISPLAY_PROFILE, {
     headers: {
-      Authorization: `Bearer ${credential?.access_token}`
-    }
-  })
-}
+      Authorization: `Bearer ${credential?.access_token}`,
+    },
+  });
+};
 
-export const updateUserProfile = async data => {
-  const { credential } = await authSessionCheck()
+export const updateUserProfile = async (data) => {
+  const { credential } = await authSessionCheck();
 
   return put(url.UPDATE_PROFILE, data, {
     headers: {
-      Authorization: `Bearer ${credential?.access_token}`
-    }
-  })
-}
+      Authorization: `Bearer ${credential?.access_token}`,
+    },
+  });
+};
 
-export const updateNewPassword = async data => {
-  const { credential } = await authSessionCheck()
+export const updateNewPassword = async (data) => {
+  const { credential } = await authSessionCheck();
 
   return put(url.UPDATE_PASSWORD, data, {
     headers: {
-      Authorization: `Bearer ${credential?.access_token}`
+      Authorization: `Bearer ${credential?.access_token}`,
+    },
+  });
+};
+
+export const postDeleteAccount = async (data) => {
+  const { credential } = await authSessionCheck();
+
+  return put(
+    url.DELETE_ACCOUNT,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${credential?.access_token}`,
+      },
     }
-  })
-}
+  );
+};

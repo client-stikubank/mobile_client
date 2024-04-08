@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { TopNavigation } from "@ui-kitten/components";
+import { Button, TopNavigation } from "@ui-kitten/components";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { Camera } from "expo-camera";
 import { useTranslation } from "react-i18next";
 import Constants from "expo-constants";
 import {
@@ -26,17 +27,8 @@ const EventScanner = () => {
   const route = useRoute();
   const { userEvent }: any = route.params;
   const { t } = useTranslation(["auth", "common", "success"]);
-  const [hasPermission, setHasPermission] = useState<any>(null);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
   const [scanned, setScanned] = useState(false);
-
-  useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    };
-
-    getBarCodeScannerPermissions();
-  }, []);
 
   const handleUsed = React.useCallback(() => {
     navigate("SuccessScr", {
@@ -82,11 +74,35 @@ const EventScanner = () => {
     }
   };
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+  if (!permission) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text>Requesting for camera permission</Text>
+      </View>
+    );
   }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+
+  if (!permission.granted) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text>No access to camera</Text>
+        <Button onPress={requestPermission}>Request Access</Button>
+      </View>
+    );
   }
 
   return (
@@ -97,7 +113,10 @@ const EventScanner = () => {
         justifyContent: "flex-end",
       }}
     >
-      <BarCodeScanner
+      <Camera
+        barCodeScannerSettings={{
+          barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+        }}
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={[StyleSheet.absoluteFillObject, styles.container]}
       >
@@ -107,7 +126,7 @@ const EventScanner = () => {
           loop
           resizeMode="contain"
         />
-      </BarCodeScanner>
+      </Camera>
       <TopNavigation accessoryLeft={() => <NavigationAction />} />
     </View>
   );
