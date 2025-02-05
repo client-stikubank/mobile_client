@@ -1,6 +1,6 @@
 {
   "cli": {
-    // "appVersionSource": "remote"
+    "appVersionSource": "remote"
   },
   "build": {
     "staging": {
@@ -10,7 +10,7 @@
       }
     },
     "production": {
-      // "autoIncrement": true
+      "autoIncrement": true
     }
   },
   "submit": {
