@@ -13,7 +13,6 @@
     "@eva-design/eva": "^2.1.1",
     "@miblanchard/react-native-slider": "^2.1.0",
     "@react-native-async-storage/async-storage": "1.21.0",
-    "@react-native-community/datetimepicker": "7.6.1",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.2",
@@ -78,7 +77,8 @@
     "@types/react-dom": "~17.0.2",
     "@expo/config-plugins": "~7.8.0",
     "@expo/prebuild-config": "~6.7.0",
-    "expo-modules-autolinking": "~1.10.0"
+    "expo-modules-autolinking": "~1.10.0",
+    "react-native-reanimated": "~3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
