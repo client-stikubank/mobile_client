@@ -144,19 +144,36 @@ const MyGifts = memo(() => {
                     itemsCenter
                     justify="center"
                   >
-                    {!carnivalGift.out_of_stock && (
-                      <LottieAnimation
-                        source={Images.giftLight}
-                        autoPlay
-                        loop
-                        style={{ width: "100%", aspectRatio: 2 / 3 }}
+                    <View
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {!carnivalGift.out_of_stock && (
+                        <LottieAnimation
+                          source={Images.giftLight}
+                          autoPlay
+                          loop
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: 150, // match the image height
+                            aspectRatio: 2 / 3,
+                            zIndex: 0,
+                          }}
+                        />
+                      )}
+                      <ImageReact
+                        source={{ uri: carnivalGift.gift.image.url }}
+                        style={{ height: 150, aspectRatio: 1, zIndex: 1 }}
+                        resizeMode="contain"
                       />
-                    )}
-                    <ImageReact
-                      source={{ uri: carnivalGift.gift.image.url }}
-                      style={{ height: 150, aspectRatio: 1 }}
-                      resizeMode="contain"
-                    />
+                    </View>
                   </Flex>
                   <Flex
                     style={styles.tokens}

@@ -1,5 +1,6 @@
 {
   "cli": {
+    "version": ">= 7.3.0",
     "appVersionSource": "remote"
   },
   "build": {
@@ -10,7 +11,9 @@
       }
     },
     "production": {
-      "autoIncrement": true
+      "ios": {
+        "image": "macos-sequoia-15.3-xcode-16.2"
+      }
     }
   },
   "submit": {
