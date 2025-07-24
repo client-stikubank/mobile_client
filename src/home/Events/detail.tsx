@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import { View, Dimensions } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import Image from "react-native-scalable-image";
 import * as Linking from "expo-linking";
 import {
   Icon,
@@ -21,6 +20,7 @@ import Text from "components/Text";
 import MonstaText from "components/MonstaText";
 import NavigationAction from "components/NavigationAction";
 import { navigate } from "navigation/RootNavigation";
+import AutoHeightImage from "components/AutoHeightImage";
 
 const EventDetail = memo(() => {
   const route = useRoute();
@@ -40,15 +40,16 @@ const EventDetail = memo(() => {
   return (
     <Container style={styles.container}>
       <TopNavigation
-        accessoryLeft={<NavigationAction />}
+        accessoryLeft={() => <NavigationAction />}
         title={truncate(event?.title)}
       />
       <Content padder>
         <View>
           <Layout style={styles.content} level="2">
-            <Image
+            <AutoHeightImage
               source={{ uri: event?.image?.url || event?.image }}
               width={width - 48}
+              contentFit="contain"
             />
             <Flex justify="flex-start" alignItems="flex-start" padder pv={16}>
               <Flex

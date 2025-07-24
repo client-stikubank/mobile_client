@@ -31,7 +31,7 @@ const QrActivities = memo(() => {
 
   return (
     <Container style={styles.container}>
-      <TopNavigation accessoryLeft={<NavigationAction />} title="QR" />
+      <TopNavigation accessoryLeft={() => <NavigationAction />} title="QR" />
       <Content padder>
         <View>
           {isEmpty(carnival?.active_camps) ? (

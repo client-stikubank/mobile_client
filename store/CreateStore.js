@@ -3,12 +3,12 @@ import {
   applyMiddleware,
   compose,
 } from "redux";
-import createSagaMiddleware from "redux-saga";
 import Config from "config/DebugConfig";
 import Reactotron from "config/ReactotronConfig";
 
 // creates the store
 export default (rootReducer, rootSaga) => {
+  const createSagaMiddleware = require("redux-saga").default;
   /* ------------- Redux Configuration ------------- */
 
   const middleware = [];

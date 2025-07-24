@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import React, { memo } from "react";
+import { View, TouchableOpacity } from "react-native";
 import {
   TopNavigation,
   useTheme,
@@ -9,26 +9,26 @@ import {
   Icon,
   Input,
   Button,
-} from '@ui-kitten/components';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {useTranslation} from 'react-i18next';
+} from "@ui-kitten/components";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
-import Text from 'components/Text';
-import Content from 'components/Content';
-import Container from 'components/Container';
-import NavigationAction from 'components/NavigationAction';
-import Flex from 'components/Flex';
-import dayjs from 'dayjs';
-import {globalStyle} from 'styles/globalStyle';
-import {Controller, useForm} from 'react-hook-form';
-import {RootStackParamList} from 'navigation/types';
-import Weekdays from 'components/Weekdays';
+import Text from "components/Text";
+import Content from "components/Content";
+import Container from "components/Container";
+import NavigationAction from "components/NavigationAction";
+import Flex from "components/Flex";
+import dayjs from "dayjs";
+import { globalStyle } from "styles/globalStyle";
+import { Controller, useForm } from "react-hook-form";
+import { RootStackParamList } from "navigation/types";
+import Weekdays from "components/Weekdays";
 
 const ConfirmHour = memo(() => {
-  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['request', 'success', 'common']);
+  const { t } = useTranslation(["request", "success", "common"]);
 
   const HOURLY_RATE = 15;
   const DISCOUNT = 0;
@@ -52,43 +52,44 @@ const ConfirmHour = memo(() => {
   }, [durationPerDay]);
 
   const makeAPayment = React.useCallback(() => {
-    navigate('RequestStack', {screen: 'SelectCard'});
+    navigate("RequestStack", { screen: "SelectCard" });
   }, []);
 
   return (
     <Container style={styles.container}>
       <TopNavigation
-        title={t('request:confirm-hour').toString()}
-        accessoryLeft={<NavigationAction />}
+        title={t("request:confirm-hour").toString()}
+        accessoryLeft={() => <NavigationAction />}
       />
       <Content padder contentContainerStyle={styles.content}>
         <Weekdays data={DATA} size="giant" />
         <View style={styles.centerField}>
           <Flex mt={32}>
             <Text category="h7" mb={32} bold>
-              {t('request:startDate')}
+              {t("request:startDate")}
             </Text>
-            <Text category="para-m" status={'link'}>
-              {dayjs(new Date()).format('ddd, MMM DD')}
+            <Text category="para-m" status={"link"}>
+              {dayjs(new Date()).format("ddd, MMM DD")}
             </Text>
           </Flex>
           <Flex>
             <Text category="h7" bold>
-              {t('request:startTime')}
+              {t("request:startTime")}
             </Text>
-            <Text category="para-m" status={'link'}>
+            <Text category="para-m" status={"link"}>
               08:00
             </Text>
           </Flex>
           <Flex itemsCenter mt={24}>
             <Text category="h7" bold>
-              {t('request:durationPerDay')}
+              {t("request:durationPerDay")}
             </Text>
             <Flex ml={16}>
               <TouchableOpacity
                 activeOpacity={0.54}
                 disabled={disableMinus}
-                onPress={onMinus}>
+                onPress={onMinus}
+              >
                 <Icon
                   pack="assets"
                   name="minus"
@@ -96,14 +97,14 @@ const ConfirmHour = memo(() => {
                     globalStyle.icon40,
                     {
                       tintColor: disableMinus
-                        ? theme['text-placeholder-color']
+                        ? theme["text-placeholder-color"]
                         : undefined,
                     },
                   ]}
                 />
               </TouchableOpacity>
-              <Text category="h6" center mh={8} mt={8} style={{width: 40}}>
-                {durationPerDay}{' '}
+              <Text category="h6" center mh={8} mt={8} style={{ width: 40 }}>
+                {durationPerDay}{" "}
               </Text>
               <TouchableOpacity activeOpacity={0.54} onPress={onPlus}>
                 <Icon pack="assets" name="plus" style={[globalStyle.icon40]} />
@@ -111,31 +112,31 @@ const ConfirmHour = memo(() => {
             </Flex>
           </Flex>
           <Flex mt={32}>
-            <Text bold>{t('request:total-hour')}</Text>
+            <Text bold>{t("request:total-hour")}</Text>
             <Text>{totalHour} hrs</Text>
           </Flex>
           <Flex mt={32}>
-            <Text bold>{t('request:hourly-rate')}</Text>
+            <Text bold>{t("request:hourly-rate")}</Text>
             <Text>${HOURLY_RATE}</Text>
           </Flex>
           <Flex mt={32}>
-            <Text bold>{t('request:service-total')}</Text>
+            <Text bold>{t("request:service-total")}</Text>
             <Text>${totalHour * HOURLY_RATE}</Text>
           </Flex>
           <Flex justify="flex-end" itemsCenter mt={20}>
             <Icon pack="assets" name="dollar" style={styles.dollar} />
-            <Text status={'link'} ml={8} bold>
-              {t('request:add-tips')}
+            <Text status={"link"} ml={8} bold>
+              {t("request:add-tips")}
             </Text>
           </Flex>
           <Flex mt={32}>
-            <Text bold>{t('request:discount')}</Text>
+            <Text bold>{t("request:discount")}</Text>
             <Text>${DISCOUNT}</Text>
           </Flex>
         </View>
         <Flex mt={32}>
           <Text bold mt={8}>
-            {t('request:service-total')}
+            {t("request:service-total")}
           </Text>
           <Text category="h2" bold>
             ${DISCOUNT}
@@ -143,7 +144,7 @@ const ConfirmHour = memo(() => {
         </Flex>
       </Content>
       <Button
-        children={t('request:make-a-payment').toString()}
+        children={t("request:make-a-payment").toString()}
         style={styles.buttonConfirm}
         onPress={makeAPayment}
       />
@@ -163,7 +164,7 @@ const themedStyles = StyleService.create({
   },
   centerField: {
     borderBottomWidth: 1,
-    borderBottomColor: 'background-basic-color-3',
+    borderBottomColor: "background-basic-color-3",
     paddingBottom: 40,
   },
   buttonConfirm: {
@@ -172,36 +173,36 @@ const themedStyles = StyleService.create({
   },
   dollar: {
     ...globalStyle.icon16,
-    tintColor: 'text-placeholder-color',
+    tintColor: "text-placeholder-color",
   },
 });
 const DATA = [
   {
-    title: 'Sun',
+    title: "Sun",
     isActive: false,
   },
   {
-    title: 'Mon',
+    title: "Mon",
     isActive: false,
   },
   {
-    title: 'Tue',
+    title: "Tue",
     isActive: true,
   },
   {
-    title: 'Wed',
+    title: "Wed",
     isActive: true,
   },
   {
-    title: 'Thu',
+    title: "Thu",
     isActive: true,
   },
   {
-    title: 'Fri',
+    title: "Fri",
     isActive: false,
   },
   {
-    title: 'Sat',
+    title: "Sat",
     isActive: false,
   },
 ];

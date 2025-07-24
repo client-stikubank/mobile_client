@@ -85,7 +85,7 @@ const EditProfile = memo(() => {
 
   return (
     <Container style={styles.container}>
-      <TopNavigation accessoryLeft={<NavigationAction />} />
+      <TopNavigation accessoryLeft={() => <NavigationAction />} />
       <KeyboardAwareScrollView
         enableOnAndroid={true}
         extraHeight={Platform.OS === "android" ? 14 : 32}

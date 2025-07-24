@@ -1,28 +1,27 @@
-import React, {memo} from 'react';
+import React, { memo } from "react";
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
   ViewPager,
   Layout,
-} from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
+} from "@ui-kitten/components";
+import { useTranslation } from "react-i18next";
 
-import Content from 'components/Content';
-import Container from 'components/Container';
-import BasicTabBar from 'components/BasicTabBar';
-import {Images} from 'assets/images';
-import NavigationAction from 'components/NavigationAction';
-import {CaregiverCardProps, Onl_State_Types_Enum} from 'constants/Types';
-import {globalStyle} from 'styles/globalStyle';
-import {FlatList} from 'react-native-gesture-handler';
-import CaregiverPost from './Components/CaregiverPost';
-import {DATA_CURRENT_APPLICATION} from 'constants/Data';
-
+import Content from "components/Content";
+import Container from "components/Container";
+import BasicTabBar from "components/BasicTabBar";
+import { Images } from "assets/images";
+import NavigationAction from "components/NavigationAction";
+import { CaregiverCardProps, Onl_State_Types_Enum } from "constants/Types";
+import { globalStyle } from "styles/globalStyle";
+import { FlatList } from "react-native-gesture-handler";
+import CaregiverPost from "./Components/CaregiverPost";
+import { DATA_CURRENT_APPLICATION } from "constants/Data";
 
 const MyPost = memo(() => {
   const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['more', 'common']);
+  const { t } = useTranslation(["more", "common"]);
 
   const [activeIndex, setActiveIndex] = React.useState(0);
   const shouldLoadComponent = (index: number) => index === activeIndex;
@@ -30,8 +29,8 @@ const MyPost = memo(() => {
   return (
     <Container style={styles.container}>
       <TopNavigation
-        title={t('more:my-post').toString()}
-        accessoryLeft={<NavigationAction />}
+        title={t("more:my-post").toString()}
+        accessoryLeft={() => <NavigationAction />}
       />
       <FlatList
         data={[0]}
@@ -44,9 +43,9 @@ const MyPost = memo(() => {
                 activeIndex={activeIndex}
                 onChange={setActiveIndex}
                 tabs={[
-                  t('more:open-job'),
-                  t('more:uncompleted'),
-                  t('more:close-job'),
+                  t("more:open-job"),
+                  t("more:uncompleted"),
+                  t("more:close-job"),
                 ]}
               />
             </Layout>
@@ -57,7 +56,8 @@ const MyPost = memo(() => {
             onSelect={setActiveIndex}
             selectedIndex={activeIndex}
             shouldLoadComponent={shouldLoadComponent}
-            style={globalStyle.flexOne}>
+            style={globalStyle.flexOne}
+          >
             <Layout style={styles.content} level="1">
               {DATA_CURRENT_APPLICATION.map((item, i) => {
                 return <CaregiverPost item={item} key={i} />;
@@ -95,14 +95,14 @@ const themedStyles = StyleService.create({
   },
 });
 const DATA_USER: CaregiverCardProps = {
-  name: 'Edith Johnson',
+  name: "Edith Johnson",
   age: 28,
   yearExp: 6,
-  location: 'Rochester, NY',
-  gender: 'female',
-  rate: {rateNumber: 4.68, review: 215},
+  location: "Rochester, NY",
+  gender: "female",
+  rate: { rateNumber: 4.68, review: 215 },
   avatar: Images.avatar2,
-  price: '$15-$20/hr',
+  price: "$15-$20/hr",
   caredFamily: 192,
   backgroundCheck: true,
   carePro: true,

@@ -67,7 +67,7 @@ const BuyEvent = memo(() => {
     <Container style={styles.container}>
       <TopNavigation
         title={t("home:buy_event").toString()}
-        accessoryLeft={<NavigationAction />}
+        accessoryLeft={() => <NavigationAction />}
       />
       <Content padder contentContainerStyle={styles.content}>
         <View style={styles.contact}>

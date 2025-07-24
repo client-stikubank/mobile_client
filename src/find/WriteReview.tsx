@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
-import {View} from 'react-native';
+import React, { memo } from "react";
+import { View } from "react-native";
 import {
   TopNavigation,
   useTheme,
@@ -10,26 +10,26 @@ import {
   CheckBox,
   Layout,
   Button,
-} from '@ui-kitten/components';
-import {useNavigation} from '@react-navigation/native';
-import useLayout from 'hooks/useLayout';
+} from "@ui-kitten/components";
+import { useNavigation } from "@react-navigation/native";
+import useLayout from "hooks/useLayout";
 
-import Text from 'components/Text';
-import Content from 'components/Content';
-import Container from 'components/Container';
-import {useTranslation} from 'react-i18next';
-import NavigationAction from 'components/NavigationAction';
-import {Controller, useForm} from 'react-hook-form';
-import Flex from 'components/Flex';
-import useToggle from 'hooks/useToggle';
-import ISlider from './Component/ISlider';
-import {globalStyle} from 'styles/globalStyle';
+import Text from "components/Text";
+import Content from "components/Content";
+import Container from "components/Container";
+import { useTranslation } from "react-i18next";
+import NavigationAction from "components/NavigationAction";
+import { Controller, useForm } from "react-hook-form";
+import Flex from "components/Flex";
+import useToggle from "hooks/useToggle";
+import ISlider from "./Component/ISlider";
+import { globalStyle } from "styles/globalStyle";
 
 const WriteReview = memo(() => {
-  const {goBack} = useNavigation();
+  const { goBack } = useNavigation();
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['find', 'common']);
+  const { t } = useTranslation(["find", "common"]);
 
   const [aboutYourSelf, setAboutYourSelf] = React.useState(DATA_COMMENT.length);
 
@@ -47,38 +47,39 @@ const WriteReview = memo(() => {
     return (
       <Text
         category="h8"
-        status={'placeholder'}
+        status={"placeholder"}
         right
-        mt={24}>{`${aboutYourSelf}/500`}</Text>
+        mt={24}
+      >{`${aboutYourSelf}/500`}</Text>
     );
   }, [aboutYourSelf]);
   const [rehire, setRehire] = useToggle(true);
   const [valuePunctual, setValuePunctual] = React.useState<number | number[]>(
-    8,
+    8
   );
   const [valueDependable, setValueDependable] = React.useState<
     number | number[]
   >(8.5);
   return (
     <Container style={styles.container}>
-      <TopNavigation accessoryLeft={<NavigationAction />} />
+      <TopNavigation accessoryLeft={() => <NavigationAction />} />
       <Content padder>
         <View style={styles.commentContainer}>
           <Icon
             pack="assets"
             name="quote"
-            style={{tintColor: theme['color-basic-400']}}
+            style={{ tintColor: theme["color-basic-400"] }}
           />
           <Controller
             control={control}
             name="aboutYourSelf"
-            render={({field: {onChange, onBlur, value}}) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <Input
                 style={styles.comment}
                 value={value}
                 onTouchStart={handleSubmit(() => {})}
                 onTouchEnd={handleSubmit(() => {})}
-                onChangeText={text => {
+                onChangeText={(text) => {
                   onChange(text), setAboutYourSelf(text.length);
                 }}
                 onBlur={onBlur}
@@ -94,16 +95,16 @@ const WriteReview = memo(() => {
           <InputField />
         </View>
         <View>
-          <Text bold>{t('find:will_you_rehire_her')}</Text>
+          <Text bold>{t("find:will_you_rehire_her")}</Text>
           <Flex mt={24} justify="flex-start">
             <CheckBox
-              children={t('common:yes')}
+              children={t("common:yes")}
               checked={rehire}
               onChange={setRehire}
               style={styles.checkbox}
             />
             <CheckBox
-              children={t('common:no')}
+              children={t("common:no")}
               checked={!rehire}
               onChange={setRehire}
             />
@@ -111,7 +112,7 @@ const WriteReview = memo(() => {
         </View>
         <View>
           <Text bold mt={40} mb={32}>
-            {t('find:punctual')}
+            {t("find:punctual")}
           </Text>
           <ISlider
             valueSlider={valuePunctual}
@@ -122,7 +123,7 @@ const WriteReview = memo(() => {
         </View>
         <View>
           <Text bold mt={40} mb={32}>
-            {t('find:dependable')}
+            {t("find:dependable")}
           </Text>
           <ISlider
             valueSlider={valueDependable}
@@ -134,7 +135,7 @@ const WriteReview = memo(() => {
       </Content>
       <Layout style={styles.bottom}>
         <Button
-          children={t('find:submit_review')}
+          children={t("find:submit_review")}
           style={globalStyle.shadowBtn}
           onPress={goBack}
         />
@@ -151,7 +152,7 @@ const themedStyles = StyleService.create({
   },
   commentContainer: {
     borderBottomWidth: 1,
-    borderColor: 'background-basic-color-3',
+    borderColor: "background-basic-color-3",
     paddingBottom: 24,
     marginBottom: 40,
   },

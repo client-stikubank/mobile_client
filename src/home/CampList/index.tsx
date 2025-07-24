@@ -37,7 +37,7 @@ const Assessment = memo(() => {
       <TopNavigation
         title={t("home:camp_list").toString()}
         subtitle={`${stage?.name} - Level ${stage?.level}`}
-        accessoryLeft={<NavigationAction />}
+        accessoryLeft={() => <NavigationAction />}
       />
       <Content
         refreshControl={

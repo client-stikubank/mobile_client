@@ -12,7 +12,6 @@ import {
   StyleService,
   useStyleSheet,
 } from "@ui-kitten/components";
-import Image from "react-native-scalable-image";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 
@@ -29,6 +28,7 @@ import {
 } from "store/actions";
 import { globalStyle } from "styles/globalStyle";
 import { RootStackParamList } from "navigation/types";
+import AutoHeightImage from "components/AutoHeightImage";
 
 const ActiveCamp = memo(({ campItem }: any) => {
   const reduxDispatch = useDispatch();
@@ -142,9 +142,10 @@ const ActiveCamp = memo(({ campItem }: any) => {
             <View>
               {camp?.speaker?.user_profile.image && (
                 <Flex mr={16} style={styles.avatar}>
-                  <Image
+                  <AutoHeightImage
                     source={{ uri: camp?.speaker?.user_profile.image }}
                     width={120}
+                    contentFit="contain"
                   />
                 </Flex>
               )}

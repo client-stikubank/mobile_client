@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useSelector } from "react-redux";
 import { StyleService, useStyleSheet } from "@ui-kitten/components";
 import Swiper from "react-native-swiper";
-import Image from "react-native-scalable-image";
+import { Image } from "expo-image";
 import { find, truncate } from "lodash";
 import dayjs from "dayjs";
 
@@ -62,8 +62,8 @@ const MyCertificate = memo(() => {
                   </Text>
                   <Image
                     source={Images.eCertificate}
-                    resizeMode="contain"
-                    width={350}
+                    contentFit="contain"
+                    style={{ width: 350, height: 350 }}
                   />
                 </Flex>
               </Flex>

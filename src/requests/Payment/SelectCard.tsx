@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
-import {View, Animated, TouchableOpacity} from 'react-native';
+import React, { memo } from "react";
+import { View, Animated, TouchableOpacity } from "react-native";
 import {
   TopNavigation,
   StyleService,
@@ -8,28 +8,28 @@ import {
   CheckBox,
   Layout,
   Button,
-} from '@ui-kitten/components';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import useLayout from 'hooks/useLayout';
+} from "@ui-kitten/components";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import useLayout from "hooks/useLayout";
 
-import Text from 'components/Text';
-import Content from 'components/Content';
-import Container from 'components/Container';
-import {useTranslation} from 'react-i18next';
-import NavigationAction from 'components/NavigationAction';
-import EmptyCard from './EmptyCard';
-import {isEmpty} from 'lodash';
-import {DATA_PAYMENT} from 'constants/Data';
-import {RectButton, Swipeable} from 'react-native-gesture-handler';
-import {globalStyle} from 'styles/globalStyle';
-import Flex from 'components/Flex';
-import {RootStackParamList} from 'navigation/types';
+import Text from "components/Text";
+import Content from "components/Content";
+import Container from "components/Container";
+import { useTranslation } from "react-i18next";
+import NavigationAction from "components/NavigationAction";
+import EmptyCard from "./EmptyCard";
+import { isEmpty } from "lodash";
+import { DATA_PAYMENT } from "constants/Data";
+import { RectButton, Swipeable } from "react-native-gesture-handler";
+import { globalStyle } from "styles/globalStyle";
+import Flex from "components/Flex";
+import { RootStackParamList } from "navigation/types";
 
 const SelectCard = memo(() => {
-  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
-  const {width} = useLayout();
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const { width } = useLayout();
   const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['payment', 'success', 'common']);
+  const { t } = useTranslation(["payment", "success", "common"]);
 
   const [active, setActive] = React.useState(0);
   const [dataCard, setDataCard] = React.useState([1]);
@@ -37,21 +37,21 @@ const SelectCard = memo(() => {
   const AnimatedView = Animated.createAnimatedComponent(View);
   const refSwipeable = React.useRef<Swipeable>(null);
 
-  const onAdd = () => navigate('AddMorePayment');
+  const onAdd = () => navigate("AddMorePayment");
 
   const _onPay = React.useCallback(() => {
-    navigate('SuccessScr', {
+    navigate("SuccessScr", {
       successScr: {
-        title: t('success:payment-successful'),
-        description: t('success:payment-successful-title'),
+        title: t("success:payment-successful"),
+        description: t("success:payment-successful-title"),
         children: [
           {
-            title: t('success:see_your_dashboard'),
-            onPress: () => navigate('MainBottomTab'),
-            status: 'basic',
+            title: t("success:see_your_dashboard"),
+            onPress: () => navigate("MainBottomTab"),
+            status: "basic",
           },
         ],
-        buttonsViewStyle: {marginHorizontal: 68},
+        buttonsViewStyle: { marginHorizontal: 68 },
       },
     });
   }, []);
@@ -59,36 +59,42 @@ const SelectCard = memo(() => {
   const widthAction = 75 * (width / 375);
   const renderRightActions = (
     _progress: Animated.AnimatedInterpolation,
-    dragX: Animated.AnimatedInterpolation,
+    dragX: Animated.AnimatedInterpolation
   ) => {
     const scaleDelete = dragX.interpolate({
       inputRange: [-80, 0],
       outputRange: [1, 0],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     });
     const scaleEdit = dragX.interpolate({
       inputRange: [-110, 0],
       outputRange: [1, 0],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     });
     return (
       <>
-        <RectButton style={[{width: widthAction}]} onPress={() => {}}>
+        <RectButton style={[{ width: widthAction }]} onPress={() => {}}>
           <AnimatedView
-            style={[{transform: [{scale: scaleDelete}]}, styles.deleteAction]}>
-            <Text category="h6" status={'primary'}>
-              {t('common:delete')}
+            style={[
+              { transform: [{ scale: scaleDelete }] },
+              styles.deleteAction,
+            ]}
+          >
+            <Text category="h6" status={"primary"}>
+              {t("common:delete")}
             </Text>
           </AnimatedView>
         </RectButton>
         <RectButton
-          style={[{width: widthAction}]}
+          style={[{ width: widthAction }]}
           onPress={() => {}}
-          activeOpacity={0.54}>
+          activeOpacity={0.54}
+        >
           <AnimatedView
-            style={[{transform: [{scale: scaleEdit}]}, styles.editAction]}>
-            <Text category="h6" status={'primary'}>
-              {t('common:edit')}
+            style={[{ transform: [{ scale: scaleEdit }] }, styles.editAction]}
+          >
+            <Text category="h6" status={"primary"}>
+              {t("common:edit")}
             </Text>
           </AnimatedView>
         </RectButton>
@@ -98,8 +104,8 @@ const SelectCard = memo(() => {
   return (
     <Container style={styles.container}>
       <TopNavigation
-        title={t('payment:select-card')}
-        accessoryLeft={<NavigationAction />}
+        title={t("payment:select-card")}
+        accessoryLeft={() => <NavigationAction />}
         accessoryRight={
           <NavigationAction
             icon="plusImg"
@@ -119,21 +125,24 @@ const SelectCard = memo(() => {
                 onPress={() => setActive(i)}
                 key={i}
                 style={styles.item}
-                activeOpacity={0.54}>
+                activeOpacity={0.54}
+              >
                 <Swipeable
                   key={i}
                   ref={refSwipeable}
                   friction={2}
                   enableTrackpadTwoFingerGesture
                   rightThreshold={50}
-                  renderRightActions={renderRightActions}>
+                  renderRightActions={renderRightActions}
+                >
                   <Flex
                     level="2"
                     pv={24}
                     ml={24}
                     padder
                     justify="flex-start"
-                    border={12}>
+                    border={12}
+                  >
                     <CheckBox
                       checked={active === i}
                       onChange={() => setActive(i)}
@@ -158,7 +167,7 @@ const SelectCard = memo(() => {
       )}
       <Layout style={styles.bottom}>
         <Button
-          children={t('payment:pay-now')}
+          children={t("payment:pay-now")}
           style={globalStyle.shadowBtn}
           onPress={_onPay}
           accessoryLeft={() => {
@@ -181,16 +190,16 @@ const themedStyles = StyleService.create({
   deleteAction: {
     borderTopRightRadius: 12,
     borderBottomRightRadius: 12,
-    backgroundColor: 'text-danger-color',
+    backgroundColor: "text-danger-color",
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   editAction: {
-    backgroundColor: 'text-warning-color',
+    backgroundColor: "text-warning-color",
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   item: {
     ...globalStyle.shadow,
@@ -201,7 +210,7 @@ const themedStyles = StyleService.create({
   iconLogoBank: {
     width: 48,
     height: 48,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginHorizontal: 16,
   },
   content: {

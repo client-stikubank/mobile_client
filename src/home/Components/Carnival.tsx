@@ -1,10 +1,9 @@
 import React, { memo } from "react";
 import { View, Platform, TouchableOpacity } from "react-native";
-import Image from "react-native-scalable-image";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { useTheme, StyleService, useStyleSheet } from "@ui-kitten/components";
+import { StyleService, useStyleSheet } from "@ui-kitten/components";
 import { isEmpty } from "lodash";
 import * as Animatable from "react-native-animatable";
 
@@ -21,10 +20,10 @@ import { globalStyle } from "styles/globalStyle";
 
 import ActiveCamp from "./ActiveCamp";
 import GiftList from "./GiftList";
+import AutoHeightImage from "components/AutoHeightImage";
 
 const Carnival = memo(() => {
   const reduxDispatch = useDispatch();
-  const theme = useTheme();
   const { width } = useLayout();
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
   const styles = useStyleSheet(themedStyles);
@@ -57,7 +56,7 @@ const Carnival = memo(() => {
         </View>
       )}
       <View style={styles.carnivalContainer}>
-        <Image source={Images.carnivalTemplate} width={width} />
+        <AutoHeightImage source={Images.carnivalTemplate} width={width} />
         <Flex onPress={_onAssessment} style={styles.startMapping}>
           <Text category="h5" uppercase bold style={styles.startText}>
             Start
@@ -72,9 +71,17 @@ const Carnival = memo(() => {
             vertical={true}
             itemsCenter
           >
-            <Image source={Images.iconStage} width={50} />
+            <AutoHeightImage
+              source={Images.iconStage}
+              width={50}
+              contentFit="contain"
+            />
             <Flex style={styles.activeStage}>
-              <Image source={Images.iconActiveStage} width={18} />
+              <AutoHeightImage
+                source={Images.iconActiveStage}
+                width={18}
+                contentFit="contain"
+              />
             </Flex>
             <Text category="h9-s" mt={4}>
               Level {stage.level}
@@ -98,7 +105,11 @@ const Carnival = memo(() => {
               iterationCount="infinite"
               duration={2000}
             >
-              <Image source={Images.qrclueIcon} width={50} />
+              <AutoHeightImage
+                source={Images.qrclueIcon}
+                width={50}
+                contentFit="contain"
+              />
             </Animatable.View>
           </TouchableOpacity>
         </Flex>
@@ -110,7 +121,7 @@ const Carnival = memo(() => {
               iterationCount="infinite"
               duration={2000}
             >
-              <Image source={Images.questionnaireIcon} width={50} />
+              <AutoHeightImage source={Images.questionnaireIcon} width={50} />
             </Animatable.View>
           </TouchableOpacity>
         </Flex>

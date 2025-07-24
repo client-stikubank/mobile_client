@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
-import {Image, View} from 'react-native';
+import React, { memo } from "react";
+import { Image, View } from "react-native";
 import {
   TopNavigation,
   StyleService,
@@ -7,40 +7,40 @@ import {
   Layout,
   Avatar,
   Button,
-} from '@ui-kitten/components';
-import {useNavigation} from '@react-navigation/native';
-import useLayout from 'hooks/useLayout';
+} from "@ui-kitten/components";
+import { useNavigation } from "@react-navigation/native";
+import useLayout from "hooks/useLayout";
 
-import Text from 'components/Text';
-import Container from 'components/Container';
-import {useTranslation} from 'react-i18next';
+import Text from "components/Text";
+import Container from "components/Container";
+import { useTranslation } from "react-i18next";
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
-} from 'react-native-reanimated';
-import {Images} from 'assets/images';
-import NavigationAction from 'components/NavigationAction';
-import Flex from 'components/Flex';
-import ButtonFill from 'components/ButtonFill';
-import {globalStyle} from 'styles/globalStyle';
-import {DATA_CURRENT_APPLICATION} from 'constants/Data';
-import OnlStatus from 'components/OnlStatus';
-import Personal from 'src/find/Component/Personal';
-import dayjs from 'dayjs';
-import Weekdays from 'components/Weekdays';
-import Description from 'src/requests/Applications/Description';
+} from "react-native-reanimated";
+import { Images } from "assets/images";
+import NavigationAction from "components/NavigationAction";
+import Flex from "components/Flex";
+import ButtonFill from "components/ButtonFill";
+import { globalStyle } from "styles/globalStyle";
+import { DATA_CURRENT_APPLICATION } from "constants/Data";
+import OnlStatus from "components/OnlStatus";
+import Personal from "src/find/Component/Personal";
+import dayjs from "dayjs";
+import Weekdays from "components/Weekdays";
+import Description from "src/requests/Applications/Description";
 
 const CaregiverPostDetails = memo(() => {
-  const {goBack} = useNavigation();
-  const {height, width, top, bottom} = useLayout();
+  const { goBack } = useNavigation();
+  const { height, width, top, bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['more', 'common']);
+  const { t } = useTranslation(["more", "common"]);
 
   const animationValue = useSharedValue(0);
-  const scrollHandler = useAnimatedScrollHandler(event => {
+  const scrollHandler = useAnimatedScrollHandler((event) => {
     animationValue.value = event.contentOffset.y;
   });
   const styleHeader = useAnimatedStyle(() => {
@@ -49,19 +49,19 @@ const CaregiverPostDetails = memo(() => {
       animationValue.value,
       input,
       [0, 0, 60, 60 + 52],
-      Extrapolate.CLAMP,
+      Extrapolate.CLAMP
     );
     const opacity = interpolate(
       animationValue.value,
       input,
       [0, 0, 0, 1],
-      Extrapolate.CLAMP,
+      Extrapolate.CLAMP
     );
     const marginTop = interpolate(
       animationValue.value,
       input,
       [0, 0, 0, top],
-      Extrapolate.CLAMP,
+      Extrapolate.CLAMP
     );
     return {
       height: heightHeader,
@@ -75,10 +75,10 @@ const CaregiverPostDetails = memo(() => {
       animationValue.value,
       input,
       [top, top, -top, -top * 2],
-      Extrapolate.CLAMP,
+      Extrapolate.CLAMP
     );
     return {
-      position: 'absolute',
+      position: "absolute",
       left: 0,
       right: 0,
       top: topHeader,
@@ -91,12 +91,12 @@ const CaregiverPostDetails = memo(() => {
       animationValue.value,
       input,
       [height / 1.5, height / 3, -height, -height * 2],
-      Extrapolate.CLAMP,
+      Extrapolate.CLAMP
     );
     return {
       height: heightImg,
-      width: '100%',
-      position: 'absolute',
+      width: "100%",
+      position: "absolute",
       top: 0,
       left: 0,
       right: 0,
@@ -110,15 +110,15 @@ const CaregiverPostDetails = memo(() => {
     <Container style={styles.container} useSafeArea={false}>
       <Animated.View style={[styleHeader, styles.topNav]}>
         <TopNavigation
-          appearance={'control'}
-          accessoryLeft={<NavigationAction icon="back" />}
-          accessoryRight={
+          appearance={"control"}
+          accessoryLeft={() => <NavigationAction icon="back" />}
+          accessoryRight={() => (
             <NavigationAction
-              icon={'option'}
+              icon={"option"}
               onPress={_onOption}
               marginLeft={16}
             />
-          }
+          )}
         />
       </Animated.View>
       <Animated.View style={[style]}>
@@ -138,7 +138,8 @@ const CaregiverPostDetails = memo(() => {
             paddingTop: 260 * (height / 812),
           },
         ]}
-        bounces={false}>
+        bounces={false}
+      >
         <Layout style={styles.layout}>
           <View style={styles.avatar}>
             <Avatar shape="rounded" source={data.user.avatar} size="giant" />
@@ -151,26 +152,26 @@ const CaregiverPostDetails = memo(() => {
           <Text mb={16}>1 Children - John - Dogs</Text>
           <Flex>
             <View style={styles.startTime}>
-              <Text category="h8" status={'placeholder'} bold>
+              <Text category="h8" status={"placeholder"} bold>
                 Start
               </Text>
-              <Text category="h6" status={'basic'} bold>
-                {dayjs(data.startTime).format('ddd, MMM DD')}
+              <Text category="h6" status={"basic"} bold>
+                {dayjs(data.startTime).format("ddd, MMM DD")}
               </Text>
             </View>
             <View>
-              <Text category="h8" status={'placeholder'} bold>
+              <Text category="h8" status={"placeholder"} bold>
                 Hours
               </Text>
-              <Text category="h6" status={'basic'} bold>
+              <Text category="h6" status={"basic"} bold>
                 {data.meetingTime}
               </Text>
             </View>
           </Flex>
           <Flex mt={24}>
             <View style={styles.tag}>
-              <Text category="h8-s" bold center status={'primary'}>
-                {t('common:regularly')}
+              <Text category="h8-s" bold center status={"primary"}>
+                {t("common:regularly")}
               </Text>
             </View>
             <Weekdays data={data.dayInWeek} status="primary" size="large" />
@@ -192,7 +193,7 @@ const CaregiverPostDetails = memo(() => {
           />
         </Layout>
       </Animated.ScrollView>
-      <Layout style={[styles.bottom, {paddingBottom: bottom + 8}]}>
+      <Layout style={[styles.bottom, { paddingBottom: bottom + 8 }]}>
         <View>
           <Text category="h3" bold>
             {data.price}
@@ -200,7 +201,7 @@ const CaregiverPostDetails = memo(() => {
           <Text category="h8">(215 reviews)</Text>
         </View>
         <Button
-          children={t('more:edit-post')}
+          children={t("more:edit-post")}
           style={styles.btnEdit}
           size="giant"
         />
@@ -219,7 +220,7 @@ const themedStyles = StyleService.create({
     paddingBottom: 120,
   },
   topNav: {
-    backgroundColor: 'background-basic-color-1',
+    backgroundColor: "background-basic-color-1",
   },
   layout: {
     ...globalStyle.topBorder24,
@@ -227,22 +228,22 @@ const themedStyles = StyleService.create({
   },
   avatar: {
     marginTop: -48,
-    alignItems: 'center',
-    alignSelf: 'center',
+    alignItems: "center",
+    alignSelf: "center",
   },
   startTime: {
     width: 124,
   },
   tag: {
-    backgroundColor: 'color-primary-300',
+    backgroundColor: "color-primary-300",
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 8,
     marginRight: 16,
   },
   bottom: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     ...globalStyle.shadowFade,
     paddingHorizontal: 24,
     ...globalStyle.topBorder24,
@@ -255,17 +256,17 @@ const themedStyles = StyleService.create({
   },
 });
 const TAG_QUALIFICATIONS = [
-  'Has a car',
-  'Comfortable with pets',
-  'Will provide sick care',
-  'None Smoking',
-  'College educated',
-  'Background Check',
+  "Has a car",
+  "Comfortable with pets",
+  "Will provide sick care",
+  "None Smoking",
+  "College educated",
+  "Background Check",
 ];
 const TAG_RESPONSIBILITIES = [
-  'Driving the kids',
-  'Prepares food',
-  'Sleep training',
-  'Potty Training',
-  'Will provide sick care',
+  "Driving the kids",
+  "Prepares food",
+  "Sleep training",
+  "Potty Training",
+  "Will provide sick care",
 ];

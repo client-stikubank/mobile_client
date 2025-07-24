@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { ImageBackground, View, Text as TextNative } from "react-native";
-import Image from "react-native-scalable-image";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import {
@@ -22,6 +21,7 @@ import Flex from "components/Flex";
 import { globalStyle } from "styles/globalStyle";
 import { ScrollView } from "react-native-gesture-handler";
 import ButtonFill from "components/ButtonFill";
+import AutoHeightImage from "components/AutoHeightImage";
 
 const AssessmentDetail = memo(() => {
   const { dispatch } = useNavigation();
@@ -84,12 +84,16 @@ const AssessmentDetail = memo(() => {
       {!firstTime && (
         <TopNavigation
           title={t("home:assessment")}
-          accessoryLeft={<NavigationAction />}
+          accessoryLeft={() => <NavigationAction />}
         />
       )}
       <ScrollView style={styles.content}>
         <Flex justify="flex-start" alignItems="center" vertical mb={32}>
-          <Image source={{ uri: item?.personality.image }} width={150} />
+          <AutoHeightImage
+            source={{ uri: item?.personality.image }}
+            width={150}
+            contentFit="contain"
+          />
           <ImageBackground
             source={Images.pageBackground}
             style={styles.cardBackground}

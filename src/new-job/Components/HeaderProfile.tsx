@@ -1,22 +1,22 @@
-import React, {memo} from 'react';
+import React, { memo } from "react";
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
-} from '@ui-kitten/components';
-import useLayout from 'hooks/useLayout';
+} from "@ui-kitten/components";
+import useLayout from "hooks/useLayout";
 
 import Animated, {
   Extrapolate,
   interpolate,
   SharedValue,
   useAnimatedStyle,
-} from 'react-native-reanimated';
-import Flex from 'components/Flex';
-import NavigationAction from 'components/NavigationAction';
-import ButtonFill from 'components/ButtonFill';
-import {globalStyle} from 'styles/globalStyle';
-import {View} from 'react-native';
+} from "react-native-reanimated";
+import Flex from "components/Flex";
+import NavigationAction from "components/NavigationAction";
+import ButtonFill from "components/ButtonFill";
+import { globalStyle } from "styles/globalStyle";
+import { View } from "react-native";
 
 interface HeaderProfileProps {
   animationValue: SharedValue<number>;
@@ -26,8 +26,8 @@ interface HeaderProfileProps {
 }
 
 const HeaderProfile = memo(
-  ({animationValue, _onOption, _onBack, userName}: HeaderProfileProps) => {
-    const {height, top} = useLayout();
+  ({ animationValue, _onOption, _onBack, userName }: HeaderProfileProps) => {
+    const { height, top } = useLayout();
     const styles = useStyleSheet(themedStyles);
     const styleHeader = useAnimatedStyle(() => {
       const input = [0, height * 0.5, height * 0.6, height * 0.7];
@@ -35,19 +35,19 @@ const HeaderProfile = memo(
         animationValue.value,
         input,
         [0, 0, 52, 60],
-        Extrapolate.CLAMP,
+        Extrapolate.CLAMP
       );
       const opacity = interpolate(
         animationValue.value,
         input,
         [0, 0, 0, 1],
-        Extrapolate.CLAMP,
+        Extrapolate.CLAMP
       );
       const inTop = interpolate(
         animationValue.value,
         input,
         [0, 0, 0, top + 8],
-        Extrapolate.CLAMP,
+        Extrapolate.CLAMP
       );
       return {
         height: heightHeader,
@@ -61,10 +61,10 @@ const HeaderProfile = memo(
         animationValue.value,
         input,
         [top + 16, top - 16, -top, -top * 2],
-        Extrapolate.CLAMP,
+        Extrapolate.CLAMP
       );
       return {
-        position: 'absolute',
+        position: "absolute",
         left: 0,
         right: 0,
         top: topHeader,
@@ -73,16 +73,18 @@ const HeaderProfile = memo(
     });
 
     return (
-      <View style={{marginTop: -top - 16}}>
+      <View style={{ marginTop: -top - 16 }}>
         <Animated.View style={[styleHeader, styles.topNav]}>
           <TopNavigation
-            appearance={'control'}
-            accessoryLeft={<NavigationAction icon="back" onPress={_onBack} />}
+            appearance={"control"}
+            accessoryLeft={() => (
+              <NavigationAction icon="back" onPress={_onBack} />
+            )}
             title={userName}
             accessoryRight={
               <Flex justify="flex-end" itemsCenter>
                 <NavigationAction
-                  icon={'option'}
+                  icon={"option"}
                   onPress={_onOption}
                   marginLeft={16}
                 />
@@ -104,7 +106,7 @@ const HeaderProfile = memo(
         </Animated.View>
       </View>
     );
-  },
+  }
 );
 
 export default HeaderProfile;
@@ -117,6 +119,6 @@ const themedStyles = StyleService.create({
     marginRight: 24,
   },
   topNav: {
-    backgroundColor: 'background-basic-color-2',
+    backgroundColor: "background-basic-color-2",
   },
 });

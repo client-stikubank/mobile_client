@@ -1,45 +1,45 @@
-import React, { memo } from 'react'
-import { FlatList, TouchableOpacity } from 'react-native'
+import React, { memo } from "react";
+import { FlatList, TouchableOpacity } from "react-native";
 import {
   TopNavigation,
   useTheme,
   StyleService,
   useStyleSheet,
   Button,
-  Icon
-} from '@ui-kitten/components'
-import { useNavigation } from '@react-navigation/native'
-import useLayout from 'hooks/useLayout'
+  Icon,
+} from "@ui-kitten/components";
+import { useNavigation } from "@react-navigation/native";
+import useLayout from "hooks/useLayout";
 
-import Text from 'components/Text'
-import Container from 'components/Container'
-import { useTranslation } from 'react-i18next'
-import keyExtractor from 'utils/keyExtractor'
-import { globalStyle } from 'styles/globalStyle'
-import ICheckbox from 'components/ICheckbox'
+import Text from "components/Text";
+import Container from "components/Container";
+import { useTranslation } from "react-i18next";
+import keyExtractor from "utils/keyExtractor";
+import { globalStyle } from "styles/globalStyle";
+import ICheckbox from "components/ICheckbox";
 
 const SelectLanguage = memo(() => {
-  const { goBack } = useNavigation()
-  const { height, width, top, bottom } = useLayout()
-  const styles = useStyleSheet(themedStyles)
-  const { t } = useTranslation(['filter', 'common'])
+  const { goBack } = useNavigation();
+  const { height, width, top, bottom } = useLayout();
+  const styles = useStyleSheet(themedStyles);
+  const { t } = useTranslation(["filter", "common"]);
 
-  const [data, setData] = React.useState(DATA)
+  const [data, setData] = React.useState(DATA);
 
   return (
     <Container style={styles.container}>
       <TopNavigation
-        title={t('common:language')}
-        accessoryLeft={
+        title={t("common:language")}
+        accessoryLeft={() => (
           <TouchableOpacity activeOpacity={0.54} onPress={goBack}>
-            <Icon pack='assets' name='close' />
+            <Icon pack="assets" name="close" />
           </TouchableOpacity>
-        }
-        accessoryRight={
-          <Text category='h7' status={'link'} bold>
-            {t('common:clear')}
+        )}
+        accessoryRight={() => (
+          <Text category="h7" status={"link"} bold>
+            {t("common:clear")}
           </Text>
-        }
+        )}
       />
       <FlatList
         data={data}
@@ -52,72 +52,72 @@ const SelectLanguage = memo(() => {
               title={item.name}
               checked={item.select}
               onChange={() => {
-                const newData = data.map(newItem => {
+                const newData = data.map((newItem) => {
                   if (newItem.name === item.name) {
                     return {
                       ...newItem,
-                      select: true
-                    }
+                      select: true,
+                    };
                   }
                   return {
                     ...newItem,
-                    select: false
-                  }
-                })
-                setData(newData)
+                    select: false,
+                  };
+                });
+                setData(newData);
               }}
             />
-          )
+          );
         }}
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
       />
       <Button
-        children={t('common:ok')}
+        children={t("common:ok")}
         style={[styles.button, { bottom: bottom + 8 }]}
         onPress={goBack}
       />
     </Container>
-  )
-})
+  );
+});
 
-export default SelectLanguage
+export default SelectLanguage;
 
 const themedStyles = StyleService.create({
   container: {
     flex: 1,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   content: {
     paddingTop: 40,
-    paddingBottom: 120
+    paddingBottom: 120,
   },
   button: {
-    position: 'absolute',
+    position: "absolute",
     left: 24,
     right: 24,
-    ...globalStyle.shadowBtn
+    ...globalStyle.shadowBtn,
   },
   checkbox: {
     marginHorizontal: 24,
-    marginBottom: 24
-  }
-})
+    marginBottom: 24,
+  },
+});
 const DATA = [
-  { name: 'Afrikaans', code: 'af', select: false },
-  { name: 'Albanian', code: 'sq', select: false },
-  { name: 'Amharic', code: 'am', select: false },
-  { name: 'Arabic (Egyptian Spoken)', code: 'ar', select: false },
-  { name: 'Arabic (Levantine)', code: 'ar', select: false },
-  { name: 'Arabic (Modern Standard)', code: 'ar', select: false },
-  { name: 'Arabic (Overview)', code: 'ar', select: false },
-  { name: 'Aramaic', code: 'arc', select: false },
-  { name: 'Armenian', code: 'hy', select: false },
-  { name: 'Assamese', code: 'as', select: false },
-  { name: 'Aymara', code: 'ay', select: false },
-  { name: 'Azerbaijani', code: 'az', select: false },
-  { name: 'Bashkir', code: 'ba', select: false },
-  { name: 'Bavarian', code: 'bar', select: false },
-  { name: 'Belarusian', code: 'be', select: false },
-  { name: 'Bulgarian', code: 'bg', select: false }
-]
+  { name: "Afrikaans", code: "af", select: false },
+  { name: "Albanian", code: "sq", select: false },
+  { name: "Amharic", code: "am", select: false },
+  { name: "Arabic (Egyptian Spoken)", code: "ar", select: false },
+  { name: "Arabic (Levantine)", code: "ar", select: false },
+  { name: "Arabic (Modern Standard)", code: "ar", select: false },
+  { name: "Arabic (Overview)", code: "ar", select: false },
+  { name: "Aramaic", code: "arc", select: false },
+  { name: "Armenian", code: "hy", select: false },
+  { name: "Assamese", code: "as", select: false },
+  { name: "Aymara", code: "ay", select: false },
+  { name: "Azerbaijani", code: "az", select: false },
+  { name: "Bashkir", code: "ba", select: false },
+  { name: "Bavarian", code: "bar", select: false },
+  { name: "Belarusian", code: "be", select: false },
+  { name: "Bulgarian", code: "bg", select: false },
+];

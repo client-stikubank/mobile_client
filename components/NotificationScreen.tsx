@@ -9,7 +9,6 @@ import { SuccessScreenType } from "constants/Types";
 import { Images } from "assets/images";
 import useLayout from "hooks/useLayout";
 import { globalStyle } from "styles/globalStyle";
-import ImageResponsive from "react-native-scalable-image";
 
 const NotificationScreen = memo(
   ({
@@ -54,7 +53,11 @@ const NotificationScreen = memo(
                   alignSelf: "center",
                 }}
               >
-                <ImageResponsive width={280} source={Images.mascotGroupOne} />
+                <Image
+                  source={Images.mascotGroupOne}
+                  style={{ width: 280, height: 280 * (height / 812) }}
+                  resizeMode="contain"
+                />
               </View>
             )}
             {typeof logo === "string" && (

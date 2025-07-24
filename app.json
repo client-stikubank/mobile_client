@@ -3,7 +3,7 @@
     "name": "Youthcamp",
     "slug": "youthcamp_mobile_client",
     "owner": "client-stikubank",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "orientation": "portrait",
     "icon": "./assets/brand/icon.png",
     "splash": {
@@ -19,13 +19,12 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "id.youthcamp",
-      "buildNumber": "11",
+      "buildNumber": "12",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "versionCode": 21,
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/icon.png",
         "backgroundColor": "#FFC438"
@@ -45,9 +44,10 @@
     },
     "plugins": [
       [
-        "expo-barcode-scanner",
+        "expo-camera",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera.",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
         }
       ]
     ]

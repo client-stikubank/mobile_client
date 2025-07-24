@@ -116,7 +116,7 @@ const SignupThirdStep = memo(() => {
     <Container style={styles.container}>
       <TopNavigation
         title={t("auth:sign_up")}
-        accessoryLeft={<NavigationAction />}
+        accessoryLeft={() => <NavigationAction />}
       />
       <KeyboardAwareScrollView
         enableOnAndroid={true}

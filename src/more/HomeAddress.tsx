@@ -74,7 +74,7 @@ const HomeAddress = memo(() => {
   };
   return (
     <Container style={styles.container}>
-      <TopNavigation accessoryLeft={<NavigationAction />} />
+      <TopNavigation accessoryLeft={() => <NavigationAction />} />
       <Content>
         <Text category="h2" mv={16} ml={24}>
           {t("homeAddress")}
@@ -157,7 +157,7 @@ const HomeAddress = memo(() => {
         style={[styles.btn, { marginBottom: bottom + 8 }]}
         children={t("chooseThisLocation").toString()}
         onPress={_onChooseLocation}
-        size='large'
+        size="large"
       />
     </Container>
   );

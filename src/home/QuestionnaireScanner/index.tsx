@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { TopNavigation } from "@ui-kitten/components";
-import { BarCodeScanner } from "expo-barcode-scanner";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { useTranslation } from "react-i18next";
 import Constants from "expo-constants";
 import {
@@ -25,17 +25,14 @@ const QuestionnaireScanner = () => {
   const { navigate, goBack, dispatch } =
     useNavigation<NavigationProp<RootStackParamList>>();
   const { t } = useTranslation(["auth", "common", "success"]);
-  const [hasPermission, setHasPermission] = useState<any>(null);
+  const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
 
   useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    };
-
-    getBarCodeScannerPermissions();
-  }, []);
+    if (!permission) {
+      requestPermission();
+    }
+  }, [permission]);
 
   const handleUsed = React.useCallback((data: any) => {
     navigate("Questionnaire", {
@@ -95,10 +92,10 @@ const QuestionnaireScanner = () => {
     checkQr(data);
   };
 
-  if (hasPermission === null) {
+  if (!permission) {
     return <Text>Requesting for camera permission</Text>;
   }
-  if (hasPermission === false) {
+  if (!permission.granted) {
     return <Text>No access to camera</Text>;
   }
 
@@ -110,9 +107,10 @@ const QuestionnaireScanner = () => {
         justifyContent: "flex-end",
       }}
     >
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+      <CameraView
         style={[StyleSheet.absoluteFillObject, styles.container]}
+        barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
+        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
       >
         <LottieAnimation
           source={Images.qrScanner}
@@ -120,7 +118,7 @@ const QuestionnaireScanner = () => {
           loop
           style={{ width: "100%", aspectRatio: 1 }}
         />
-      </BarCodeScanner>
+      </CameraView>
       <TopNavigation accessoryLeft={() => <NavigationAction />} />
     </View>
   );

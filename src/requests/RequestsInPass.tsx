@@ -1,49 +1,49 @@
-import React, {memo} from 'react';
+import React, { memo } from "react";
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
-} from '@ui-kitten/components';
-import {useRoute} from '@react-navigation/native';
-import {useTranslation} from 'react-i18next';
+} from "@ui-kitten/components";
+import { useRoute } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
-import Content from 'components/Content';
-import Container from 'components/Container';
-import ButtonFill from 'components/ButtonFill';
+import Content from "components/Content";
+import Container from "components/Container";
+import ButtonFill from "components/ButtonFill";
 import {
   DATA_PASS_APPLICATION,
   DATA_PASS_BOOKING,
   DATA_PAST_INTERVIEW,
-} from 'constants/Data';
-import NavigationAction from 'components/NavigationAction';
-import RequestInterviewItem from './Components/RequestInterviewItem';
-import {RequestsInPassScreenNavigationProp} from 'navigation/types';
-import {Request_Type_Enum} from 'constants/Types';
-import BookingItem from './Components/BookingItem';
-import ApplicationItem from './Applications/ApplicationItem';
+} from "constants/Data";
+import NavigationAction from "components/NavigationAction";
+import RequestInterviewItem from "./Components/RequestInterviewItem";
+import { RequestsInPassScreenNavigationProp } from "navigation/types";
+import { Request_Type_Enum } from "constants/Types";
+import BookingItem from "./Components/BookingItem";
+import ApplicationItem from "./Applications/ApplicationItem";
 
 const RequestsInPast = memo(() => {
   const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['request', 'common']);
+  const { t } = useTranslation(["request", "common"]);
 
   const route = useRoute<RequestsInPassScreenNavigationProp>();
   const request_type = route.params.requestType;
-  const [title, setTitle] = React.useState<string>('');
+  const [title, setTitle] = React.useState<string>("");
   React.useEffect(() => {
     if (request_type === Request_Type_Enum.Interview) {
-      setTitle('interviewInPast');
+      setTitle("interviewInPast");
     } else if (request_type === Request_Type_Enum.Booking) {
-      setTitle('bookingInPast');
+      setTitle("bookingInPast");
     } else {
-      setTitle('applicationInPass');
+      setTitle("applicationInPass");
     }
   }, [request_type]);
 
   return (
     <Container style={styles.container}>
       <TopNavigation
-        accessoryLeft={<NavigationAction icon="back" />}
-        title={t('request:title').toString()}
+        accessoryLeft={() => <NavigationAction icon="back" />}
+        title={t("request:title").toString()}
       />
       <Content contentContainerStyle={styles.content}>
         {request_type === Request_Type_Enum.Interview ? (
@@ -89,7 +89,7 @@ const themedStyles = StyleService.create({
     paddingBottom: 40,
   },
   filter: {
-    position: 'absolute',
+    position: "absolute",
     right: 12,
     bottom: 60,
   },

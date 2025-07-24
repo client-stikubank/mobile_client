@@ -40,7 +40,7 @@ const SignupFirstStep = memo(() => {
   const form = useSelector((state: any) => state.Register.form);
 
   const onChoose = useCallback(
-    (item) => () => {
+    (item: any) => () => {
       setChoose(item);
       setIsDisabled(true);
       reduxDispatch(collectRegister({ ...form, "role_types[]": item.name }));
@@ -59,7 +59,7 @@ const SignupFirstStep = memo(() => {
     <Container>
       <TopNavigation
         title={t("auth:sign_up")}
-        accessoryLeft={<NavigationAction />}
+        accessoryLeft={() => <NavigationAction />}
       />
       <Content padder>
         <Text mt={16}>{t("auth:signup_1")}</Text>

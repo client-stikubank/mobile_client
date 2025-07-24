@@ -28,7 +28,7 @@ const CampList = memo(() => {
       <TopNavigation
         title={t("home:camp_schedule").toString()}
         subtitle={`${stage?.name} - Level ${stage?.level}`}
-        accessoryLeft={<NavigationAction />}
+        accessoryLeft={() => <NavigationAction />}
       />
       <View style={styles.calendarView}>
         <Layout style={styles.content} level="1">

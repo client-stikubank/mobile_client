@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
-import {View} from 'react-native';
+import React, { memo } from "react";
+import { View } from "react-native";
 import {
   TopNavigation,
   StyleService,
@@ -8,36 +8,36 @@ import {
   Avatar,
   Button,
   ViewPager,
-} from '@ui-kitten/components';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import useLayout from 'hooks/useLayout';
+} from "@ui-kitten/components";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import useLayout from "hooks/useLayout";
 
-import Text from 'components/Text';
-import Container from 'components/Container';
-import {useTranslation} from 'react-i18next';
-import NavigationAction from 'components/NavigationAction';
-import {RootStackParamList} from 'navigation/types';
-import Flex from 'components/Flex';
+import Text from "components/Text";
+import Container from "components/Container";
+import { useTranslation } from "react-i18next";
+import NavigationAction from "components/NavigationAction";
+import { RootStackParamList } from "navigation/types";
+import Flex from "components/Flex";
 
-import {globalStyle} from 'styles/globalStyle';
-import {MY_FAVORITES} from 'constants/Data';
+import { globalStyle } from "styles/globalStyle";
+import { MY_FAVORITES } from "constants/Data";
 
-import InterviewPlan from './InterviewPlan';
-import AboutFamily from './AboutFamily';
-import HourlyRate from './HourlyRate';
-import AnythingElse from './AnythingElse';
+import InterviewPlan from "./InterviewPlan";
+import AboutFamily from "./AboutFamily";
+import HourlyRate from "./HourlyRate";
+import AnythingElse from "./AnythingElse";
 
 const RequestInterview = memo(() => {
-  const {goBack, navigate} =
+  const { goBack, navigate } =
     useNavigation<NavigationProp<RootStackParamList>>();
-  const {bottom} = useLayout();
+  const { bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['request', 'creat_job', 'common']);
+  const { t } = useTranslation(["request", "creat_job", "common"]);
 
   const [step, setStep] = React.useState(0);
 
   const _onCancel = () => {
-    navigate('CaregiverProfile');
+    navigate("CaregiverProfile");
   };
   const DATA_USER = MY_FAVORITES[4];
 
@@ -45,7 +45,7 @@ const RequestInterview = memo(() => {
     if (step < 3) {
       setStep(step + 1);
     } else {
-      navigate('RequestStack', {screen: 'ReviewRequestInterview'});
+      navigate("RequestStack", { screen: "ReviewRequestInterview" });
     }
   }, [step]);
   const _onPrv = React.useCallback(() => {
@@ -59,10 +59,10 @@ const RequestInterview = memo(() => {
   return (
     <Container style={styles.container}>
       <TopNavigation
-        accessoryLeft={<NavigationAction onPress={_onPrv} />}
+        accessoryLeft={() => <NavigationAction onPress={_onPrv} />}
         accessoryRight={
-          <Text status={'link'} bold mr={16} onPress={_onCancel}>
-            {t('common:cancel')}
+          <Text status={"link"} bold mr={16} onPress={_onCancel}>
+            {t("common:cancel")}
           </Text>
         }
       />
@@ -71,7 +71,8 @@ const RequestInterview = memo(() => {
         onSelect={setStep}
         style={styles.viewPager}
         swipeEnabled={false}
-        shouldLoadComponent={i => step === i}>
+        shouldLoadComponent={(i) => step === i}
+      >
         {/* Step 1 */}
         <InterviewPlan />
         {/* Step 2 */}
@@ -83,7 +84,7 @@ const RequestInterview = memo(() => {
       </ViewPager>
 
       {/* Bottom */}
-      <Layout style={[styles.bottom, {paddingBottom: bottom + 8}]}>
+      <Layout style={[styles.bottom, { paddingBottom: bottom + 8 }]}>
         <Flex itemsCenter>
           <Flex justify="flex-start" mr={48} itemsCenter>
             <Avatar shape="rounded" source={DATA_USER.avatar} size="tiny" />
@@ -91,13 +92,13 @@ const RequestInterview = memo(() => {
               <Text category="h8" bold ml={16} mb={4}>
                 {DATA_USER.name}
               </Text>
-              <Text category="h8" bold status={'placeholder'} ml={16}>
+              <Text category="h8" bold status={"placeholder"} ml={16}>
                 {DATA_USER.hourlyRate}
               </Text>
             </View>
           </Flex>
           <Button
-            children={step === 3 ? t('common:review') : t('common:next')}
+            children={step === 3 ? t("common:review") : t("common:next")}
             style={[globalStyle.flexOne]}
             onPress={_onNext}
           />

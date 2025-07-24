@@ -141,8 +141,8 @@ const Chat = memo(() => {
     <Container style={[styles.container, { marginBottom: -bottom }]}>
       <TopNavigation
         title={"Marian Ramsey"}
-        accessoryLeft={<NavigationAction />}
-        accessoryRight={<NavigationAction icon="option" />}
+        accessoryLeft={() => <NavigationAction />}
+        accessoryRight={() => <NavigationAction icon="option" />}
       />
       <KeyboardAwareScrollView
         contentContainerStyle={styles.container}
@@ -236,7 +236,7 @@ const themedStyles = StyleService.create({
     borderBottomRightRadius: 4,
     borderRadius: 24,
     paddingVertical: 12,
-    paddingHorizontal: 8
+    paddingHorizontal: 8,
   },
   iconSend: {
     tintColor: "button-basic-color",

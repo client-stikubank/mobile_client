@@ -6,7 +6,6 @@ import {
   useStyleSheet,
 } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
-import Image from "react-native-scalable-image";
 import { useDispatch, useSelector } from "react-redux";
 import { find } from "lodash";
 
@@ -20,6 +19,7 @@ import Flex from "components/Flex";
 import MonstaText from "components/MonstaText";
 import ButtonFill from "components/ButtonFill";
 import { globalStyle } from "styles/globalStyle";
+import AutoHeightImage from "components/AutoHeightImage";
 
 const InviteAndWin = memo(() => {
   const reduxDispatch = useDispatch();
@@ -54,14 +54,22 @@ const InviteAndWin = memo(() => {
   return (
     <Container style={styles.container}>
       <TopNavigation
-        accessoryLeft={<NavigationAction />}
+        accessoryLeft={() => <NavigationAction />}
         title={t("invite_and_win:title").toString()}
       />
       <Content padder>
         <Flex vertical={true} itemsCenter center mt={16}>
-          <Image source={Images.mascotGroupOne} width={280} />
+          <AutoHeightImage
+            source={Images.mascotGroupOne}
+            width={280}
+            contentFit="contain"
+          />
           <Flex style={styles.inviteAndWin}>
-            <Image source={Images.inviteAndWin} width={280} />
+            <AutoHeightImage
+              source={Images.inviteAndWin}
+              width={280}
+              contentFit="contain"
+            />
           </Flex>
         </Flex>
         <Text category="h8" center mb={8} mh={24}>

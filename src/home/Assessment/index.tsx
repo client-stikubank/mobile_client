@@ -91,7 +91,7 @@ const Assessment = memo(() => {
     <Container style={styles.container}>
       <TopNavigation
         title={t("home:assessment")}
-        accessoryLeft={<NavigationAction />}
+        accessoryLeft={() => <NavigationAction />}
       />
       <Content>
         <Layout style={styles.cardLayout} level="1">

@@ -60,7 +60,7 @@ const AdditionalProfile = memo(() => {
     },
   });
 
-  const handleSignup = useCallback((data) => {
+  const handleSignup = useCallback((data: any) => {
     data.previous_school = upperCase(data.previous_school);
     reduxDispatch(
       updateUserProfile({
@@ -74,7 +74,7 @@ const AdditionalProfile = memo(() => {
 
   return (
     <Container style={styles.container}>
-      <TopNavigation accessoryLeft={<NavigationAction />} />
+      <TopNavigation accessoryLeft={() => <NavigationAction />} />
       <KeyboardAwareScrollView
         enableOnAndroid={true}
         extraHeight={Platform.OS === "android" ? 14 : 32}
@@ -107,6 +107,7 @@ const AdditionalProfile = memo(() => {
                   onChange={onChange}
                   value={value || null}
                   errors={!!errors.education_status}
+                  errorMessage={errors.education_status?.message}
                 />
               )}
             />

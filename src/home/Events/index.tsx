@@ -3,7 +3,6 @@ import { View, Text as TextNative, Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import Image from "react-native-scalable-image";
 import {
   StyleService,
   useStyleSheet,
@@ -28,6 +27,7 @@ import { globalStyle } from "styles/globalStyle";
 
 import EmptyData from "../../requests/Components/EmptyData";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import AutoHeightImage from "components/AutoHeightImage";
 
 const Events = memo(() => {
   const reduxDispatch = useDispatch();
@@ -49,7 +49,10 @@ const Events = memo(() => {
 
   return (
     <Container style={styles.container}>
-      <TopNavigation accessoryLeft={<NavigationAction />} title="Acara/Event" />
+      <TopNavigation
+        accessoryLeft={() => <NavigationAction />}
+        title="Acara/Event"
+      />
       <Content padder>
         <View>
           {isEmpty(events) ? (
@@ -69,7 +72,11 @@ const Events = memo(() => {
                   onPress={() => onEventDetail(event)}
                 >
                   <Layout style={styles.content} level="2">
-                    <Image source={{ uri: event?.image }} width={width - 48} />
+                    <AutoHeightImage
+                      source={{ uri: event?.image }}
+                      width={width - 48}
+                      contentFit="contain"
+                    />
                     <Flex
                       justify="flex-start"
                       alignItems="flex-start"

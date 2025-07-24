@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
-import {TouchableOpacity} from 'react-native';
+import React, { memo } from "react";
+import { TouchableOpacity } from "react-native";
 import {
   TopNavigation,
   useTheme,
@@ -11,46 +11,46 @@ import {
   Input,
   Button,
   Layout,
-} from '@ui-kitten/components';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import useLayout from 'hooks/useLayout';
+} from "@ui-kitten/components";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import useLayout from "hooks/useLayout";
 
-import Text from 'components/Text';
-import Container from 'components/Container';
-import {useTranslation} from 'react-i18next';
-import TabBar from 'components/TabBar';
-import {globalStyle} from 'styles/globalStyle';
-import dayjs from 'dayjs';
-import Flex from 'components/Flex';
-import {Controller, useForm} from 'react-hook-form';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import SliderDistance from 'src/home/Components/SliderDistance';
-import FilterHour from '../Components/FilterHour';
-import Totalizator from 'components/Totalizator';
-import _ from 'lodash';
-import ICheckbox from 'components/ICheckbox';
-import useToggle from 'hooks/useToggle';
-import NameTagList from './NameTagList';
-import {RootStackParamList} from 'navigation/types';
+import Text from "components/Text";
+import Container from "components/Container";
+import { useTranslation } from "react-i18next";
+import TabBar from "components/TabBar";
+import { globalStyle } from "styles/globalStyle";
+import dayjs from "dayjs";
+import Flex from "components/Flex";
+import { Controller, useForm } from "react-hook-form";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import SliderDistance from "src/home/Components/SliderDistance";
+import FilterHour from "../Components/FilterHour";
+import Totalizator from "components/Totalizator";
+import _ from "lodash";
+import ICheckbox from "components/ICheckbox";
+import useToggle from "hooks/useToggle";
+import NameTagList from "./NameTagList";
+import { RootStackParamList } from "navigation/types";
 
 interface FilterProps {
   onHide?(): void;
 }
 
-const FavoritesFilter = memo(({onHide}: FilterProps) => {
-  const {goBack, navigate} =
+const FavoritesFilter = memo(({ onHide }: FilterProps) => {
+  const { goBack, navigate } =
     useNavigation<NavigationProp<RootStackParamList>>();
-  const {height, width, top, bottom} = useLayout();
+  const { height, width, top, bottom } = useLayout();
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['filter', 'common']);
+  const { t } = useTranslation(["filter", "common"]);
 
   // General
   const [babysitter, setBabysitter] = React.useState(0);
   const [gender, setGender] = React.useState(0);
   const [range, setRange] = React.useState<CalendarRange<Date>>({});
   const [valueDistance, setValueDistance] = React.useState<number | number[]>(
-    10,
+    10
   );
   const [valueHourly, setValueHourly] = React.useState<number | number[]>(20);
   const [yearExp, setExp] = React.useState<number>(0);
@@ -71,63 +71,64 @@ const FavoritesFilter = memo(({onHide}: FilterProps) => {
   const [backgroundCheck, setBackgroundCheck] = useToggle(false);
 
   const [sortBy, setSortBy] = React.useState(0);
-  let DATA_EXP_WITH = [t('filter:diabetes'), t('filter:down_syndrome')];
-  const DATA_LANGUAGE = ['French', 'English'];
+  let DATA_EXP_WITH = [t("filter:diabetes"), t("filter:down_syndrome")];
+  const DATA_LANGUAGE = ["French", "English"];
 
   const _onClear = React.useCallback(() => {}, []);
   const _onLanguage = () => {
-    navigate('SelectLanguage');
+    navigate("SelectLanguage");
   };
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     defaultValues: {
-      location: 'Manhattan, NY',
-      search: '',
+      location: "Manhattan, NY",
+      search: "",
     },
   });
 
   return (
     <Container style={[styles.container]}>
       <TopNavigation
-        title={t('filter:title').toString()}
-        accessoryLeft={
+        title={t("filter:title").toString()}
+        accessoryLeft={() => (
           <TouchableOpacity activeOpacity={0.54} onPress={goBack}>
             <Icon pack="assets" name="close" />
           </TouchableOpacity>
-        }
-        accessoryRight={
-          <Text category="h7" status={'link'} bold>
-            {t('common:clear')}
+        )}
+        accessoryRight={() => (
+          <Text category="h7" status={"link"} bold>
+            {t("common:clear")}
           </Text>
-        }
+        )}
       />
       <KeyboardAwareScrollView
         scrollEventThrottle={16}
         contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+      >
         <Text category="h2" mb={16} bold>
-          {t('filter:general')}
+          {t("filter:general")}
         </Text>
         <Text category="h7" mb={24} bold>
-          {t('filter:type_of_care')}
+          {t("filter:type_of_care")}
         </Text>
         <TabBar
           selectedIndex={babysitter}
           onChange={setBabysitter}
-          tabs={[t('filter:babysitter'), t('filter:nanny')]}
+          tabs={[t("filter:babysitter"), t("filter:nanny")]}
         />
         <Text category="h7" mb={24} bold mt={40}>
-          {t('filter:available_on')}
+          {t("filter:available_on")}
         </Text>
         <RangeDatepicker
           range={range}
-          label={t('filter:from_to')}
+          label={t("filter:from_to")}
           placeholder={undefined}
           status="range"
-          accessoryLeft={props => {
+          accessoryLeft={(props) => {
             return (
               <Flex>
                 <Icon pack="assets" name="calendar" {...props} />
@@ -136,29 +137,29 @@ const FavoritesFilter = memo(({onHide}: FilterProps) => {
                   category="h7"
                   bold
                   children={`${dayjs(range.startDate).format(
-                    'MMM DD',
-                  )} - ${dayjs(range.endDate).format('MMM DD YYYY')}`}
+                    "MMM DD"
+                  )} - ${dayjs(range.endDate).format("MMM DD YYYY")}`}
                 />
               </Flex>
             );
           }}
-          onSelect={nextRange => setRange(nextRange)}
+          onSelect={(nextRange) => setRange(nextRange)}
         />
         <Text category="h7" bold mt={40} mb={26}>
-          {t('common:gender')}
+          {t("common:gender")}
         </Text>
         <TabBar
           selectedIndex={gender}
           onChange={setGender}
-          tabs={[t('common:all'), t('common:male'), t('common:female')]}
+          tabs={[t("common:all"), t("common:male"), t("common:female")]}
         />
         <Controller
           control={control}
           name="location"
-          render={({field: {onChange, onBlur, value}}) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label={t('common:location').toString()}
-              status={errors.location ? 'warning' : 'basic'}
+              label={t("common:location").toString()}
+              status={errors.location ? "warning" : "basic"}
               style={styles.location}
               allowFontScaling
               value={value}
@@ -175,62 +176,62 @@ const FavoritesFilter = memo(({onHide}: FilterProps) => {
           )}
         />
         <Text category="h7" mb={24} bold mt={40}>
-          {t('common:distance')}
+          {t("common:distance")}
         </Text>
         <SliderDistance
           valueSlider={valueDistance}
           setValueSlider={setValueDistance}
         />
         <Text category="h7" mb={24} bold mt={32}>
-          {t('filter:under_this_amount_per_hour')}
+          {t("filter:under_this_amount_per_hour")}
         </Text>
         <FilterHour valueSlider={valueHourly} setValueSlider={setValueHourly} />
 
         <Text category="h2" mb={24} bold mt={56}>
-          {t('common:experience')}
+          {t("common:experience")}
         </Text>
         <Text category="h8-s" mb={16}>
-          {t('filter:minimum_yrs_exp')}
+          {t("filter:minimum_yrs_exp")}
         </Text>
         <TabBar
           selectedIndex={yearExp}
           onChange={setExp}
-          tabs={[t('common:any'), '3+', '5+', '7+']}
+          tabs={[t("common:any"), "3+", "5+", "7+"]}
         />
         <Text category="h7" bold mb={24} mt={40}>
-          {t('filter:able_to_care_for')}
+          {t("filter:able_to_care_for")}
         </Text>
         <Totalizator
-          title={t('filter:infant')}
-          label={t('filter:infant_age')}
+          title={t("filter:infant")}
+          label={t("filter:infant_age")}
           value={infant}
           setValue={setInfant}
           style={styles.totalizator}
         />
         <Totalizator
-          title={t('filter:toddler')}
-          label={t('filter:toddler_age')}
+          title={t("filter:toddler")}
+          label={t("filter:toddler_age")}
           value={toddler}
           setValue={setToddler}
           style={styles.totalizator}
         />
         <Totalizator
-          title={t('filter:pre_school')}
-          label={t('filter:pre_school_age')}
+          title={t("filter:pre_school")}
+          label={t("filter:pre_school_age")}
           value={preSchool}
           setValue={setPreSchool}
           style={styles.totalizator}
         />
         <Totalizator
-          title={t('filter:elementary')}
-          label={t('filter:elementary_age')}
+          title={t("filter:elementary")}
+          label={t("filter:elementary_age")}
           value={elementary}
           setValue={setElementary}
           style={styles.totalizator}
         />
         <Totalizator
-          title={t('filter:junior_high')}
-          label={t('filter:junior_high_age')}
+          title={t("filter:junior_high")}
+          label={t("filter:junior_high_age")}
           value={junior}
           setValue={setJunior}
           style={styles.totalizator}
@@ -238,74 +239,74 @@ const FavoritesFilter = memo(({onHide}: FilterProps) => {
         <NameTagList
           mt={40}
           data={DATA_EXP_WITH}
-          title={t('filter:experience_with')}
+          title={t("filter:experience_with")}
         />
         <Text category="h2" mb={24} bold mt={56}>
-          {t('filter:qualifications')}
+          {t("filter:qualifications")}
         </Text>
         <ICheckbox
-          title={t('filter:available_asap')}
+          title={t("filter:available_asap")}
           checked={asap}
           onChange={setAsap}
           marginBottom={24}
         />
         <ICheckbox
-          title={t('filter:has_a_car')}
+          title={t("filter:has_a_car")}
           checked={hasACar}
           onChange={setHasCar}
           marginBottom={24}
         />
         <ICheckbox
-          title={t('filter:comfortable_with_pets')}
+          title={t("filter:comfortable_with_pets")}
           checked={comfortable}
           onChange={setComfortable}
           marginBottom={24}
         />
         <ICheckbox
-          title={t('filter:will_provide_sick_care')}
+          title={t("filter:will_provide_sick_care")}
           checked={provideSickCare}
           onChange={setProvideSickCare}
           marginBottom={24}
         />
         <ICheckbox
-          title={t('filter:none_smoking')}
+          title={t("filter:none_smoking")}
           checked={noneSmoking}
           onChange={setNoneSmoking}
           marginBottom={24}
         />
         <ICheckbox
-          title={t('filter:college_educated')}
+          title={t("filter:college_educated")}
           checked={educated}
           onChange={setEducated}
           marginBottom={24}
         />
         <ICheckbox
-          title={t('filter:background_check')}
+          title={t("filter:background_check")}
           checked={backgroundCheck}
           onChange={setBackgroundCheck}
           marginBottom={24}
         />
         <Text category="h2" bold mt={32}>
-          {t('common:others')}
+          {t("common:others")}
         </Text>
         <NameTagList
           onSeeAll={_onLanguage}
           mt={24}
           data={DATA_LANGUAGE}
-          title={t('common:language')}
+          title={t("common:language")}
           mb={32}
         />
         <Controller
           control={control}
           name="search"
-          render={({field: {onChange, onBlur, value}}) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              status={errors.search ? 'warning' : 'basic'}
+              status={errors.search ? "warning" : "basic"}
               style={globalStyle.shadowFade}
               value={value}
-              placeholder={t('common:enter_something')}
+              placeholder={t("common:enter_something")}
               appearance="primary"
-              size={'large'}
+              size={"large"}
               onTouchStart={handleSubmit(() => {})}
               onTouchEnd={handleSubmit(() => {})}
               onChangeText={onChange}
@@ -318,15 +319,15 @@ const FavoritesFilter = memo(({onHide}: FilterProps) => {
           )}
         />
         <Text category="h7" bold mb={24} mt={40}>
-          {t('common:sort_by')}
+          {t("common:sort_by")}
         </Text>
         <TabBar
           selectedIndex={sortBy}
           onChange={setSortBy}
           tabs={[
-            t('filter:best_match'),
-            t('filter:closest'),
-            t('filter:lowest_rate'),
+            t("filter:best_match"),
+            t("filter:closest"),
+            t("filter:lowest_rate"),
           ]}
         />
       </KeyboardAwareScrollView>
@@ -336,8 +337,9 @@ const FavoritesFilter = memo(({onHide}: FilterProps) => {
           {
             marginBottom: 8 + bottom,
           },
-        ]}>
-        <Button children={'See 69+ Caregivers'} style={globalStyle.shadowBtn} />
+        ]}
+      >
+        <Button children={"See 69+ Caregivers"} style={globalStyle.shadowBtn} />
       </Layout>
     </Container>
   );
@@ -360,7 +362,7 @@ const themedStyles = StyleService.create({
     borderBottomWidth: 2,
   },
   iconSearch: {
-    tintColor: 'text-placeholder-color',
+    tintColor: "text-placeholder-color",
     marginRight: 12,
   },
   totalizator: {

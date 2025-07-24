@@ -77,7 +77,7 @@ const RedeemGift = memo(() => {
     <Container style={styles.container}>
       <TopNavigation
         title={t("home:redeem_gift").toString()}
-        accessoryLeft={<NavigationAction />}
+        accessoryLeft={() => <NavigationAction />}
       />
       <Content padder contentContainerStyle={styles.content}>
         <View style={styles.contact}>

@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from "react";
 import { View, Platform, Image as ImageReact } from "react-native";
-import Image from "react-native-scalable-image";
+import { Image } from "expo-image";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -25,6 +25,7 @@ import { getStage, getCarnival } from "store/actions";
 import { globalStyle } from "styles/globalStyle";
 
 import ActiveCamp from "./ActiveCamp";
+import AutoHeightImage from "components/AutoHeightImage";
 
 const GiftList = memo(() => {
   const reduxDispatch = useDispatch();
@@ -65,7 +66,7 @@ const GiftList = memo(() => {
           />
         </Flex>
         <View style={styles.giftHeaderImage}>
-          <Image source={Images.giftHeader} width={width - 160} />
+          <AutoHeightImage source={Images.giftHeader} width={width - 160} />
         </View>
       </Flex>
       <Text category="h8-s" mt={16} mb={16}>
@@ -119,10 +120,10 @@ const GiftList = memo(() => {
                         }}
                       />
                     )}
-                    <ImageReact
+                    <Image
                       source={{ uri: carnivalGift.gift.image.url }}
                       style={{ height: 150, aspectRatio: 1, zIndex: 1 }}
-                      resizeMode="contain"
+                      contentFit="contain"
                     />
                   </View>
                 </Flex>

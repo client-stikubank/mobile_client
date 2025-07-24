@@ -5,7 +5,6 @@ import { View, ImageBackground, Text as TextNative } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleService, useStyleSheet, Layout } from "@ui-kitten/components";
 import { isEmpty, find } from "lodash";
-import Image from "react-native-scalable-image";
 
 import { Images } from "assets/images";
 import ReadMore from "components/ReadMore";
@@ -15,6 +14,7 @@ import Flex from "components/Flex";
 import { RootStackParamList } from "navigation/types";
 import { getStageCamp } from "store/actions";
 import { globalStyle } from "styles/globalStyle";
+import AutoHeightImage from "components/AutoHeightImage";
 
 interface CampItemProps {
   calendar?: any;
@@ -74,9 +74,10 @@ const CampItem = memo(
               >
                 {speaker?.user_profile.image && (
                   <Flex mr={16} style={styles.avatar}>
-                    <Image
+                    <AutoHeightImage
                       source={{ uri: speaker?.user_profile.image }}
                       width={120}
+                      contentFit="contain"
                     />
                   </Flex>
                 )}

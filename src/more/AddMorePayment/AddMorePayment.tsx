@@ -1,52 +1,53 @@
-import React, {memo} from 'react';
-import {KeyboardAvoidingView, Platform, SafeAreaView} from 'react-native';
+import React, { memo } from "react";
+import { KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
 import {
   TopNavigation,
   StyleService,
   useStyleSheet,
   Button,
-} from '@ui-kitten/components';
-import {useNavigation} from '@react-navigation/native';
-import useLayout from 'hooks/useLayout';
-import {useTranslation} from 'react-i18next';
+} from "@ui-kitten/components";
+import { useNavigation } from "@react-navigation/native";
+import useLayout from "hooks/useLayout";
+import { useTranslation } from "react-i18next";
 
-import Container from 'components/Container';
-import NavigationAction from 'components/NavigationAction';
-import {globalStyle} from 'styles/globalStyle';
-import {FormProvider, useForm} from 'react-hook-form';
-import LottieView from 'lottie-react-native';
-import {FormModel} from 'constants/Types';
-import CreditCardForm from './CreditCardForm';
+import Container from "components/Container";
+import NavigationAction from "components/NavigationAction";
+import { globalStyle } from "styles/globalStyle";
+import { FormProvider, useForm } from "react-hook-form";
+import LottieView from "lottie-react-native";
+import { FormModel } from "constants/Types";
+import CreditCardForm from "./CreditCardForm";
 
 const AddMorePayment = memo(() => {
-  const {goBack} = useNavigation();
-  const {height, width, top, bottom} = useLayout();
+  const { goBack } = useNavigation();
+  const { height, width, top, bottom } = useLayout();
   const styles = useStyleSheet(themedStyles);
-  const {t} = useTranslation(['payment', 'common']);
+  const { t } = useTranslation(["payment", "common"]);
 
   const formMethods = useForm<FormModel>({
     // to trigger the validation on the blur event
-    mode: 'onBlur',
+    mode: "onBlur",
     defaultValues: {
-      holderName: '',
-      cardNumber: '',
-      expiration: '',
-      cvv: '',
+      holderName: "",
+      cardNumber: "",
+      expiration: "",
+      cvv: "",
     },
   });
-  const {handleSubmit, formState} = formMethods;
+  const { handleSubmit, formState } = formMethods;
 
   return (
     <Container style={styles.container}>
       <TopNavigation
-        accessoryLeft={<NavigationAction />}
-        title={t('payment:add-new-credit-card').toString()}
+        accessoryLeft={() => <NavigationAction />}
+        title={t("payment:add-new-credit-card").toString()}
       />
       <FormProvider {...formMethods}>
         <SafeAreaView style={styles.container}>
           <KeyboardAvoidingView
             style={styles.avoider}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
             <CreditCardForm
               LottieView={LottieView}
               horizontalStart
@@ -60,7 +61,7 @@ const AddMorePayment = memo(() => {
           {formState.isValid && (
             <Button
               style={[styles.button]}
-              children={'Save'}
+              children={"Save"}
               onPress={handleSubmit(goBack)}
             />
           )}
