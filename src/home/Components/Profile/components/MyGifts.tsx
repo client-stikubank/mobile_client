@@ -125,7 +125,7 @@ const MyGifts = memo(() => {
                       itemsCenter
                     >
                       <Ionicons
-                        name="md-checkmark-circle"
+                        name="checkmark-circle"
                         size={48}
                         color="#00D65B"
                       />

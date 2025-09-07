@@ -87,7 +87,7 @@ const AvailableItem = memo(({ data, onPress }: IAvailableItemProps) => {
       .set("minute", times[1])
       .subtract(1, "minute");
 
-    return schedule.full || dayjs() > start_date;
+    return schedule.full;
   };
 
   const Opacity = 0.54;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { StyleService, useStyleSheet, Button } from "@ui-kitten/components";
 import { useRoute } from "@react-navigation/native";
 import { shuffle } from "lodash";
-import { ImageBackground, View, BackHandler } from "react-native";
+import { ImageBackground, View, BackHandler, Alert } from "react-native";
 import PagerView from "react-native-pager-view";
 import { useTranslation } from "react-i18next";
 import {
@@ -20,10 +20,7 @@ import { globalStyle } from "styles/globalStyle";
 import { Images } from "assets/images";
 import Flex from "components/Flex";
 import { RootStackParamList } from "navigation/types";
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+import { ScrollView, Pressable } from "react-native-gesture-handler";
 
 const Questionnaire = memo(() => {
   const reduxDispatch = useDispatch();
@@ -38,6 +35,8 @@ const Questionnaire = memo(() => {
   const [choices, setChoices] = useState<any>([]);
   const [selected, setSelected] = useState<any>(undefined);
   const [lastAnswer, setLastAnswer] = useState<any>();
+  const [wrongAnswer, setWrongAnswer] = useState<any>(false);
+  const [showWrongFeedback, setShowWrongFeedback] = useState<boolean>(false);
 
   useEffect(() => {
     setChoices(shuffle(attributes.answers));
@@ -54,9 +53,17 @@ const Questionnaire = memo(() => {
   const postAnswer = async () => {
     reduxDispatch(toggleScreen(true));
 
+    const response = await createUserQuestionnaires(id, selected);
+
     try {
-      const response = await createUserQuestionnaires(id, selected);
-      if (response.message) {
+      console.log("RESPONSE", JSON.stringify(response, null, 2));
+
+      if (response.status === "wrong_answer") {
+        setWrongAnswer(true);
+        setShowWrongFeedback(true);
+        setLastAnswer(selected);
+        setSelected(undefined); // Clear selection to allow re-selection
+      } else if (response.message) {
         Toast.show({
           type: "error",
           text1: response.message,
@@ -64,6 +71,9 @@ const Questionnaire = memo(() => {
         });
         onPrev();
       } else {
+        // Reset wrong answer state on success
+        setWrongAnswer(false);
+        setShowWrongFeedback(false);
         navigate("SuccessScr", {
           successScr: {
             title: t("success:title"),
@@ -129,30 +139,59 @@ const Questionnaire = memo(() => {
                   {attributes.question}
                 </Text>
               </Flex>
-              <ScrollView style={styles.wrapperQuestions}>
-                {choices.map((choice: string) => (
-                  <TouchableWithoutFeedback
-                    key={choice}
-                    onPress={() => setSelected(choice)}
-                  >
-                    <Flex
-                      vertical
-                      style={[
-                        styles.option,
-                        selected === choice && styles.optionSelected,
-                      ]}
+              {showWrongFeedback && (
+                <>
+                  <View style={styles.wrongAnswerFeedback}>
+                    <Text style={styles.wrongAnswerText} category="h6">
+                      Jawaban kamu belum tepat!
+                    </Text>
+                    <Text style={styles.wrongAnswerText} category="h8">
+                      Eits tapi tenang, kamu bisa cari QR yang lainnya!
+                    </Text>
+                    <Text style={styles.lastAnswerText} category="h8">
+                      Jawaban kamu sebelumnya:
+                    </Text>
+                    <Text
+                      style={[styles.lastAnswerText, { marginTop: 0 }]}
+                      category="h8"
                     >
-                      <Text
-                        category="h7"
-                        status={selected === choice ? "basic" : "white"}
+                      {lastAnswer}
+                    </Text>
+                  </View>
+                  <View style={{ height: 150 }} />
+                </>
+              )}
+              {!wrongAnswer && (
+                <ScrollView style={styles.wrapperQuestions}>
+                  {choices.map((choice: string) => (
+                    <Pressable
+                      key={choice}
+                      onPress={() => {
+                        setSelected(choice);
+                        if (showWrongFeedback) {
+                          setShowWrongFeedback(false);
+                        }
+                      }}
+                    >
+                      <Flex
+                        vertical
+                        style={[
+                          styles.option,
+                          selected === choice && styles.optionSelected,
+                        ]}
                       >
-                        {choice}
-                      </Text>
-                    </Flex>
-                  </TouchableWithoutFeedback>
-                ))}
-                <View style={{ height: 150 }} />
-              </ScrollView>
+                        <Text
+                          category="h7"
+                          status={selected === choice ? "basic" : "white"}
+                        >
+                          {choice}
+                        </Text>
+                      </Flex>
+                    </Pressable>
+                  ))}
+                  <View style={{ height: 150 }} />
+                </ScrollView>
+              )}
               <Flex
                 justify="space-between"
                 pv={24}
@@ -172,7 +211,7 @@ const Questionnaire = memo(() => {
                     status="info"
                     style={globalStyle.shadow}
                   >
-                    <Text>Jawab</Text>
+                    <Text>{wrongAnswer ? "Coba Lagi" : "Jawab"}</Text>
                   </Button>
                 )}
               </Flex>
@@ -241,5 +280,31 @@ const themedStyles = StyleService.create({
     width: "100%",
     position: "absolute",
     bottom: 24,
+  },
+  wrongAnswerFeedback: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(238, 21, 127, 0.9)",
+    padding: 24,
+    margin: 24,
+    borderRadius: 12,
+    ...globalStyle.shadow,
+  },
+  wrongAnswerText: {
+    color: "color-basic-100",
+    textAlign: "center",
+    fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 0.25)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+  },
+  lastAnswerText: {
+    color: "color-basic-100",
+    textAlign: "center",
+    marginTop: 24,
+    opacity: 0.9,
+    textShadowColor: "rgba(0, 0, 0, 0.25)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
 });

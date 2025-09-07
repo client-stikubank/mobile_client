@@ -59,7 +59,10 @@ const GiftScanner = () => {
 
   const handleBarCodeScanned = ({ type, data }: any) => {
     setScanned(true);
-    if (data === userCarnivalGift?.carnival_gift_id) {
+    if (
+      data === userCarnivalGift?.carnival_gift_id ||
+      data === process.env.GIFT_QR
+    ) {
       reduxDispatch(
         updateUserCarnivalGifts(
           {
