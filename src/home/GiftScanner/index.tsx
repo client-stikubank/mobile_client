@@ -61,7 +61,7 @@ const GiftScanner = () => {
     setScanned(true);
     if (
       data === userCarnivalGift?.carnival_gift_id ||
-      data === process.env.GIFT_QR
+      data === "a2261913-45a8-4867-80c4-efed5f9110a6"
     ) {
       reduxDispatch(
         updateUserCarnivalGifts(
